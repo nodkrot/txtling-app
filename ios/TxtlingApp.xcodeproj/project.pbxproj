@@ -36,6 +36,7 @@
 		E9FA93AC304D40838F26E36B /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 548122720B9740178A117F8D /* FontAwesome.ttf */; };
 		EE268F38A08A408FA0A6E601 /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BC30A4E778044D13A58C06B4 /* MaterialIcons.ttf */; };
 		F43BF93254A54DF08D44B985 /* libRNSearchBar.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E30B1A1274A464E9783828D /* libRNSearchBar.a */; };
+		F593DF031DB4321500D1129B /* LaunchImage.png in Resources */ = {isa = PBXBuildFile; fileRef = F593DF021DB4321500D1129B /* LaunchImage.png */; };
 		F5C3F3841DB3CA1D00A45C99 /* libRCTPushNotification.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F5C3F3831DB3C9F600A45C99 /* libRCTPushNotification.a */; };
 		FD819792711F438788D1AE02 /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7758B23417CA4975A799EBD8 /* Zocial.ttf */; };
 /* End PBXBuildFile section */
@@ -211,6 +212,7 @@
 		CF56EB17070D4290BEE47838 /* libRNMessageComposer.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNMessageComposer.a; sourceTree = "<group>"; };
 		D32C94EB3C39403A8FDBA48F /* libRCTMaterialKit.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTMaterialKit.a; sourceTree = "<group>"; };
 		E8032E5B4BE3461FA6217B9E /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
+		F593DF021DB4321500D1129B /* LaunchImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = LaunchImage.png; path = TxtlingApp/Images.xcassets/LaunchImage.launchimage/LaunchImage.png; sourceTree = "<group>"; };
 		F5C3F37E1DB3C9F600A45C99 /* RCTPushNotification.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTPushNotification.xcodeproj; path = "../node_modules/react-native/Libraries/PushNotificationIOS/RCTPushNotification.xcodeproj"; sourceTree = "<group>"; };
 		F5C3F4391DB404DB00A45C99 /* TxtlingApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = TxtlingApp.entitlements; path = TxtlingApp/TxtlingApp.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -405,6 +407,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				F593DF021DB4321500D1129B /* LaunchImage.png */,
 				13B07FAE1A68108700A75B9A /* TxtlingApp */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* TxtlingAppTests */,
@@ -767,6 +770,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				F593DF031DB4321500D1129B /* LaunchImage.png in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 				C1D4EE867C4A48EDA732A380 /* Entypo.ttf in Resources */,
 				801A9B5333E94596A928238C /* EvilIcons.ttf in Resources */,
@@ -893,7 +897,7 @@
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = TxtlingIcon;
 				CODE_SIGN_ENTITLEMENTS = TxtlingApp/TxtlingApp.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Vyacheslav Alaev (E9C4Z6SFP5)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -932,7 +936,7 @@
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = TxtlingIcon;
 				CODE_SIGN_ENTITLEMENTS = TxtlingApp/TxtlingApp.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Vyacheslav Alaev (E9C4Z6SFP5)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
