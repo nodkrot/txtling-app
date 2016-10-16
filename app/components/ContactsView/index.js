@@ -1,0 +1,207 @@
+import styles, { activeColor, primaryColor } from './styles';
+
+import React, { Component, PropTypes } from 'react';
+import {
+    View,
+    Text,
+    ListView,
+    TouchableHighlight,
+    InteractionManager
+} from 'react-native';
+import Navigation from '../Navigation';
+import { RowButton } from '../Form';
+import * as ContactsActions from '../../actions/ContactsActions'
+import { connect } from 'react-redux';
+import { ROUTES } from '../../constants/AppConstants';
+import Icon from 'react-native-vector-icons/Ionicons';
+// import SearchListView from '../SearchListView';
+
+// function searchFor(item, query) {
+//     const q = query.toLowerCase();
+
+//     return item.first_name.toLowerCase().indexOf(q) >= 0 ||
+//            item.last_name.toLowerCase().indexOf(q) >= 0;
+// }
+
+class ContactsView extends Component {
+
+    constructor(props) {
+        super(props);
+
+        this.renderRow = this.renderRow.bind(this);
+        this.renderHeader = this.renderHeader.bind(this);
+        this.renderRegisteredRow = this.renderRegisteredRow.bind(this);
+        this.renderNonregisteredRow = this.renderNonregisteredRow.bind(this);
+        this.handleRegisteredRowPress = this.handleRegisteredRowPress.bind(this);
+        this.handleNonregisteredRowPress = this.handleNonregisteredRowPress.bind(this);
+        this.handleInviteRowPress = this.handleInviteRowPress.bind(this);
+    }
+
+    componentWillMount() {
+        InteractionManager.runAfterInteractions(() => {
+            this.props.createContacts();
+        });
+    }
+
+    handleRegisteredRowPress(rowData) {
+        // this.refs.searchWrapper.close();
+
+        if (!rowData.group_id) {
+            this.props.createChat({
+                language: this.props.user.learn_language,
+                invitees: [{
+                    id: rowData._id,
+                    first_name: rowData.first_name,
+                    last_name: rowData.last_name,
+                    number: rowData.number
+                }]
+            }).then((groups) => {
+                // Update contact with group_id
+                // Can be done neater with normalizr
+                this.props.getContacts();
+
+                this.props.navigator.push({
+                    id: ROUTES.chatView,
+                    passProps: { groupId: groups[0]._id, navTitle: rowData.first_name }
+                });
+            });
+        } else {
+            this.props.navigator.push({
+                id: ROUTES.chatView,
+                passProps: { groupId: rowData.group_id, navTitle: rowData.first_name }
+            });
+        }
+    }
+
+    handleNonregisteredRowPress(rowData) {
+        this.props.navigator.push({
+            id: ROUTES.contactView,
+            passProps: { profile: rowData }
+        });
+    }
+
+    handleInviteRowPress() {
+        this.props.navigator.push({
+            id: ROUTES.inviteView,
+            passProps: {
+                onCancel: () => this.props.navigator.pop(),
+                onAfterInvite: () => this.props.navigator.pop()
+            }
+        });
+    }
+
+    renderRow(rowData, sectionId) {
+        if (sectionId === 'registered') {
+            return this.renderRegisteredRow(rowData);
+        } else {
+            return this.renderNonregisteredRow(rowData);
+        }
+    }
+
+    renderRegisteredRow(rowData) {
+        const initials = (
+            <View style={styles.initials}>
+                <Text style={styles.initialsText}>{`${rowData.first_name.charAt(0)}${rowData.last_name.charAt(0)}`}</Text>
+            </View>
+        );
+
+        return (
+            <TouchableHighlight onPress={() => this.handleRegisteredRowPress(rowData)} underlayColor={activeColor}>
+                <View style={styles.row}>
+                    {initials}
+                    <Text style={styles.text}>
+                        {`${rowData.first_name} ${rowData.last_name}`}
+                    </Text>
+                </View>
+            </TouchableHighlight>
+        );
+    }
+
+    renderNonregisteredRow(rowData) {
+        return (
+            <RowButton
+                onPress={() => this.handleNonregisteredRowPress(rowData)}
+                text={`${rowData.first_name} ${rowData.last_name}`}
+                rowStyle={styles.unregisteredRow} />
+        );
+    }
+
+    renderSectionHeader(sectionData, sectionId) {
+        if (sectionId === 'registered') {
+            return null;
+        }
+
+        return (
+            <View style={styles.section}>
+                <Text style={styles.sectionText}>{sectionId}</Text>
+            </View>
+        );
+    }
+
+    renderHeader() {
+        return (
+            <TouchableHighlight onPress={this.handleInviteRowPress} underlayColor={activeColor}>
+                <View style={styles.row}>
+                    <Icon
+                        name="ios-people"
+                        size={26}
+                        color={primaryColor}
+                        style={styles.rowLinkIcon} />
+                    <Text style={[styles.text, styles.rowLink]}>Invite Friends</Text>
+                </View>
+            </TouchableHighlight>
+        );
+    }
+
+    render() {
+        const navProps = {
+            navTitle: 'Contacts'
+            // rightButtonTitle: 'Search',
+            // rightHandler: () => this.refs.searchWrapper.open()
+        };
+
+        return (
+            <View style={styles.main}>
+                <Navigation {...navProps} />
+                    <ListView
+                        contentInset={{ bottom: 49 }}
+                        automaticallyAdjustContentInsets={false}
+                        renderHeader={this.renderHeader}
+                        dataSource={this.props.dataSource}
+                        renderRow={this.renderRow}
+                        renderSectionHeader={this.renderSectionHeader} />
+
+            </View>
+        );
+    }
+}
+
+ContactsView.propTypes = {
+    contacts: PropTypes.array.isRequired,
+    createChat: PropTypes.func.isRequired,
+    createContacts: PropTypes.func.isRequired,
+    dataSource: PropTypes.object.isRequired,
+    getChats: PropTypes.func.isRequired,
+    getContacts: PropTypes.func.isRequired,
+    navigator: PropTypes.object,
+    user: PropTypes.shape({
+        learn_language: PropTypes.string
+    })
+};
+
+const dataSource = new ListView.DataSource({
+    rowHasChanged: (row1, row2) => row1 !== row2,
+    sectionHeaderHasChanged: (s1, s2) => s1 !== s2
+});
+
+function mapStateToProps(state) {
+    const { contactsDataBlob, contactsSectionIds, contacts } = state.Contacts;
+
+    return {
+        contacts,
+        user: state.Login,
+        dataSource: dataSource.cloneWithRowsAndSections(contactsDataBlob, contactsSectionIds)
+    };
+}
+
+export default connect(mapStateToProps, ContactsActions)(ContactsView);
