@@ -1,10 +1,10 @@
 /**
- * Sample React Native App
+ * Txtling App
  * https://github.com/facebook/react-native
  */
 
 import React, { Component } from 'react';
-import { AppRegistry, Text } from 'react-native';
+import { AppRegistry } from 'react-native';
 import App from './app';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
