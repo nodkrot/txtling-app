@@ -43,10 +43,15 @@ http://ticons.fokkezb.nl
 
 ## Push notifications setup
 
-- Create AWS account ([tutorial](http://docs.aws.amazon.com/sns/latest/dg/mobile-push-apns.html))
-- Configure and register for push notifications ([tutorial](https://www.raywenderlich.com/123862/push-notifications-tutorial))
-    - Keep in mind that for Testflight you need production APNS certificate
+- Get development and production certificates from Apple ([tutorial](https://www.raywenderlich.com/123862/push-notifications-tutorial))
+    - Get certificate signing request ([tutorial](http://stackoverflow.com/questions/12126496/how-to-obtain-certificate-signing-request))
+    - Download development and production certificates
+    - Add these certificates to Keychain
+    - Export them as .p12 files
 - Create platform application using certificate ([tutorial](http://docs.aws.amazon.com/sns/latest/dg/mobile-push-send-register.html))
+    - Create AWS account ([tutorial](http://docs.aws.amazon.com/sns/latest/dg/mobile-push-apns.html))
+    - Upload dev/prod certs to your push service (AWS SNS)
+    - Keep in mind that for Testflight you need production APNS certificate
 - Create Amazon IAM user with SNS permissions
     - accessKeyId
     - secretAccessKey
@@ -81,3 +86,8 @@ https://github.com/lwansbrough/react-native-camera/issues/386
 
 ##### iOS10 issue with descriptions for contacts
 https://github.com/lwansbrough/react-native-camera/issues/426
+
+
+## Debugging on a device with Chrome Developer Tools
+
+https://facebook.github.io/react-native/docs/debugging.html#debugging-on-a-device-with-chrome-developer-tools
