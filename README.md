@@ -24,9 +24,8 @@ react-native run-ios
 
 - Get an App ID
 - Set up AppIcon and LaunchImage in `Images.xcassets`
-- Make sure to bump the **Build**
+- Make sure to bump the **Build** [reference](http://stackoverflow.com/questions/4933093/cfbundleversion-in-the-info-plist-upload-error)
 - <kbd>Cmd</kbd>+<kbd>Shift</kbd>+<kbd><</kbd> - Switch Debug to Release
-- Uncomment local js bundle in `AppDelegate.m`
 - Set device destination to "Generic iOS Device" or an actual (connected) iOS device
 - During Product -> Archive might be an issue with certificate (keychain access)
 
