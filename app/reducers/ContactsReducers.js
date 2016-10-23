@@ -1,3 +1,4 @@
+/* eslint no-case-declarations: 0 */
 import { chain } from 'lodash';
 import * as types from '../constants/ContactsConstants';
 
@@ -113,14 +114,19 @@ export default function (state = initialState, action) {
         case types.RECEIVE_CLEAR_CHAT_BADGES:
             return {
                 ...state,
-                chats: action.state.sort(compareChats),
-                chatBadgeNumber: action.state.reduce((acc, group) => acc + group.badges, 0)
+                chats: action.state.sort(compareChats)
             };
 
         case types.RECEIVE_CREATE_CHAT:
             return {
                 ...state,
                 chats: [...action.state, ...state.chats]
+            };
+
+        case types.SET_GLOBAL_BADGE_NUMBER:
+            return {
+                ...state,
+                chatBadgeNumber: action.state
             };
 
         case types.TOGGLE_SELECT_ROW:
