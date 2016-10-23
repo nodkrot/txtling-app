@@ -20,7 +20,8 @@ import { AutoExpandingTextField } from '../../components/Form';
 import InvertibleScrollView from 'react-native-invertible-scroll-view';
 import ChatRow from './components/ChatRow';
 import Speech from 'react-native-speech';
-import * as ChatActions from '../../actions/ChatActions';
+import { clearNewMessage, updateNewMessage } from '../../actions/ChatActions';
+import { clearChatBadges } from '../../actions/ContactsActions';
 
 const VOICE_LANG_CODES = ['ar-SA', 'cs-CZ', 'da-DK', 'de-DE', 'el-GR', 'en-AU', 'en-GB', 'en-IE', 'en-US', 'en-ZA', 'es-ES', 'es-MX', 'fi-FI', 'fr-CA', 'fr-FR', 'he-IL', 'hi-IN', 'hu-HU', 'id-ID', 'it-IT', 'ja-JP', 'ko-KR', 'nl-BE', 'nl-NL', 'no-NO', 'pl-PL', 'pt-BR', 'pt-PT', 'ro-RO', 'ru-RU', 'sk-SK', 'sv-SE', 'th-TH', 'tr-TR', 'zh-CN', 'zh-HK', 'zh-TW']
     .reduce((acc, code) => {
@@ -276,4 +277,4 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps, ChatActions)(ChatView);
+export default connect(mapStateToProps, { clearChatBadges, clearNewMessage, updateNewMessage })(ChatView);

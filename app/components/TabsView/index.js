@@ -28,15 +28,12 @@ class TabsView extends Component {
 
         this.setTab = this.setTab.bind(this);
         this.isSelectedTab = this.isSelectedTab.bind(this);
+        this.setBadgeNumber = this.setBadgeNumber.bind(this);
         this.handPushNotification = this.handPushNotification.bind(this);
     }
 
     componentWillMount() {
-        // PushNotificationIOS.addEventListener('notification', this.handPushNotification);
-        // // Add listener for local notifications
-        // // PushNotificationIOS.addEventListener('localNotification', this._onLocalNotification);
-
-        let backgroundNotification;
+        let backgroundNotification = null;
 
         PushNotificationIOS.getInitialNotification().then((notification) => {
             if (notification != null) {
@@ -50,31 +47,51 @@ class TabsView extends Component {
             }
         });
 
-        AppState.addEventListener('change', (newState) => {
-            if (newState === 'active' && backgroundNotification != null) {
+        AppState.addEventListener('change', (newAppState) => {
+            if (newAppState === 'active' && backgroundNotification !== null) {
                 this.handPushNotification(backgroundNotification);
                 backgroundNotification = null;
             }
+
+            // if (newAppState === 'active' && backgroundNotification === null) {
+            //     // App was on and user just taps on the app
+            //     this.setBadgeNumber();
+            // }
         });
+
+        // App was off
+        // User received notification and just taps on the app
+        // User just taps on the app
+        this.setBadgeNumber();
     }
 
-    componentWillUnmount() {
-        // PushNotificationIOS.removeEventListener('notification', this.handPushNotification);
-        // AppState.removeEventListener('change');
-        // Remove listener for local notifications
-        // PushNotificationIOS.removeEventListener('localNotification', this._onLocalNotification);
+    setBadgeNumber() {
+        PushNotificationIOS.getApplicationIconBadgeNumber((badgeNumber) => {
+            this.props.setGlobalBadgeNumber(badgeNumber);
+        });
     }
 
     handPushNotification(notification) {
         const data = notification.getData();
+        const currentRoutes = this.props.navigator.getCurrentRoutes();
+        const currentRoute = currentRoutes[currentRoutes.length - 1];
 
         // As an alternative we can pass group object through push service
         this.props.getChats();
 
-        this.props.navigator.push({
-            id: ROUTES.chatView,
-            passProps: { groupId: data.group_id, navTitle: data.first_name }
-        });
+        if (currentRoute.id === ROUTES.chatView) {
+            if (currentRoute.passProps.groupId !== data.group_id) {
+                this.props.navigator.replace({
+                    id: ROUTES.chatView,
+                    passProps: { groupId: data.group_id, navTitle: data.first_name }
+                });
+            }
+        } else {
+            this.props.navigator.push({
+                id: ROUTES.chatView,
+                passProps: { groupId: data.group_id, navTitle: data.first_name }
+            });
+        }
     }
 
     isSelectedTab(tab) {
@@ -169,7 +186,8 @@ class TabsView extends Component {
 TabsView.propTypes = {
     badgeNumber: PropTypes.number,
     navigator: PropTypes.object,
-    getChats: PropTypes.func.isRequired
+    getChats: PropTypes.func.isRequired,
+    setGlobalBadgeNumber: PropTypes.func.isRequired
 };
 
 function mapStateToProps(state) {
