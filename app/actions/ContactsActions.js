@@ -162,40 +162,6 @@ export function createChat(payload) {
     }
 }
 
-function requestClearChatBadges() {
-    return { type: types.REQUEST_CLEAR_CHAT_BADGES };
-}
-
-function receiveClearChatBadges(state) {
-    return { type: types.RECEIVE_CLEAR_CHAT_BADGES, state };
-}
-
-export function clearChatBadges(groupId) {
-    return (dispatch) => {
-        dispatch(requestClearChatBadges());
-
-        return AsyncStorage.getItem('AUTH_TOKEN').then((value) => {
-            return fetch(`${BASE_URL}chats/clear-badges`, {
-                method: 'post',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                    'Authorization': `Basic ${value}`
-                },
-                body: JSON.stringify({ group_id: groupId })
-            });
-        })
-        .then((response) => response.json())
-        .then((res) => {
-            dispatch(receiveClearChatBadges(res.data));
-
-            const totalBadges = res.data.reduce((acc, group) => acc + group.badges, 0);
-            PushNotificationIOS.setApplicationIconBadgeNumber(totalBadges);
-        });
-        // .catch((err) => console.log(err)); // eslint-disable-line
-    }
-}
-
 export function toggleRow(id) {
     return { type: types.TOGGLE_SELECT_ROW, state: id };
 }

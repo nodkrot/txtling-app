@@ -35,6 +35,7 @@ const ChatView = React.createClass({
         // receiveMessage: PropTypes.func.isRequired,
         chat: PropTypes.object.isRequired,
         clearNewMessage: PropTypes.func.isRequired,
+        clearChatBadges: PropTypes.func.isRequired,
         groupId: PropTypes.string.isRequired,
         navTitle: PropTypes.string.isRequired,
         navigator: PropTypes.object,
@@ -73,6 +74,10 @@ const ChatView = React.createClass({
             this.receiveRef.on('child_added', this.receiveMessage);
             this.paginationRef.on('value', this.receiveMoreMessages);
             this.requestMoreMessages();
+
+            // Somehow make a check to only call when has badges
+            // May be set badges in the store on AppState and then get from there by groupId
+            this.props.clearChatBadges(this.props.groupId);
         });
     },
 

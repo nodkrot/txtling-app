@@ -6,8 +6,7 @@ import {
     Text,
     Image,
     ListView,
-    TouchableHighlight,
-    InteractionManager
+    TouchableHighlight
 } from 'react-native';
 import Navigation from '../Navigation';
 import { ROUTES } from '../../constants/AppConstants';
@@ -24,9 +23,7 @@ class ChatsView extends Component {
     }
 
     componentWillMount() {
-        if (!this.props.chats.length) {
-            this.props.getChats();
-        }
+        this.props.getChats();
     }
 
     handleRowPress(rowData, opponent) {
@@ -34,13 +31,6 @@ class ChatsView extends Component {
             id: ROUTES.chatView,
             passProps: { groupId: rowData._id, navTitle: opponent.first_name }
         });
-
-        // TODO: move this to chat view on component will mount in case of auto redirect
-        if (rowData.badges > 0) {
-            InteractionManager.runAfterInteractions(() => {
-                this.props.clearChatBadges(rowData._id);
-            });
-        }
     }
 
     renderRow(rowData, sectionID, rowID) {
@@ -98,7 +88,6 @@ class ChatsView extends Component {
 
 ChatsView.propTypes = {
     chats: PropTypes.array,
-    clearChatBadges: PropTypes.func.isRequired,
     dataSource: PropTypes.object.isRequired,
     getChats: PropTypes.func.isRequired,
     navigator: PropTypes.object,

@@ -3,11 +3,13 @@ import { Colors } from '../../styles';
 import React, { Component, PropTypes } from 'react';
 import {
     TabBarIOS,
+    AppState,
     PushNotificationIOS
 } from 'react-native';
 import { connect } from 'react-redux';
 import { ROUTES } from '../../constants/AppConstants';
 // import TabNavigator from 'react-native-tab-navigator';
+import * as ContactsActions from '../../actions/ContactsActions'
 import ContactsView from '../ContactsView';
 import ChatsView from '../ChatsView';
 import SettingsView from '../SettingsView';
@@ -30,20 +32,44 @@ class TabsView extends Component {
     }
 
     componentWillMount() {
-        PushNotificationIOS.addEventListener('notification', this.handPushNotification);
+        // PushNotificationIOS.addEventListener('notification', this.handPushNotification);
         // // Add listener for local notifications
         // // PushNotificationIOS.addEventListener('localNotification', this._onLocalNotification);
+
+        let backgroundNotification;
+
+        PushNotificationIOS.getInitialNotification().then((notification) => {
+            if (notification != null) {
+                this.handPushNotification(notification);
+            }
+        });
+
+        PushNotificationIOS.addEventListener('notification', (notification) => {
+            if (AppState.currentState === 'background') {
+                backgroundNotification = notification;
+            }
+        });
+
+        AppState.addEventListener('change', (newState) => {
+            if (newState === 'active' && backgroundNotification != null) {
+                this.handPushNotification(backgroundNotification);
+                backgroundNotification = null;
+            }
+        });
     }
 
     componentWillUnmount() {
-        PushNotificationIOS.removeEventListener('notification', this.handPushNotification);
+        // PushNotificationIOS.removeEventListener('notification', this.handPushNotification);
+        // AppState.removeEventListener('change');
         // Remove listener for local notifications
         // PushNotificationIOS.removeEventListener('localNotification', this._onLocalNotification);
     }
 
     handPushNotification(notification) {
-        // TODO: this is not always called when user goes back to the app
         const data = notification.getData();
+
+        // As an alternative we can pass group object through push service
+        this.props.getChats();
 
         this.props.navigator.push({
             id: ROUTES.chatView,
@@ -142,7 +168,8 @@ class TabsView extends Component {
 
 TabsView.propTypes = {
     badgeNumber: PropTypes.number,
-    navigator: PropTypes.object
+    navigator: PropTypes.object,
+    getChats: PropTypes.func.isRequired
 };
 
 function mapStateToProps(state) {
@@ -151,4 +178,4 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps)(TabsView);
+export default connect(mapStateToProps, ContactsActions)(TabsView);
