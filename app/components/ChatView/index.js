@@ -204,8 +204,7 @@ const ChatView = React.createClass({
                     placeholder="Start texting"
                     defaultValue={this.props.chat.newMessageText[this.props.groupId]}
                     onChangeText={this.handleTextChange} />
-                <TouchableOpacity
-                    onPress={this.handlePressSend}>
+                <TouchableOpacity onPress={this.handlePressSend}>
                     <Text style={styles.sendButton}>Send</Text>
                 </TouchableOpacity>
             </View>
