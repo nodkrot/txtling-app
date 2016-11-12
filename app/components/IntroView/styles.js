@@ -1,57 +1,66 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 import { Colors } from '../../styles';
+
+const slideWidth = Dimensions.get('window').width;
 
 export default StyleSheet.create({
     main: {
         flex: 1,
         backgroundColor: Colors.white
     },
-    page: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        borderWidth: 1
-    },
-    pageIndicator: {
-        position: 'absolute',
-        flexDirection: 'row',
-        flex: 1,
-        justifyContent: 'space-around',
-        alignItems: 'center',
-        backgroundColor: 'transparent'
-    },
-    pageIndicatorTop: {
-        top: 250,
-        alignSelf: 'center'
-    },
-    pageIndicatorBottom: {
-        bottom: 250,
-        alignSelf: 'center'
-    },
-    slide: {
-        flex: 1,
-        backgroundColor: 'lightgray',
-        flexDirection: 'row',
-        alignItems: 'center'
-    },
-    wrapper: {},
     slide1: {
         flex: 1,
-        justifyContent: 'center',
         alignItems: 'center'
     },
     slide2: {
         flex: 1,
-        justifyContent: 'center',
         alignItems: 'center'
     },
     slide3: {
         flex: 1,
-        justifyContent: 'center',
         alignItems: 'center'
     },
+    slideImage: {
+        width: slideWidth,
+        height: 360
+    },
+    logoText: {
+        fontSize: 50,
+        color: Colors.primary,
+        marginBottom: 36
+    },
+    titleText: {
+        fontSize: 28,
+        color: Colors.primary,
+        marginTop: 20,
+        marginBottom: 20
+    },
     text: {
-        color: '#92BBD9',
-        fontSize: 30,
-        fontWeight: 'bold'
+        color: Colors.darkerGrey,
+        fontSize: 18,
+        textAlign: 'center'
+    },
+    nextButton: {
+        position: 'absolute',
+        bottom: 44,
+        left: 0,
+        right: 0
+    },
+    pagination: {
+        bottom: 100
+    },
+    dot: {
+        borderWidth: 1,
+        borderColor: Colors.primary,
+        width: 8,
+        height: 8,
+        borderRadius: 4,
+        marginLeft: 3,
+        marginRight: 3,
+        marginTop: 3,
+        marginBottom: 3
+    },
+    activeDot: {
+        backgroundColor: Colors.primary
     }
 });

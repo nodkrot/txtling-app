@@ -1,19 +1,16 @@
 import styles from './styles';
 
 import React, { Component, PropTypes } from 'react';
-import {
-    View,
-    Text
-} from 'react-native';
-// import { connect } from 'react-redux';
+import { View, Text, Image } from 'react-native';
 import Swiper from 'react-native-swiper';
 import { ROUTES } from '../../constants/AppConstants';
 import { Button } from '../Form';
+import { LinkButton } from '../Elements';
 
 class IntroView extends Component {
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
 
         this.handleNext = this.handleNext.bind(this);
         this.handeGetStarted = this.handeGetStarted.bind(this);
@@ -29,21 +26,46 @@ class IntroView extends Component {
         });
     }
 
+    renderDot() {
+        return <View style={styles.dot} />;
+    }
+
+    renderActiveDot() {
+        return <View style={[styles.dot, styles.activeDot]} />;
+    }
+
     render() {
         return (
             <View style={styles.main}>
-                <Swiper style={styles.wrapper} loop={false} bounces ref="swiper">
+                <Swiper
+                    bounces
+                    loop={false}
+                    ref="swiper"
+                    paginationStyle={styles.pagination}
+                    dot={this.renderDot()}
+                    activeDot={this.renderActiveDot()}>
                     <View style={styles.slide1}>
-                        <Text style={styles.text}>Hello Swiper</Text>
-                        <Button text="Next" type="flat" onPress={this.handleNext} iconRight icon="ios-arrow-forward" />
+                        <Image style={styles.slideImage} resizeMode="contain" source={require('../../images/onboarding1.png')} />
+                        <Text style={styles.logoText}>txtling</Text>
+                        <Text style={styles.text}>Learn new languages by texting</Text>
+                        <Text style={styles.text}>with your friends</Text>
+                        <LinkButton text="Next" icon="ios-arrow-forward" onPress={this.handleNext} style={styles.nextButton} />
                     </View>
                     <View style={styles.slide2}>
-                        <Text style={styles.text}>Beautiful</Text>
-                        <Button text="Next" type="flat" onPress={this.handleNext} iconRight icon="ios-arrow-forward" />
+                        <Image style={styles.slideImage} resizeMode="contain" source={require('../../images/onboarding2.png')} />
+                        <Text style={styles.titleText}>Discover</Text>
+                        <Text style={styles.text}>Invite your friends and start texting</Text>
+                        <Text style={styles.text}>them. The message will be translated to</Text>
+                        <Text style={styles.text}>the language you want to learn.</Text>
+                        <LinkButton text="Next" icon="ios-arrow-forward" onPress={this.handleNext} style={styles.nextButton} />
                     </View>
                     <View style={styles.slide3}>
-                        <Text style={styles.text}>And simple</Text>
-                        <Button text="Get Started" type="flat" onPress={this.handeGetStarted} iconRight icon="ios-arrow-forward" />
+                        <Image style={styles.slideImage} resizeMode="contain" source={require('../../images/onboarding3.png')} />
+                        <Text style={styles.titleText}>Learn</Text>
+                        <Text style={styles.text}>Tap on the message to see the</Text>
+                        <Text style={styles.text}>translation. Pro tip! Tap the sound icon</Text>
+                        <Text style={styles.text}>for audio.</Text>
+                        <Button text="Get Started" onPress={this.handeGetStarted} icon="ios-arrow-forward" />
                     </View>
                 </Swiper>
             </View>
@@ -55,9 +77,4 @@ IntroView.propTypes = {
     navigator: PropTypes.object
 };
 
-// function mapStateToProps(state) {
-//     return {};
-// }
-
 export default IntroView;
-// export default connect(mapStateToProps, {})(IntroView);
