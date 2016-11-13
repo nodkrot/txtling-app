@@ -7,6 +7,7 @@ export const Colors = {
     grey: '#efefef',
     darkGrey: '#cfcfcf',
     darkerGrey: '#7a7a7a',
+    darkestGrey: '#606060',
     success: 'green',
     error: 'red',
     info: 'lightblue',
