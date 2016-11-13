@@ -37,17 +37,25 @@ export default StyleSheet.create({
     },
     text: {
         color: Colors.darkerGrey,
-        fontSize: 18,
+        fontSize: 16,
         textAlign: 'center'
     },
     nextButton: {
         position: 'absolute',
-        bottom: 44,
+        bottom: 54,
         left: 0,
         right: 0
     },
+    buttonWrap: {
+        position: 'absolute',
+        bottom: 40,
+        left: 0,
+        right: 0,
+        paddingLeft: 24,
+        paddingRight: 24
+    },
     pagination: {
-        bottom: 100
+        bottom: 120
     },
     dot: {
         borderWidth: 1,
