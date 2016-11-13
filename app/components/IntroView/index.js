@@ -47,14 +47,14 @@ class IntroView extends Component {
                     paginationStyle={styles.pagination}
                     dot={this.renderDot()}
                     activeDot={this.renderActiveDot()}>
-                    <View style={styles.slide1}>
+                    <View style={styles.slide}>
                         <Image style={styles.slideImage} resizeMode="contain" source={require('../../images/onboarding1.png')} />
                         <Text style={styles.logoText}>txtling</Text>
                         <Text style={styles.text}>Learn new languages by texting</Text>
                         <Text style={styles.text}>with your friends</Text>
                         <LinkButton text="Next" icon="ios-arrow-forward" onPress={this.handleNext} style={styles.nextButton} />
                     </View>
-                    <View style={styles.slide2}>
+                    <View style={styles.slide}>
                         <Image style={styles.slideImage} resizeMode="contain" source={require('../../images/onboarding2.png')} />
                         <Text style={styles.titleText}>Discover</Text>
                         <Text style={styles.text}>Invite your friends and start texting</Text>
@@ -62,7 +62,7 @@ class IntroView extends Component {
                         <Text style={styles.text}>the language you want to learn.</Text>
                         <LinkButton text="Next" icon="ios-arrow-forward" onPress={this.handleNext} style={styles.nextButton} />
                     </View>
-                    <View style={styles.slide3}>
+                    <View style={styles.slide}>
                         <Image style={styles.slideImage} resizeMode="contain" source={require('../../images/onboarding3.png')} />
                         <Text style={styles.titleText}>Learn</Text>
                         <Text style={styles.text}>Tap on the message to see the</Text>

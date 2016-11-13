@@ -8,15 +8,7 @@ export default StyleSheet.create({
         flex: 1,
         backgroundColor: Colors.white
     },
-    slide1: {
-        flex: 1,
-        alignItems: 'center'
-    },
-    slide2: {
-        flex: 1,
-        alignItems: 'center'
-    },
-    slide3: {
+    slide: {
         flex: 1,
         alignItems: 'center'
     },
