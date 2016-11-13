@@ -1,4 +1,4 @@
-import styles, { iconColor } from './styles';
+import styles, { linkButtonIconColor } from './styles';
 
 import React, { PropTypes } from 'react';
 import { Text, TouchableOpacity } from 'react-native';
@@ -30,7 +30,7 @@ export default React.createClass({
                 <Icon
                     name={this.props.icon}
                     size={18}
-                    color={iconColor}
+                    color={linkButtonIconColor}
                     style={styles.linkButtonIcon} />
             </TouchableOpacity>
         );

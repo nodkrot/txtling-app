@@ -4,8 +4,7 @@ import React, { Component, PropTypes } from 'react';
 import { View, Text, Image } from 'react-native';
 import Swiper from 'react-native-swiper';
 import { ROUTES } from '../../constants/AppConstants';
-import { Button } from '../Form';
-import { LinkButton } from '../Elements';
+import { LinkButton, Button } from '../Elements';
 
 class IntroView extends Component {
 
@@ -65,7 +64,9 @@ class IntroView extends Component {
                         <Text style={styles.text}>Tap on the message to see the</Text>
                         <Text style={styles.text}>translation. Pro tip! Tap the sound icon</Text>
                         <Text style={styles.text}>for audio.</Text>
-                        <Button text="Get Started" onPress={this.handeGetStarted} icon="ios-arrow-forward" />
+                        <View style={styles.buttonWrap}>
+                            <Button text="Get Started" onPress={this.handeGetStarted} icon="ios-arrow-forward" />
+                        </View>
                     </View>
                 </Swiper>
             </View>
