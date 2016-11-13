@@ -27,7 +27,8 @@ export default StyleSheet.create({
     logoText: {
         fontSize: 50,
         color: Colors.primary,
-        marginBottom: 36
+        marginTop: -16,
+        marginBottom: 30
     },
     titleText: {
         fontSize: 28,
@@ -36,7 +37,7 @@ export default StyleSheet.create({
         marginBottom: 20
     },
     text: {
-        color: Colors.darkerGrey,
+        color: Colors.darkestGrey,
         fontSize: 16,
         textAlign: 'center'
     },
