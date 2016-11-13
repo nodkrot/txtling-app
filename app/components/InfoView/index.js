@@ -10,7 +10,8 @@ import {
 import { connect } from 'react-redux';
 import { registerUser } from '../../actions/LoginActions';
 import Navigation from '../Navigation';
-import { TextField, Button } from '../Form';
+import { Button } from '../Elements';
+import { TextField } from '../Form';
 import { ROUTES } from '../../constants/AppConstants';
 // import CameraView from '../CameraView';
 // import CameraRollView from '../CameraRollView';
@@ -99,7 +100,7 @@ class InfoView extends Component {
                         autoCorrect={false}
                         value={this.state.lastName} />
                     <Button
-                        text="NEXT"
+                        text="Next"
                         onPress={this.handleButtonPress} />
                 </View>
             </View>

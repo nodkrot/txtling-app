@@ -1,7 +1,7 @@
 import styles from './styles';
 
 import React, { Component, PropTypes } from 'react';
-import { View, Text, Image } from 'react-native';
+import { View, Text, Image, StatusBar } from 'react-native';
 import Swiper from 'react-native-swiper';
 import { ROUTES } from '../../constants/AppConstants';
 import { LinkButton, Button } from '../Elements';
@@ -13,6 +13,10 @@ class IntroView extends Component {
 
         this.handleNext = this.handleNext.bind(this);
         this.handeGetStarted = this.handeGetStarted.bind(this);
+    }
+
+    componentWillMount() {
+        StatusBar.setBarStyle('default');
     }
 
     handleNext() {
