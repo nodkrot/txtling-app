@@ -12,7 +12,8 @@ import { formatPhone } from '../../utilities';
 import * as LoginActions from '../../actions/LoginActions';
 import { ROUTES } from '../../constants/AppConstants';
 import Navigation from '../Navigation';
-import { TextField, Button } from '../Form';
+import { Button } from '../Elements';
+import { TextField } from '../Form';
 
 class PhoneView extends Component {
 
@@ -140,10 +141,10 @@ class PhoneView extends Component {
     render() {
         const button = this.state.isCodeFieldActive
             ? (<Button
-                    text="NEXT"
+                    text="Next"
                     onPress={this.handleCodeSubmit} />)
             : (<Button
-                    text="GET CODE"
+                    text="Get Code"
                     onPress={this.handlePhoneSubmit} />);
 
         return (
