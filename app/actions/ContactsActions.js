@@ -19,25 +19,39 @@ export function createContacts() {
     return (dispatch, getState) => {
         dispatch(requestCreateContacts());
 
-        return dispatch(getPhoneContacts()).then(() => {
-            return AsyncStorage.getItem('AUTH_TOKEN');
-        })
-        .then((value) => {
+        return Promise.all([
+            dispatch(getPhoneContacts()),
+            AsyncStorage.getItem('PHONE_CONTACTS_COUNT'),
+            AsyncStorage.getItem('CREATED_CONTACTS')
+        ]).then((res) => {
+            // Take from store since they were already parsed
             const { phoneContacts } = getState().Contacts;
+            const phoneContactsCount = JSON.parse(res[1])
+            const cachedCreatedContacts = JSON.parse(res[2]);
 
-            return fetch(`${BASE_URL}contacts`, {
-                method: 'post',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                    'Authorization': `Basic ${value}`
-                },
-                body: JSON.stringify({ contacts: phoneContacts })
-            })
-        })
-        .then((response) => response.json())
-        .then((res) => dispatch(receiveCreateContacts(res.data)))
-        .catch(() => dispatch(failureCreateContacts()));
+            if (phoneContactsCount && cachedCreatedContacts && phoneContactsCount === phoneContacts.length) {
+                dispatch(receiveCreateContacts(cachedCreatedContacts));
+            } else {
+                return AsyncStorage.getItem('AUTH_TOKEN').then((value) => {
+                    return fetch(`${BASE_URL}contacts`, {
+                        method: 'post',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json',
+                            'Authorization': `Basic ${value}`
+                        },
+                        body: JSON.stringify({ contacts: phoneContacts })
+                    })
+                    .then((response) => response.json())
+                    .then((res) => {
+                        AsyncStorage.setItem('PHONE_CONTACTS_COUNT', JSON.stringify(phoneContacts.length));
+                        AsyncStorage.setItem('CREATED_CONTACTS', JSON.stringify(res.data));
+
+                        dispatch(receiveCreateContacts(res.data))
+                    });
+                });
+            }
+        }).catch(() => dispatch(failureCreateContacts()));
     }
 }
 
@@ -91,7 +105,7 @@ export function getPhoneContacts() {
                         reject(err);
                     } else {
                         dispatch(receiveGetPhoneContacts(addressBook));
-                        resolve();
+                        resolve(addressBook);
                     }
                 });
             });
