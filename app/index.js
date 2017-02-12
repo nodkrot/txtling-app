@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import {
     AppState,
-    Animated,
+    // Animated,
     // Image,
     View
 } from 'react-native';
@@ -40,7 +40,7 @@ class App extends Component {
         super(props);
 
         this.state = {
-            fadeAnim: new Animated.Value(0),
+            // fadeAnim: new Animated.Value(0),
             overlayHeight: 0
         };
 
@@ -49,12 +49,7 @@ class App extends Component {
 
     componentWillMount() {
         this.firebaseRef = new Firebase('https://txtling.firebaseio.com');
-
-        this.props.isLoggedIn().then(() => {
-            if (this.props.ui.isUserLoggedIn) {
-                this.firebaseRef.authWithCustomToken(this.props.user.firebase_token);
-            }
-        });
+        this.props.isLoggedIn();
 
         AppState.addEventListener('change', this.handleAppStateChange);
     }
