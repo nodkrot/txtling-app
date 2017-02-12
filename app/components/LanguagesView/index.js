@@ -48,13 +48,13 @@ class LanguagesView extends Component {
             //     passProps: {
             //         minInvitees: 3,
             //         onAfterInvite: () => {
-            this.props.navigator.push({
-                id: ROUTES.tabsView,
-                sceneConfig: {
-                    ...Navigator.SceneConfigs.HorizontalSwipeJump,
-                    gestures: null
-                }
-            });
+                        this.props.navigator.push({
+                            id: ROUTES.tabsView,
+                            sceneConfig: {
+                                ...Navigator.SceneConfigs.HorizontalSwipeJump,
+                                gestures: null
+                            }
+                        });
             //         }
             //     }
             // });

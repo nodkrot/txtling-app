@@ -1,7 +1,10 @@
 import buffer from 'buffer/';
+import Firebase from 'firebase';
 import { AsyncStorage } from 'react-native';
 import * as types from '../constants/LoginConstants';
 import { BASE_URL } from '../constants/AppConstants';
+
+const firebaseRef = new Firebase('https://txtling.firebaseio.com');
 
 function requestIsLoggedIn() {
     return { type: types.REQUEST_IS_LOGGED_IN };
@@ -21,6 +24,10 @@ export function isLoggedIn() {
         ]).then((res) => {
             const hasToken = Boolean(res[0]);
             const userInfo = res[1] ? JSON.parse(res[1]) : {};
+
+            if (hasToken) {
+                firebaseRef.authWithCustomToken(userInfo.firebase_token);
+            }
 
             dispatch(receiveIsLoggedIn({ hasToken, userInfo }));
         });
@@ -80,6 +87,9 @@ export function confirmCode(username, password) {
         .then((res) => {
             AsyncStorage.setItem('AUTH_TOKEN', credentials);
             AsyncStorage.setItem('USER_INFO', JSON.stringify(res.data));
+
+            firebaseRef.authWithCustomToken(res.data.firebase_token);
+
             dispatch(receiveCodeConfirm(res.data));
         });
     };
@@ -220,6 +230,8 @@ function receiveLogout() {
 export function logout() {
     return (dispatch) => {
         dispatch(requestLogout());
+
+        firebaseRef.unauth();
 
         return AsyncStorage.getItem('AUTH_TOKEN')
             .then((value) => fetch(`${BASE_URL}user/logout`, {
