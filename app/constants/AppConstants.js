@@ -1,5 +1,6 @@
 export const BASE_URL = 'http://txtling.herokuapp.com/api/';
 // export const BASE_URL = 'http://192.168.1.121:3000/api/';
+export const INVITE_URL = 'https://txtling.com/in';
 
 export const ROUTES = {
     introView: 'intro-view',

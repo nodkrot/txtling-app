@@ -48,7 +48,13 @@ class App extends Component {
     }
 
     componentWillMount() {
-        this.props.isLoggedIn();
+        this.firebaseRef = new Firebase('https://txtling.firebaseio.com');
+
+        this.props.isLoggedIn().then(() => {
+            if (this.props.ui.isUserLoggedIn) {
+                this.firebaseRef.authWithCustomToken(this.props.user.firebase_token);
+            }
+        });
 
         AppState.addEventListener('change', this.handleAppStateChange);
     }
@@ -74,13 +80,13 @@ class App extends Component {
     handleAppStateChange(appState) {
         // TODO: handle logout state
         if (this.props.ui.isUserLoggedIn) {
-            const presenceRef = new Firebase(`https://txtling.firebaseio.com/presence/${this.props.user._id}`);
-
+            const presenceRef = this.firebaseRef.child('presence').child(this.props.user._id);
             presenceRef.onDisconnect().remove();
 
             if (appState === 'active') {
                 // TODO: Call getChats() if there were new push notifications to update chats view with badges
                 // this.props.getChats();
+
                 presenceRef.set(true);
             } else {
                 presenceRef.set(false);
@@ -138,7 +144,8 @@ App.propTypes = {
         isScreenLoading: PropTypes.bool
     }),
     user: PropTypes.shape({
-        _id: PropTypes.string
+        _id: PropTypes.string,
+        firebase_token: PropTypes.string
     })
 };
 

@@ -8,6 +8,7 @@ import {
 import Navigation from '../Navigation';
 import ProfileView from '../ProfileView';
 import { Row, RowButton } from '../Form';
+import { INVITE_URL } from '../../constants/AppConstants.js';
 
 const Composer = NativeModules.RNMessageComposer;
 
@@ -26,7 +27,7 @@ class ContactView extends Component {
 
     handleInvite() {
         Composer.composeMessageWithArgs({
-            messageText: 'Hey, let\'s try Txtling: https://txtling.com/in',
+            messageText: `Hey, let\'s try Txtling: ${INVITE_URL}`,
             recipients: [this.props.profile.number]
         }, (result) => {
             switch (result) {
