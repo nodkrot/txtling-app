@@ -15,6 +15,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import Navigation from '../Navigation';
 import SearchListView from '../SearchListView';
 import * as ContactsActions from '../../actions/ContactsActions';
+import { INVITE_URL } from '../../constants/AppConstants.js';
 
 const Composer = NativeModules.RNMessageComposer;
 
@@ -90,7 +91,7 @@ class InviteView extends Component {
         }
 
         Composer.composeMessageWithArgs({
-            messageText: 'Hey, let\'s try Txtling: https://txtling.com/in',
+            messageText: `Hey, let\'s try Txtling: ${INVITE_URL}`,
             recipients: this.selectedContacts.map((contact) => contact.number)
         }, (result) => {
             switch (result) {
