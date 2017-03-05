@@ -43,11 +43,11 @@ class LanguagesView extends Component {
         this.props.registerLanguage({
             language: rowData.google_code
         }).then(() => {
-            // this.props.navigator.push({
-            //     id: ROUTES.inviteView,
-            //     passProps: {
-            //         minInvitees: 3,
-            //         onAfterInvite: () => {
+            this.props.navigator.push({
+                id: ROUTES.inviteView,
+                passProps: {
+                    minInvitees: 3,
+                    onAfterInvite: () => {
                         this.props.navigator.push({
                             id: ROUTES.tabsView,
                             sceneConfig: {
@@ -55,9 +55,9 @@ class LanguagesView extends Component {
                                 gestures: null
                             }
                         });
-            //         }
-            //     }
-            // });
+                    }
+                }
+            });
         });
     }
 

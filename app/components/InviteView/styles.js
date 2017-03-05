@@ -15,9 +15,6 @@ export default StyleSheet.create({
         borderBottomWidth: 1,
         borderBottomColor: Colors.grey
     },
-    text: {
-        flex: 1
-    },
     subText: {
         fontSize: 12,
         color: Colors.darkerGrey,
