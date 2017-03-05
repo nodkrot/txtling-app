@@ -1,5 +1,5 @@
 export const BASE_URL = 'http://api.txtling.com/';
-// export const BASE_URL = 'http://192.168.1.121:3000/api/';
+// export const BASE_URL = 'http://192.168.1.121:3000/';
 export const INVITE_URL = 'http://api.txtling.com/in';
 
 export const ROUTES = {
