@@ -26,12 +26,12 @@ export function createContacts() {
         ]).then((res) => {
             // Take from store since they were already parsed
             const { phoneContacts } = getState().Contacts;
-            const phoneContactsCount = JSON.parse(res[1])
-            const cachedCreatedContacts = JSON.parse(res[2]);
+            // const phoneContactsCount = JSON.parse(res[1])
+            // const cachedCreatedContacts = JSON.parse(res[2]);
 
-            if (phoneContactsCount && cachedCreatedContacts && phoneContactsCount === phoneContacts.length) {
-                dispatch(receiveCreateContacts(cachedCreatedContacts));
-            } else {
+            // if (phoneContactsCount && cachedCreatedContacts && phoneContactsCount === phoneContacts.length) {
+            //     dispatch(receiveCreateContacts(cachedCreatedContacts));
+            // } else {
                 return AsyncStorage.getItem('AUTH_TOKEN').then((value) => {
                     return fetch(`${BASE_URL}contacts`, {
                         method: 'post',
@@ -44,13 +44,13 @@ export function createContacts() {
                     })
                     .then((response) => response.json())
                     .then((res) => {
-                        AsyncStorage.setItem('PHONE_CONTACTS_COUNT', JSON.stringify(phoneContacts.length));
-                        AsyncStorage.setItem('CREATED_CONTACTS', JSON.stringify(res.data));
+                        // AsyncStorage.setItem('PHONE_CONTACTS_COUNT', JSON.stringify(phoneContacts.length));
+                        // AsyncStorage.setItem('CREATED_CONTACTS', JSON.stringify(res.data));
 
                         dispatch(receiveCreateContacts(res.data))
                     });
                 });
-            }
+            // }
         }).catch(() => dispatch(failureCreateContacts()));
     }
 }
