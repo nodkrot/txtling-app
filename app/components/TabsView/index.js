@@ -76,22 +76,34 @@ class TabsView extends Component {
         const currentRoutes = this.props.navigator.getCurrentRoutes();
         const currentRoute = currentRoutes[currentRoutes.length - 1];
 
-        // As an alternative we can pass group object through push service
-        this.props.getChats();
+        // FIX: As an alternative we can pass group object through push service
+        this.props.getChats().then((groups) => {
+            const group = groups.find((c) => c._id === data.group_id);
 
-        if (currentRoute.id === ROUTES.chatView) {
-            if (currentRoute.passProps.groupId !== data.group_id) {
-                this.props.navigator.replace({
-                    id: ROUTES.chatView,
-                    passProps: { groupId: data.group_id, navTitle: data.first_name }
-                });
+            if (group) {
+                if (currentRoute.id === ROUTES.chatView) {
+                    if (currentRoute.passProps.groupId !== data.group_id) {
+                        this.props.navigator.replace({
+                            id: ROUTES.chatView,
+                            passProps: {
+                                groupId: data.group_id,
+                                navTitle: data.first_name,
+                                group
+                            }
+                        });
+                    }
+                } else {
+                    this.props.navigator.push({
+                        id: ROUTES.chatView,
+                        passProps: {
+                            groupId: data.group_id,
+                            navTitle: data.first_name,
+                            group
+                        }
+                    });
+                }
             }
-        } else {
-            this.props.navigator.push({
-                id: ROUTES.chatView,
-                passProps: { groupId: data.group_id, navTitle: data.first_name }
-            });
-        }
+        });
     }
 
     isSelectedTab(tab) {
