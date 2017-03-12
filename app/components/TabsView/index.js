@@ -88,7 +88,7 @@ class TabsView extends Component {
                             passProps: {
                                 groupId: data.group_id,
                                 navTitle: data.first_name,
-                                group
+                                langCode: group.learn_lang_code
                             }
                         });
                     }
@@ -98,7 +98,7 @@ class TabsView extends Component {
                         passProps: {
                             groupId: data.group_id,
                             navTitle: data.first_name,
-                            group
+                            langCode: group.learn_lang_code
                         }
                     });
                 }

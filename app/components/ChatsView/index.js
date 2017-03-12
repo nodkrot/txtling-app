@@ -33,7 +33,7 @@ class ChatsView extends Component {
             passProps: {
                 groupId: rowData._id,
                 navTitle: opponent.first_name,
-                group: rowData
+                langCode: rowData.learn_lang_code
             }
         });
     }

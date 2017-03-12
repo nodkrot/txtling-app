@@ -66,7 +66,7 @@ class ContactsView extends Component {
                     passProps: {
                         groupId: groups[0]._id,
                         navTitle: rowData.first_name,
-                        group: groups[0]
+                        langCode: groups[0].learn_lang_code
                     }
                 });
             });
@@ -76,7 +76,7 @@ class ContactsView extends Component {
                 passProps: {
                     groupId: rowData.group_id,
                     navTitle: rowData.first_name,
-                    group: rowData
+                    langCode: rowData.learn_language
                 }
             });
         }
