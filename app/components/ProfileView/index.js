@@ -6,6 +6,7 @@ import {
     View,
     Text
 } from 'react-native';
+import { getInitials } from '../../utilities';
 
 class ProfileView extends Component {
 
@@ -16,7 +17,7 @@ class ProfileView extends Component {
             <ScrollView contentContainerStyle={styles.container}>
                 <View style={styles.profile}>
                     <View style={styles.initials}>
-                        <Text style={styles.initialsText}>{`${first_name.charAt(0)}${last_name.charAt(0)}`}</Text>
+                        <Text style={styles.initialsText}>{getInitials(first_name, last_name)}</Text>
                     </View>
                     <Text style={styles.profileName}>{`${first_name} ${last_name}`}</Text>
                 </View>

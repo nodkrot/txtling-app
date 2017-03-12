@@ -139,7 +139,10 @@ export function getChats() {
             });
         })
         .then((response) => response.json())
-        .then((res) => dispatch(receiveGetChats(res.data)))
+        .then((res) => {
+            dispatch(receiveGetChats(res.data));
+            return res.data;
+        })
         .catch(() => dispatch(failureGetChats()));
     }
 }

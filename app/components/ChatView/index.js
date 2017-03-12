@@ -38,6 +38,7 @@ const ChatView = React.createClass({
         clearNewMessage: PropTypes.func.isRequired,
         clearChatBadges: PropTypes.func.isRequired,
         groupId: PropTypes.string.isRequired,
+        group: PropTypes.object.isRequired,
         navTitle: PropTypes.string.isRequired,
         navigator: PropTypes.object,
         updateNewMessage: PropTypes.func.isRequired,
@@ -161,7 +162,7 @@ const ChatView = React.createClass({
     },
 
     handleSoundPress(rowData) {
-        const langCode = this.props.user.learn_language;
+        const langCode = this.props.group.learn_lang_code;
 
         Speech.speak({
             text: rowData.translated_message,

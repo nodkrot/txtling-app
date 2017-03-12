@@ -14,6 +14,7 @@ import * as ContactsActions from '../../actions/ContactsActions'
 import { connect } from 'react-redux';
 import { ROUTES } from '../../constants/AppConstants';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { getInitials } from '../../utilities';
 // import SearchListView from '../SearchListView';
 
 // function searchFor(item, query) {
@@ -62,13 +63,21 @@ class ContactsView extends Component {
 
                 this.props.navigator.push({
                     id: ROUTES.chatView,
-                    passProps: { groupId: groups[0]._id, navTitle: rowData.first_name }
+                    passProps: {
+                        groupId: groups[0]._id,
+                        navTitle: rowData.first_name,
+                        group: groups[0]
+                    }
                 });
             });
         } else {
             this.props.navigator.push({
                 id: ROUTES.chatView,
-                passProps: { groupId: rowData.group_id, navTitle: rowData.first_name }
+                passProps: {
+                    groupId: rowData.group_id,
+                    navTitle: rowData.first_name,
+                    group: rowData
+                }
             });
         }
     }
@@ -101,7 +110,7 @@ class ContactsView extends Component {
     renderRegisteredRow(rowData) {
         const initials = (
             <View style={styles.initials}>
-                <Text style={styles.initialsText}>{`${rowData.first_name.charAt(0)}${rowData.last_name.charAt(0)}`}</Text>
+                <Text style={styles.initialsText}>{getInitials(rowData.first_name, rowData.last_name)}</Text>
             </View>
         );
 

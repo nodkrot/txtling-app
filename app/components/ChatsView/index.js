@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import Navigation from '../Navigation';
 import { ROUTES } from '../../constants/AppConstants';
+import { getInitials } from '../../utilities';
 import * as ContactsActions from '../../actions/ContactsActions'
 import { connect } from 'react-redux';
 
@@ -29,15 +30,24 @@ class ChatsView extends Component {
     handleRowPress(rowData, opponent) {
         this.props.navigator.push({
             id: ROUTES.chatView,
-            passProps: { groupId: rowData._id, navTitle: opponent.first_name }
+            passProps: {
+                groupId: rowData._id,
+                navTitle: opponent.first_name,
+                group: rowData
+            }
         });
     }
 
     renderRow(rowData, sectionID, rowID) {
         const opponent = rowData.persons.filter((p) => p._id !== this.props.user._id)[0];
+
+        if (!opponent) {
+            return false;
+        }
+
         const initials = (
             <View style={styles.initials}>
-                <Text style={styles.initialsText}>{`${opponent.first_name.charAt(0)}${opponent.last_name.charAt(0)}`}</Text>
+                <Text style={styles.initialsText}>{getInitials(opponent.first_name, opponent.last_name)}</Text>
             </View>
         );
         const badgeNumber = (
