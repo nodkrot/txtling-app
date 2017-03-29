@@ -84,7 +84,7 @@ class InfoView extends Component {
         return (
             <View style={styles.main}>
                 <Navigation
-                    navTitle="Info View"
+                    navTitle="Your Info"
                     leftButtonTitle="Back"
                     leftHandler={this.handleBackButton} />
                 <View style={styles.container}>

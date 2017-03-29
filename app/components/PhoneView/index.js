@@ -150,7 +150,7 @@ class PhoneView extends Component {
         return (
             <View style={styles.main}>
                 <Navigation
-                    navTitle="Phone View"
+                    navTitle="Your Phone"
                     leftButtonTitle="Back"
                     leftHandler={this.handleBackButton} />
                 <View style={styles.container}>
