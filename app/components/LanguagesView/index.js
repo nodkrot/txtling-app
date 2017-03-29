@@ -86,7 +86,7 @@ class LanguagesView extends Component {
         return (
             <View style={styles.main}>
                 <Navigation
-                    navTitle="Choose a Language"
+                    navTitle="Language to Learn"
                     leftButtonTitle="Back"
                     leftHandler={this.handleBackButton}
                     rightButtonTitle="Search"
