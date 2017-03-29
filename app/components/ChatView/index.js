@@ -61,7 +61,7 @@ const ChatView = React.createClass({
         this.messages = [];
         this.isReceivingMoreMessages = false;
         this.handleTextChange = debounce(this.handleTextChange, 150);
-        this.isSpeechSupported = this.props.user.learn_language in VOICE_LANG_CODES;
+        this.isSpeechSupported = this.props.langCode in VOICE_LANG_CODES;
 
         const firebaseRef = new Firebase('https://txtling.firebaseio.com');
 
