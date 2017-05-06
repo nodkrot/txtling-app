@@ -1,6 +1,6 @@
-# AppOne
+# Txtling App
 
-React Native application with Redux for quick app bootstrapping.
+React Native application with Redux.
 
 
 ## Getting Started
