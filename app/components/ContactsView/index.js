@@ -4,6 +4,7 @@ import React, { Component, PropTypes } from 'react';
 import {
     View,
     Text,
+    Linking,
     ListView,
     TouchableHighlight,
     InteractionManager
@@ -12,9 +13,11 @@ import Navigation from '../Navigation';
 import { RowButton } from '../Form';
 import * as ContactsActions from '../../actions/ContactsActions'
 import { connect } from 'react-redux';
+import { Button } from '../Elements';
 import { ROUTES } from '../../constants/AppConstants';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { getInitials } from '../../utilities';
+
 // import SearchListView from '../SearchListView';
 
 // function searchFor(item, query) {
@@ -99,6 +102,10 @@ class ContactsView extends Component {
         });
     }
 
+    handleGoToSettings() {
+        Linking.openURL('app-settings:');
+    }
+
     renderRow(rowData, sectionId) {
         if (sectionId === 'registered') {
             return this.renderRegisteredRow(rowData);
@@ -131,6 +138,7 @@ class ContactsView extends Component {
             <RowButton
                 onPress={() => this.handleNonregisteredRowPress(rowData)}
                 text={`${rowData.first_name} ${rowData.last_name}`}
+                subText={rowData.number}
                 rowStyle={styles.unregisteredRow} />
         );
     }
@@ -169,16 +177,31 @@ class ContactsView extends Component {
             // rightHandler: () => this.refs.searchWrapper.open()
         };
 
+        if (!this.props.allowAccessContacts) {
+            return (
+                <View style={styles.main}>
+                    <Navigation {...navProps} />
+                    <Text style={styles.contactsDenied}>
+                        Please go to settings to allow Txtling access contacts.
+                    </Text>
+                    <Button
+                        style={styles.contactsDeniedButton}
+                        text="Go to settings"
+                        onPress={this.handleGoToSettings} />
+                </View>
+            );
+        }
+
         return (
             <View style={styles.main}>
                 <Navigation {...navProps} />
-                    <ListView
-                        contentInset={{ bottom: 49 }}
-                        automaticallyAdjustContentInsets={false}
-                        renderHeader={this.renderHeader}
-                        dataSource={this.props.dataSource}
-                        renderRow={this.renderRow}
-                        renderSectionHeader={this.renderSectionHeader} />
+                <ListView
+                    contentInset={{ bottom: 49 }}
+                    automaticallyAdjustContentInsets={false}
+                    renderHeader={this.renderHeader}
+                    dataSource={this.props.dataSource}
+                    renderRow={this.renderRow}
+                    renderSectionHeader={this.renderSectionHeader} />
 
             </View>
         );
@@ -186,7 +209,7 @@ class ContactsView extends Component {
 }
 
 ContactsView.propTypes = {
-    contacts: PropTypes.array.isRequired,
+    allowAccessContacts: PropTypes.bool.isRequired,
     createChat: PropTypes.func.isRequired,
     createContacts: PropTypes.func.isRequired,
     dataSource: PropTypes.object.isRequired,
@@ -204,11 +227,11 @@ const dataSource = new ListView.DataSource({
 });
 
 function mapStateToProps(state) {
-    const { contactsDataBlob, contactsSectionIds, contacts } = state.Contacts;
+    const { contactsDataBlob, contactsSectionIds } = state.Contacts;
 
     return {
-        contacts,
         user: state.Login,
+        allowAccessContacts: state.Contacts.allowAccessContacts,
         dataSource: dataSource.cloneWithRowsAndSections(contactsDataBlob, contactsSectionIds)
     };
 }

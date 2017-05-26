@@ -4,12 +4,12 @@ import * as types from '../constants/ContactsConstants';
 
 const initialState = {
     chats: [],
-    contacts: [],
     contactsDataBlob: {},
     contactsSectionIds: [],
     phoneContacts: [],
     phoneContactIds: {},
-    chatBadgeNumber: 0
+    chatBadgeNumber: 0,
+    allowAccessContacts: true
 };
 
 // Move sorting to backend
@@ -46,11 +46,13 @@ function createContactsDataBlob(registered, nonregistered) {
 
         if (contact.last_name.length) {
             section = contact.last_name.charAt(0).toUpperCase();
-        } else {
+        } else if (contact.last_name.length) {
             section = contact.first_name.charAt(0).toUpperCase();
+        } else {
+            section = 'N/A';
         }
 
-        if (contactsSectionIds.indexOf(section) === -1) {
+        if (!Array.isArray(contactsDataBlob[section])) {
             contactsSectionIds.push(section);
             contactsDataBlob[section] = [];
         }
@@ -61,8 +63,8 @@ function createContactsDataBlob(registered, nonregistered) {
     return { contactsDataBlob, contactsSectionIds };
 }
 
-function parseContacts(state, action) {
-    return chain(action.state)
+function parseContacts(contacts) {
+    return chain(contacts)
         .filter((contact) => contact.phoneNumbers.length > 0)
         .reduce((acc, contact) => {
             return acc.concat(contact.phoneNumbers.map((phoneNumber) => ({
@@ -88,7 +90,7 @@ export default function (state = initialState, action) {
     switch (action.type) {
 
         case types.RECEIVE_GET_PHONE_CONTACTS:
-            const phoneContacts = parseContacts(state, action);
+            const phoneContacts = parseContacts(action.state);
             const phoneContactIds = parseContactIds(phoneContacts);
 
             return {
@@ -100,34 +102,23 @@ export default function (state = initialState, action) {
         case types.RECEIVE_GET_CONTACTS:
         case types.RECEIVE_CREATE_CONTACTS:
             const { registered, nonregistered } = action.state;
-            const contacts = registered.concat(nonregistered);
-            const { contactsDataBlob, contactsSectionIds } = createContactsDataBlob(registered, nonregistered);
+            const { contactsDataBlob, contactsSectionIds } = createContactsDataBlob(registered, state.phoneContacts);
 
             return {
                 ...state,
-                contacts,
                 contactsDataBlob,
                 contactsSectionIds
             };
 
         case types.RECEIVE_GET_CHATS:
         case types.RECEIVE_CLEAR_CHAT_BADGES:
-            return {
-                ...state,
-                chats: action.state.sort(compareChats)
-            };
+            return { ...state, chats: action.state.sort(compareChats) };
 
         case types.RECEIVE_CREATE_CHAT:
-            return {
-                ...state,
-                chats: [...action.state, ...state.chats]
-            };
+            return { ...state, chats: [...action.state, ...state.chats] };
 
         case types.SET_GLOBAL_BADGE_NUMBER:
-            return {
-                ...state,
-                chatBadgeNumber: action.state
-            };
+            return { ...state, chatBadgeNumber: action.state };
 
         case types.TOGGLE_SELECT_ROW:
             state.phoneContactIds[action.state].selected = !state.phoneContactIds[action.state].selected;
@@ -135,10 +126,10 @@ export default function (state = initialState, action) {
             return { ...state };
 
         case types.RESET_PHONE_CONTACTS:
-            return {
-                ...state,
-                phoneContactIds: parseContactIds(state.phoneContacts)
-            };
+            return { ...state, phoneContactIds: parseContactIds(state.phoneContacts) };
+
+        case types.FAILURE_CREATE_CONTACTS:
+            return { ...state, allowAccessContacts: false };
 
         default:
             return state;

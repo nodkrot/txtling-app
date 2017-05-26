@@ -53,7 +53,12 @@ export default StyleSheet.create({
     },
     rowButtonText: {
         fontSize: 14
-    }
+    },
+    rowButtonSubText: {
+        fontSize: 12,
+        color: Colors.darkerGrey,
+        marginTop: 4
+    },
 });
 
 export const primaryColor = Colors.primary;
