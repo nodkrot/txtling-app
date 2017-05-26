@@ -52,6 +52,15 @@ export default StyleSheet.create({
         height: 32,
         marginLeft: 6,
         marginTop: 6
+    },
+    contactsDenied: {
+        textAlign: 'center',
+        padding: 40,
+        fontSize: 18
+    },
+    contactsDeniedButton: {
+        marginRight: 12,
+        marginLeft: 12
     }
 });
 

@@ -19,38 +19,24 @@ export function createContacts() {
     return (dispatch, getState) => {
         dispatch(requestCreateContacts());
 
-        return Promise.all([
-            dispatch(getPhoneContacts()),
-            AsyncStorage.getItem('PHONE_CONTACTS_COUNT'),
-            AsyncStorage.getItem('CREATED_CONTACTS')
-        ]).then((res) => {
-            // Take from store since they were already parsed
+        return dispatch(getPhoneContacts()).then(() => {
             const { phoneContacts } = getState().Contacts;
-            // const phoneContactsCount = JSON.parse(res[1])
-            // const cachedCreatedContacts = JSON.parse(res[2]);
 
-            // if (phoneContactsCount && cachedCreatedContacts && phoneContactsCount === phoneContacts.length) {
-            //     dispatch(receiveCreateContacts(cachedCreatedContacts));
-            // } else {
-                return AsyncStorage.getItem('AUTH_TOKEN').then((value) => {
-                    return fetch(`${BASE_URL}contacts`, {
-                        method: 'post',
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json',
-                            'Authorization': `Basic ${value}`
-                        },
-                        body: JSON.stringify({ contacts: phoneContacts })
-                    })
-                    .then((response) => response.json())
-                    .then((res) => {
-                        // AsyncStorage.setItem('PHONE_CONTACTS_COUNT', JSON.stringify(phoneContacts.length));
-                        // AsyncStorage.setItem('CREATED_CONTACTS', JSON.stringify(res.data));
-
-                        dispatch(receiveCreateContacts(res.data))
-                    });
+            return AsyncStorage.getItem('AUTH_TOKEN').then((value) => {
+                return fetch(`${BASE_URL}contacts`, {
+                    method: 'post',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        'Authorization': `Basic ${value}`
+                    },
+                    body: JSON.stringify({ contacts: phoneContacts })
+                })
+                .then((response) => response.json())
+                .then((res) => {
+                    dispatch(receiveCreateContacts(res.data))
                 });
-            // }
+            });
         }).catch(() => dispatch(failureCreateContacts()));
     }
 }

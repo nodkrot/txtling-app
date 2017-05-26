@@ -35,7 +35,8 @@ class InviteView extends Component {
 
         this.state = {
             totalSelectedContact: 0,
-            inviteButtonHeight: new Animated.Value(this.props.minInvitees > 1 ? 0 : 44),
+            // inviteButtonHeight: new Animated.Value(this.props.minInvitees > 1 ? 0 : 44),
+            nviteButtonHeight: new Animated.Value(44),
             searchDataSource: new ListView.DataSource({
                 rowHasChanged: (row1, row2) => row1 !== row2
             })
@@ -187,7 +188,6 @@ InviteView.propTypes = {
     contacts: PropTypes.array.isRequired,
     dataSource: PropTypes.object.isRequired,
     getPhoneContacts: PropTypes.func.isRequired,
-    // languageCode: PropTypes.string.isRequired,
     minInvitees: PropTypes.number,
     onAfterInvite: PropTypes.func,
     onCancel: PropTypes.func,
@@ -208,8 +208,7 @@ function mapStateToProps(state) {
     return {
         dataSource: dataSource.cloneWithRows(state.Contacts.phoneContacts),
         phoneContactIds: state.Contacts.phoneContactIds,
-        contacts: state.Contacts.phoneContacts,
-        languageCode: state.Login.language
+        contacts: state.Contacts.phoneContacts
     };
 }
 
