@@ -46,7 +46,7 @@ function createContactsDataBlob(registered, nonregistered) {
 
         if (contact.last_name.length) {
             section = contact.last_name.charAt(0).toUpperCase();
-        } else if (contact.last_name.length) {
+        } else if (contact.first_name.length) {
             section = contact.first_name.charAt(0).toUpperCase();
         } else {
             section = 'N/A';
@@ -128,7 +128,7 @@ export default function (state = initialState, action) {
         case types.RESET_PHONE_CONTACTS:
             return { ...state, phoneContactIds: parseContactIds(state.phoneContacts) };
 
-        case types.FAILURE_CREATE_CONTACTS:
+        case types.FAILURE_GET_PHONE_CONTACTS:
             return { ...state, allowAccessContacts: false };
 
         default:

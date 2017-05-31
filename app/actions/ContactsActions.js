@@ -78,6 +78,10 @@ function receiveGetPhoneContacts(state) {
     return { type: types.RECEIVE_GET_PHONE_CONTACTS, state };
 }
 
+function failureGetPhoneContacts(state) {
+    return { type: types.FAILURE_GET_PHONE_CONTACTS, state };
+}
+
 export function getPhoneContacts() {
     return (dispatch, getState) => {
         const { phoneContacts } = getState().Contacts;
@@ -88,6 +92,7 @@ export function getPhoneContacts() {
             return new Promise((resolve, reject) => {
                 Contacts.getAll((err, addressBook) => {
                     if (err && err.type === 'permissionDenied') {
+                        dispatch(failureGetPhoneContacts(err));
                         reject(err);
                     } else {
                         dispatch(receiveGetPhoneContacts(addressBook));
