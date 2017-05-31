@@ -35,8 +35,6 @@ class InviteView extends Component {
 
         this.state = {
             totalSelectedContact: 0,
-            // inviteButtonHeight: new Animated.Value(this.props.minInvitees > 1 ? 0 : 44),
-            nviteButtonHeight: new Animated.Value(44),
             searchDataSource: new ListView.DataSource({
                 rowHasChanged: (row1, row2) => row1 !== row2
             })
@@ -57,19 +55,11 @@ class InviteView extends Component {
         this.props.resetPhoneContacts();
     }
 
-    animateInviteButton(toValue, duration) {
-        Animated.timing(
-            this.state.inviteButtonHeight,
-            { toValue, duration }
-        ).start();
-    }
-
     handleRowPress(rowData) {
         this.props.toggleRow(rowData.phone_id);
         this.refs.searchWrapper.close();
 
         const index = this.selectedContacts.findIndex((contact) => contact.phone_id === rowData.phone_id);
-        const minInvitees = this.props.minInvitees;
 
         if (index >= 0) {
             this.selectedContacts.splice(index, 1);
@@ -78,12 +68,6 @@ class InviteView extends Component {
         }
 
         this.setState({ totalSelectedContact: this.selectedContacts.length });
-
-        if (this.selectedContacts.length >= minInvitees) {
-            this.animateInviteButton(44, 255);
-        } else if (minInvitees > 1) {
-            this.animateInviteButton(0, 255);
-        }
     }
 
     handleInviteButton() {
@@ -163,7 +147,7 @@ class InviteView extends Component {
                         dataSource={this.props.dataSource}
                         renderRow={this.renderRow} />
                 </SearchListView>
-                <Animated.View style={{ height: this.state.inviteButtonHeight }}>
+                <View>
                     <TouchableHighlight
                         onPress={this.handleInviteButton}
                         style={{ backgroundColor: greyColor }}
@@ -178,7 +162,7 @@ class InviteView extends Component {
                             <Text style={styles.inviteButtonText}>{'Invite to Txtling'}</Text>
                         </View>
                     </TouchableHighlight>
-                </Animated.View>
+                </View>
             </View>
         );
     }
