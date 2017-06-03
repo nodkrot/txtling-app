@@ -1,4 +1,3 @@
-import buffer from 'buffer/';
 import Firebase from 'firebase';
 import { AsyncStorage } from 'react-native';
 import * as types from '../constants/LoginConstants';
@@ -72,20 +71,18 @@ function receiveCodeConfirm(state) {
 
 export function confirmCode(username, password) {
     return (dispatch) => {
-        const credentials = new buffer.Buffer(`${username}:${password}`).toString('base64');
-
         dispatch(requestCodeConfirm());
         return fetch(`${BASE_URL}phone/confirm`, {
             method: 'post',
             headers: {
                 'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'Authorization': `Basic ${credentials}`
-            }
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ username, password })
         })
         .then((response) => response.json())
         .then((res) => {
-            AsyncStorage.setItem('AUTH_TOKEN', credentials);
+            AsyncStorage.setItem('AUTH_TOKEN', res.data.api_token);
             AsyncStorage.setItem('USER_INFO', JSON.stringify(res.data));
 
             firebaseRef.authWithCustomToken(res.data.firebase_token);
@@ -113,7 +110,7 @@ export function registerDeviceToken(data) {
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
-                    'Authorization': `Basic ${value}`
+                    'Authorization': `JWT ${value}`
                 },
                 body: JSON.stringify(data)
             }))
@@ -143,7 +140,7 @@ export function registerUser(data) {
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
-                    'Authorization': `Basic ${value}`
+                    'Authorization': `JWT ${value}`
                 },
                 body: JSON.stringify(data)
             }))
@@ -173,7 +170,7 @@ export function registerLanguage(data) {
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
-                    'Authorization': `Basic ${value}`
+                    'Authorization': `JWT ${value}`
                 },
                 body: JSON.stringify(data)
             }))
@@ -207,7 +204,7 @@ export function uploadImage(image) {
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
-                    'Authorization': `Basic ${value}`
+                    'Authorization': `JWT ${value}`
                 },
                 body: formData
             }))
@@ -239,7 +236,7 @@ export function logout() {
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
-                    'Authorization': `Basic ${value}`
+                    'Authorization': `JWT ${value}`
                 }
             }))
             .then(() => {
