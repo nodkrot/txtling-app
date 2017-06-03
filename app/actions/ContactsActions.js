@@ -28,7 +28,7 @@ export function createContacts() {
                     headers: {
                         'Accept': 'application/json',
                         'Content-Type': 'application/json',
-                        'Authorization': `Basic ${value}`
+                        'Authorization': `JWT ${value}`
                     },
                     body: JSON.stringify({ contacts: phoneContacts })
                 })
@@ -60,7 +60,7 @@ export function getContacts() {
         return AsyncStorage.getItem('AUTH_TOKEN').then((value) => {
             return fetch(`${BASE_URL}contacts`, {
                 headers: {
-                    Authorization: `Basic ${value}`
+                    Authorization: `JWT ${value}`
                 }
             });
         })
@@ -125,7 +125,7 @@ export function getChats() {
         return AsyncStorage.getItem('AUTH_TOKEN').then((value) => {
             return fetch(`${BASE_URL}chats`, {
                 headers: {
-                    Authorization: `Basic ${value}`
+                    Authorization: `JWT ${value}`
                 }
             });
         })
@@ -156,7 +156,7 @@ export function createChat(payload) {
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
-                    'Authorization': `Basic ${value}`
+                    'Authorization': `JWT ${value}`
                 },
                 body: JSON.stringify(payload)
             });
@@ -188,7 +188,7 @@ export function clearChatBadges(groupId) {
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
-                    'Authorization': `Basic ${value}`
+                    'Authorization': `JWT ${value}`
                 },
                 body: JSON.stringify({ group_id: groupId })
             });
