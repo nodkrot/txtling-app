@@ -1,6 +1,7 @@
 /* eslint no-case-declarations: 0 */
 import { chain } from 'lodash';
 import * as types from '../constants/ContactsConstants';
+import { RECEIVE_LOGOUT } from '../constants/LoginConstants';
 
 const initialState = {
     chats: [],
@@ -130,6 +131,9 @@ export default function (state = initialState, action) {
 
         case types.FAILURE_GET_PHONE_CONTACTS:
             return { ...state, allowAccessContacts: false };
+
+        case RECEIVE_LOGOUT:
+            return initialState;
 
         default:
             return state;
