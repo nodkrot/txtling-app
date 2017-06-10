@@ -19,13 +19,14 @@ export function isLoggedIn() {
 
         return Promise.all([
             AsyncStorage.getItem('AUTH_TOKEN'),
-            AsyncStorage.getItem('USER_INFO')
-        ]).then((res) => {
-            const hasToken = Boolean(res[0]);
-            const userInfo = res[1] ? JSON.parse(res[1]) : {};
+            AsyncStorage.getItem('USER_INFO'),
+            AsyncStorage.getItem('FIRE_TOKEN'),
+        ]).then(([ authToken, userInfoJson, fireToken ]) => {
+            const hasToken = Boolean(authToken) && Boolean(fireToken);
+            const userInfo = userInfoJson ? JSON.parse(userInfoJson) : {};
 
             if (hasToken) {
-                firebaseRef.authWithCustomToken(userInfo.firebase_token);
+                firebaseRef.authWithCustomToken(fireToken);
             }
 
             dispatch(receiveIsLoggedIn({ hasToken, userInfo }));
@@ -82,10 +83,11 @@ export function confirmCode(username, password) {
         })
         .then((response) => response.json())
         .then((res) => {
-            AsyncStorage.setItem('AUTH_TOKEN', res.data.api_token);
+            AsyncStorage.setItem('AUTH_TOKEN', res.data.tokens.auth);
+            AsyncStorage.setItem('FIRE_TOKEN', res.data.tokens.fire);
             AsyncStorage.setItem('USER_INFO', JSON.stringify(res.data));
 
-            firebaseRef.authWithCustomToken(res.data.firebase_token);
+            firebaseRef.authWithCustomToken(res.data.tokens.fire);
 
             dispatch(receiveCodeConfirm(res.data));
         });
@@ -216,40 +218,11 @@ export function uploadImage(image) {
     };
 }
 
-function requestLogout() {
-    return { type: types.REQUEST_LOGOUT };
-}
-
-function receiveLogout() {
-    return { type: types.RECEIVE_LOGOUT };
-}
-
 export function logout() {
     return (dispatch) => {
-        dispatch(requestLogout());
-
         firebaseRef.unauth();
-
-        return AsyncStorage.getItem('AUTH_TOKEN')
-            .then((value) => fetch(`${BASE_URL}user/logout`, {
-                method: 'get',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                    'Authorization': `JWT ${value}`
-                }
-            }))
-            .then(() => {
-                dispatch(receiveLogout());
-
-                return AsyncStorage.clear();
-            })
-            .catch((err) => {
-                dispatch(receiveLogout());
-                AsyncStorage.clear();
-
-                return Promise.reject(err);
-            });
+        AsyncStorage.clear();
+        dispatch({ type: types.LOGOUT });
     };
 }
 
