@@ -1,7 +1,7 @@
 /* eslint no-case-declarations: 0 */
 import { chain } from 'lodash';
 import * as types from '../constants/ContactsConstants';
-import { RECEIVE_LOGOUT } from '../constants/LoginConstants';
+import { LOGOUT } from '../constants/LoginConstants';
 
 const initialState = {
     chats: [],
@@ -81,7 +81,12 @@ function parseContacts(contacts) {
 
 function parseContactIds(contacts) {
     return contacts.reduce((acc, contact) => {
-        acc[String(contact.phone_id)] = { selected: false };
+        acc[String(contact.phone_id)] = {
+            selected: false,
+            first_name: contact.first_name,
+            last_name: contact.last_name
+        };
+
         return acc;
     }, {});
 }
@@ -102,6 +107,7 @@ export default function (state = initialState, action) {
 
         case types.RECEIVE_GET_CONTACTS:
         case types.RECEIVE_CREATE_CONTACTS:
+            // TODO: deprecate non registered users
             const { registered, nonregistered } = action.state;
             const { contactsDataBlob, contactsSectionIds } = createContactsDataBlob(registered, state.phoneContacts);
 
@@ -132,7 +138,7 @@ export default function (state = initialState, action) {
         case types.FAILURE_GET_PHONE_CONTACTS:
             return { ...state, allowAccessContacts: false };
 
-        case RECEIVE_LOGOUT:
+        case LOGOUT:
             return initialState;
 
         default:

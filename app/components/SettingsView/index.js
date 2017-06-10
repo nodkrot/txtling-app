@@ -18,11 +18,8 @@ class SettingsView extends Component {
     }
 
     handleButtonPress() {
-        this.props.logout().then(() => {
-            this.props.navigator.push({
-                id: ROUTES.introView
-            });
-        });
+        this.props.logout();
+        this.props.navigator.push({ id: ROUTES.introView });
     }
 
     render() {

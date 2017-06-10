@@ -103,33 +103,36 @@ class PhoneView extends Component {
             this.props.login.number,
             this.state.code
         ).then(() => {
-
             PushNotificationIOS.requestPermissions();
 
-            if (this.props.login.state === 'completed') {
-                this.props.navigator.push({
-                    id: ROUTES.tabsView,
-                    sceneConfig: {
-                        ...Navigator.SceneConfigs.HorizontalSwipeJump,
-                        gestures: null
-                    }
-                });
-            } else if (this.props.login.state === 'registering') {
-                this.props.navigator.push({
-                    id: ROUTES.languagesView,
-                    sceneConfig: {
-                        ...Navigator.SceneConfigs.HorizontalSwipeJump,
-                        gestures: null
-                    }
-                });
-            } else {
-                this.props.navigator.push({
-                    id: ROUTES.infoView,
-                    sceneConfig: {
-                        ...Navigator.SceneConfigs.HorizontalSwipeJump,
-                        gestures: null
-                    }
-                });
+            switch(this.props.login.state) {
+                case 'confirmed':
+                    this.props.navigator.push({
+                        id: ROUTES.infoView,
+                        sceneConfig: {
+                            ...Navigator.SceneConfigs.HorizontalSwipeJump,
+                            gestures: null
+                        }
+                    });
+                    break;
+                case 'registering':
+                    this.props.navigator.push({
+                        id: ROUTES.languagesView,
+                        sceneConfig: {
+                            ...Navigator.SceneConfigs.HorizontalSwipeJump,
+                            gestures: null
+                        }
+                    });
+                    break;
+                case 'completed':
+                    this.props.navigator.push({
+                        id: ROUTES.tabsView,
+                        sceneConfig: {
+                            ...Navigator.SceneConfigs.HorizontalSwipeJump,
+                            gestures: null
+                        }
+                    });
+                    break;
             }
         }).catch((err) => console.log(err));
     }
