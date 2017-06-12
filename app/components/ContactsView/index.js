@@ -54,7 +54,7 @@ class ContactsView extends Component {
             this.props.createChat({
                 language: this.props.user.learn_language,
                 invitees: [{
-                    id: rowData._id,
+                    _id: rowData._id,
                     first_name: rowData.first_name,
                     last_name: rowData.last_name,
                     number: rowData.number
@@ -115,6 +115,10 @@ class ContactsView extends Component {
     }
 
     renderRegisteredRow(rowData) {
+        if (rowData._id === this.props.user._id) {
+            return null;
+        }
+
         const initials = (
             <View style={styles.initials}>
                 <Text style={styles.initialsText}>{getInitials(rowData.first_name, rowData.last_name)}</Text>
@@ -216,9 +220,7 @@ ContactsView.propTypes = {
     getChats: PropTypes.func.isRequired,
     getContacts: PropTypes.func.isRequired,
     navigator: PropTypes.object,
-    user: PropTypes.shape({
-        learn_language: PropTypes.string
-    })
+    user: PropTypes.object.isRequired
 };
 
 const dataSource = new ListView.DataSource({
