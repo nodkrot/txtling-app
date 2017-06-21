@@ -4,6 +4,7 @@ import React, { Component, PropTypes } from 'react';
 import {
     View,
     Text,
+    Linking,
     ListView,
     NativeModules,
     TouchableHighlight,
@@ -12,6 +13,7 @@ import {
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Navigation from '../Navigation';
+import { Button } from '../Elements';
 import SearchListView from '../SearchListView';
 import * as ContactsActions from '../../actions/ContactsActions';
 import { INVITE_URL } from '../../constants/AppConstants.js';
@@ -46,7 +48,7 @@ class InviteView extends Component {
 
     componentWillMount() {
         InteractionManager.runAfterInteractions(() => {
-            this.props.getPhoneContacts();
+            this.props.getPhoneContacts().catch((err) => console.log(err)); // eslint-disable-line
         });
     }
 
@@ -130,13 +132,32 @@ class InviteView extends Component {
             cancelProps.leftHandler = this.props.onCancel;
         }
 
+        const navigation = (
+            <Navigation
+                navTitle="Invite Friends"
+                rightButtonTitle="Search"
+                rightHandler={() => this.refs.searchWrapper.open()}
+                {...cancelProps} />
+        );
+
+        if (!this.props.allowAccessContacts) {
+            return (
+                <View style={styles.main}>
+                    {navigation}
+                    <Text style={styles.contactsDenied}>
+                        Please go to settings to allow Txtling access contacts.
+                    </Text>
+                    <Button
+                        style={styles.contactsDeniedButton}
+                        text="Go to settings"
+                        onPress={() => Linking.openURL('app-settings:')} />
+                </View>
+            );
+        }
+
         return (
             <View style={styles.main}>
-                <Navigation
-                    navTitle="Invite Friends"
-                    rightButtonTitle="Search"
-                    rightHandler={() => this.refs.searchWrapper.open()}
-                    {...cancelProps} />
+                {navigation}
                 <SearchListView
                     ref="searchWrapper"
                     dataSet={this.props.contacts}
@@ -168,6 +189,7 @@ class InviteView extends Component {
 }
 
 InviteView.propTypes = {
+    allowAccessContacts: PropTypes.bool.isRequired,
     contacts: PropTypes.array.isRequired,
     dataSource: PropTypes.object.isRequired,
     getPhoneContacts: PropTypes.func.isRequired,
@@ -190,6 +212,7 @@ const dataSource = new ListView.DataSource({
 function mapStateToProps(state) {
     return {
         dataSource: dataSource.cloneWithRows(state.Contacts.phoneContacts),
+        allowAccessContacts: state.Contacts.allowAccessContacts,
         phoneContactIds: state.Contacts.phoneContactIds,
         contacts: state.Contacts.phoneContacts
     };

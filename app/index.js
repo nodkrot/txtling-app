@@ -104,7 +104,14 @@ class App extends Component {
 
     getInitialRoute() {
         if (this.props.ui.isUserLoggedIn) {
-            return ROUTES.tabsView;
+            switch(this.props.user.state) {
+                case 'confirmed':
+                    return ROUTES.infoView;
+                case 'registering':
+                    return ROUTES.languagesView;
+                case 'completed':
+                    return ROUTES.tabsView;
+            }
         } else {
             return ROUTES.introView;
         }
@@ -140,6 +147,7 @@ App.propTypes = {
     }),
     user: PropTypes.shape({
         _id: PropTypes.string,
+        state: PropTypes.string,
         firebase_token: PropTypes.string
     })
 };

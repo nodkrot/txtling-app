@@ -101,6 +101,7 @@ export function getPhoneContacts() {
                 });
             });
         } else {
+            // Cannot return `phoneContacts` since they are already parsed
             return Promise.resolve();
         }
     }

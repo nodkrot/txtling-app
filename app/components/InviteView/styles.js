@@ -47,6 +47,15 @@ export default StyleSheet.create({
     buttonCounterText: {
         color: Colors.white,
         backgroundColor: 'transparent'
+    },
+    contactsDenied: {
+        textAlign: 'center',
+        padding: 40,
+        fontSize: 18
+    },
+    contactsDeniedButton: {
+        marginRight: 12,
+        marginLeft: 12
     }
 });
 
