@@ -9,6 +9,7 @@ import {
     TouchableHighlight
 } from 'react-native';
 import Navigation from '../Navigation';
+import { Button } from '../Elements';
 import { ROUTES } from '../../constants/AppConstants';
 import { getInitials } from '../../utilities';
 import * as ContactsActions from '../../actions/ContactsActions'
@@ -21,6 +22,7 @@ class ChatsView extends Component {
 
         this.renderRow = this.renderRow.bind(this);
         this.handleRowPress = this.handleRowPress.bind(this);
+        this.handleInvitePress = this.handleInvitePress.bind(this);
     }
 
     componentWillMount() {
@@ -38,7 +40,17 @@ class ChatsView extends Component {
         });
     }
 
-    renderRow(rowData, sectionID, rowID) {
+    handleInvitePress() {
+        this.props.navigator.push({
+            id: ROUTES.inviteView,
+            passProps: {
+                onCancel: () => this.props.navigator.pop(),
+                onAfterInvite: () => this.props.navigator.pop()
+            }
+        });
+    }
+
+    renderRow(rowData) {
         const opponent = rowData.persons.filter((p) => p._id !== this.props.user._id)[0];
 
         if (!opponent) {
@@ -81,10 +93,22 @@ class ChatsView extends Component {
     }
 
     render() {
+        if (!this.props.chats.length) {
+            return (
+                <View style={styles.main}>
+                    <Navigation navTitle="Chats" />
+                    <Text style={styles.noChats}>No chats yet.</Text>
+                    <Button
+                        text="Invite Friends"
+                        style={{ margin: 16 }}
+                        onPress={this.handleInvitePress} />
+                </View>
+            );
+        }
+
         return (
             <View style={styles.main}>
-                <Navigation
-                    navTitle="Chats" />
+                <Navigation navTitle="Chats" />
                 <ListView
                     enableEmptySections
                     contentInset={{ bottom: 49 }}

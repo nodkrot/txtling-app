@@ -59,6 +59,11 @@ export default StyleSheet.create({
     },
     badgeText: {
         color: Colors.white
+    },
+    noChats: {
+        textAlign: 'center',
+        fontSize: 18,
+        paddingTop: 40
     }
 });
 

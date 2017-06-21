@@ -102,10 +102,6 @@ class ContactsView extends Component {
         });
     }
 
-    handleGoToSettings() {
-        Linking.openURL('app-settings:');
-    }
-
     renderRow(rowData, sectionId) {
         if (sectionId === 'registered') {
             return this.renderRegisteredRow(rowData);
@@ -191,7 +187,7 @@ class ContactsView extends Component {
                     <Button
                         style={styles.contactsDeniedButton}
                         text="Go to settings"
-                        onPress={this.handleGoToSettings} />
+                        onPress={() => Linking.openURL('app-settings:')} />
                 </View>
             );
         }
