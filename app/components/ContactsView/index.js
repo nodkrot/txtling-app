@@ -72,7 +72,7 @@ class ContactsView extends Component {
                         langCode: groups[0].learn_lang_code
                     }
                 });
-            });
+            }).catch((err) => console.log(err));
         } else {
             this.props.navigator.push({
                 id: ROUTES.chatView,
