@@ -46,6 +46,7 @@ class LanguagesView extends Component {
             this.props.navigator.push({
                 id: ROUTES.inviteView,
                 passProps: {
+                    navTitle: 'Invite minimum 3 friends',
                     minInvitees: 3,
                     onAfterInvite: () => {
                         this.props.navigator.push({
