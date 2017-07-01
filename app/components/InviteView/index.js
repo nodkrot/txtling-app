@@ -134,7 +134,7 @@ class InviteView extends Component {
 
         const navigation = (
             <Navigation
-                navTitle="Invite Friends"
+                navTitle={this.props.navTitle}
                 rightButtonTitle="Search"
                 rightHandler={() => this.refs.searchWrapper.open()}
                 {...cancelProps} />
@@ -194,6 +194,7 @@ InviteView.propTypes = {
     dataSource: PropTypes.object.isRequired,
     getPhoneContacts: PropTypes.func.isRequired,
     minInvitees: PropTypes.number,
+    navTitle: PropTypes.string,
     onAfterInvite: PropTypes.func,
     onCancel: PropTypes.func,
     phoneContactIds: PropTypes.object.isRequired,
@@ -202,6 +203,7 @@ InviteView.propTypes = {
 };
 
 InviteView.defaultProps = {
+    navTitle: 'Invite Friends',
     minInvitees: 1
 };
 
