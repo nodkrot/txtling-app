@@ -13,7 +13,8 @@ import {
 import Navigation from '../Navigation';
 import { connect } from 'react-redux';
 import { ROUTES } from '../../constants/AppConstants';
-import { getLanguages, registerLanguage } from '../../actions/LoginActions';
+import { getLanguages } from '../../redux/languages';
+import { registerLanguage } from '../../actions/LoginActions';
 import SearchListView from '../SearchListView';
 
 function searchFor(item, query) {
@@ -120,8 +121,8 @@ const dataSource = new ListView.DataSource({
 
 function mapStateToProps(state) {
     return {
-        dataSource: dataSource.cloneWithRows(state.Login.languages),
-        languages: state.Login.languages
+        dataSource: dataSource.cloneWithRows(state.languages.allLanguages),
+        languages: state.languages.allLanguages
     };
 }
 

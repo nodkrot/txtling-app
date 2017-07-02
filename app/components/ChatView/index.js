@@ -15,12 +15,13 @@ import { connect } from 'react-redux';
 import Firebase from 'firebase';
 import 'firebase-util';
 import { getScrollOffset } from '../../utilities';
+import { ROUTES } from '../../constants/AppConstants';
 import Navigation from '../Navigation';
 import { AutoExpandingTextField } from '../../components/Form';
 import InvertibleScrollView from 'react-native-invertible-scroll-view';
 import ChatRow from './components/ChatRow';
 import Speech from 'react-native-speech';
-import { clearNewMessage, updateNewMessage } from '../../actions/ChatActions';
+import { clearNewMessage, updateNewMessage } from '../../redux/chat';
 import { clearChatBadges } from '../../actions/ContactsActions';
 
 const VOICE_LANG_CODES = ['ar-SA', 'cs-CZ', 'da-DK', 'de-DE', 'el-GR', 'en-AU', 'en-GB', 'en-IE', 'en-US', 'en-ZA', 'es-ES', 'es-MX', 'fi-FI', 'fr-CA', 'fr-FR', 'he-IL', 'hi-IN', 'hu-HU', 'id-ID', 'it-IT', 'ja-JP', 'ko-KR', 'nl-BE', 'nl-NL', 'no-NO', 'pl-PL', 'pt-BR', 'pt-PT', 'ro-RO', 'ru-RU', 'sk-SK', 'sv-SE', 'th-TH', 'tr-TR', 'zh-CN', 'zh-HK', 'zh-TW']
@@ -175,6 +176,15 @@ const ChatView = React.createClass({
         this.props.navigator.pop();
     },
 
+    handleSettingsButton() {
+        this.props.navigator.push({
+            id: ROUTES.chatSettingsView,
+            passProps: {
+                groupId: this.props.groupId
+            }
+        });
+    },
+
     updateKeyboardSpace(frames) {
         LayoutAnimation.configureNext(animations.layout.spring);
         this.setState({ keyboardSpace: frames.endCoordinates.height });
@@ -220,7 +230,9 @@ const ChatView = React.createClass({
                 <Navigation
                     navTitle={this.props.navTitle}
                     leftButtonTitle="Back"
-                    leftHandler={this.handleBackButton} />
+                    leftHandler={this.handleBackButton}
+                    rightButtonTitle="Settings"
+                    rightHandler={this.handleSettingsButton} />
                 <ListView
                     enableEmptySections
                     renderScrollComponent={(props) => (
@@ -271,7 +283,7 @@ const animations = {
 
 function mapStateToProps(state) {
     return {
-        chat: state.Chat,
+        chat: state.chat,
         user: state.Login
         // dataSource: dataSource.cloneWithRows(state.Chat.messages)
     };
