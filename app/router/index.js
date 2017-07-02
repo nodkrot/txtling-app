@@ -9,6 +9,7 @@ import LanguagesView from '../components/LanguagesView';
 import InviteView from '../components/InviteView';
 import TabsView from '../components/TabsView';
 import ChatView from '../components/ChatView';
+import ChatSettingsView from '../components/ChatSettingsView';
 import ContactView from '../components/ContactView';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
@@ -41,6 +42,8 @@ export default class Router extends Component {
                 return (<TabsView navigator={navigator} {...route.passProps} />);
             case ROUTES.chatView:
                 return (<ChatView navigator={navigator} {...route.passProps} />);
+            case ROUTES.chatSettingsView:
+                return (<ChatSettingsView navigator={navigator} {...route.passProps} />);
             case ROUTES.contactView:
                 return (<ContactView navigator={navigator} {...route.passProps} />);
             default:

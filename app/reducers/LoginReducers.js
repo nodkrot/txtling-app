@@ -1,8 +1,6 @@
 import * as types from '../constants/LoginConstants';
 
-const initialState = {
-    languages: []
-};
+const initialState = { /* user object */ };
 
 export default function (state = initialState, action) {
 

@@ -111,6 +111,8 @@ class App extends Component {
                     return ROUTES.languagesView;
                 case 'completed':
                     return ROUTES.tabsView;
+                default:
+                    return ROUTES.introView;
             }
         } else {
             return ROUTES.introView;

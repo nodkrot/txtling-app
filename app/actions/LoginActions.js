@@ -225,22 +225,3 @@ export function logout() {
         dispatch({ type: types.LOGOUT });
     };
 }
-
-function requestGetLanguages() {
-    return { type: types.REQUEST_GET_LANGUAGES };
-}
-
-function receiveGetLanguages(state) {
-    return { type: types.RECEIVE_GET_LANGUAGES, state };
-}
-
-export function getLanguages() {
-    return (dispatch) => {
-        dispatch(requestGetLanguages());
-
-        return fetch(`${BASE_URL}languages`)
-            .then((response) => response.json())
-            .then((res) => dispatch(receiveGetLanguages(res.data)))
-            .catch((err) => console.log(err)); // eslint-disable-line
-    };
-}
