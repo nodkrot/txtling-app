@@ -34,8 +34,7 @@ class ChatsView extends Component {
             id: ROUTES.chatView,
             passProps: {
                 groupId: rowData._id,
-                navTitle: opponent.first_name,
-                langCode: rowData.learn_lang_code
+                navTitle: opponent.first_name
             }
         });
     }

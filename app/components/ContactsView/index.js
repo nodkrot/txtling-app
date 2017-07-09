@@ -69,8 +69,7 @@ class ContactsView extends Component {
                     id: ROUTES.chatView,
                     passProps: {
                         groupId: groups[0]._id,
-                        navTitle: rowData.first_name,
-                        langCode: groups[0].learn_lang_code
+                        navTitle: rowData.first_name
                     }
                 });
             }).catch((err) => console.log(err));
@@ -79,8 +78,7 @@ class ContactsView extends Component {
                 id: ROUTES.chatView,
                 passProps: {
                     groupId: rowData.group_id,
-                    navTitle: rowData.first_name,
-                    langCode: rowData.learn_language
+                    navTitle: rowData.first_name
                 }
             });
         }

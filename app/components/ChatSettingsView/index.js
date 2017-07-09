@@ -29,11 +29,13 @@ class ChatSettingsView extends Component {
     }
 
     handleRowPress(lang) {
-        // this.props.updateSettings
-        console.log({
+        this.props.updateSettings({
             id: this.props.groupId,
             learn_lang: lang.human_readable,
             learn_lang_code: lang.google_code
+        }).then(() => {
+            this.props.navigator.pop();
+            this.props.onComplete(lang);
         });
     }
 
@@ -76,7 +78,8 @@ ChatSettingsView.propTypes = {
     languages: PropTypes.array,
     dataSource: PropTypes.object,
     getLanguages: PropTypes.func,
-    updateSettings: PropTypes.func
+    updateSettings: PropTypes.func,
+    onComplete: PropTypes.func
 };
 
 const dataSource = new ListView.DataSource({
