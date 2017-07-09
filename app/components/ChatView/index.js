@@ -15,13 +15,13 @@ import { connect } from 'react-redux';
 import Firebase from 'firebase';
 import 'firebase-util';
 import { getScrollOffset } from '../../utilities';
+import { ROUTES } from '../../constants/AppConstants';
 import Navigation from '../Navigation';
 import { AutoExpandingTextField } from '../../components/Form';
 import InvertibleScrollView from 'react-native-invertible-scroll-view';
 import ChatRow from './components/ChatRow';
 import Speech from 'react-native-speech';
-import { clearNewMessage, updateNewMessage } from '../../actions/ChatActions';
-import { clearChatBadges } from '../../actions/ContactsActions';
+import { clearNewMessage, updateNewMessage, clearChatBadges } from '../../redux/chat';
 
 const VOICE_LANG_CODES = ['ar-SA', 'cs-CZ', 'da-DK', 'de-DE', 'el-GR', 'en-AU', 'en-GB', 'en-IE', 'en-US', 'en-ZA', 'es-ES', 'es-MX', 'fi-FI', 'fr-CA', 'fr-FR', 'he-IL', 'hi-IN', 'hu-HU', 'id-ID', 'it-IT', 'ja-JP', 'ko-KR', 'nl-BE', 'nl-NL', 'no-NO', 'pl-PL', 'pt-BR', 'pt-PT', 'ro-RO', 'ru-RU', 'sk-SK', 'sv-SE', 'th-TH', 'tr-TR', 'zh-CN', 'zh-HK', 'zh-TW']
     .reduce((acc, code) => {
@@ -31,22 +31,20 @@ const VOICE_LANG_CODES = ['ar-SA', 'cs-CZ', 'da-DK', 'de-DE', 'el-GR', 'en-AU', 
 
 const ChatView = React.createClass({
     propTypes: {
-        // clearMessages: PropTypes.func.isRequired,
-        // dataSource: PropTypes.object.isRequired,
-        // receiveMessage: PropTypes.func.isRequired,
-        chat: PropTypes.object.isRequired,
+        newMessageText: PropTypes.object.isRequired,
         clearNewMessage: PropTypes.func.isRequired,
         clearChatBadges: PropTypes.func.isRequired,
+        updateNewMessage: PropTypes.func.isRequired,
         groupId: PropTypes.string.isRequired,
-        langCode: PropTypes.string.isRequired,
         navTitle: PropTypes.string.isRequired,
         navigator: PropTypes.object,
-        updateNewMessage: PropTypes.func.isRequired,
-        user: PropTypes.object
+        user: PropTypes.object,
+        chats: PropTypes.array.isRequired
     },
 
     getInitialState() {
         return {
+            learnLanguage: '',
             keyboardSpace: 0,
             pageSize: 25,
             distanceFromTop: 150,
@@ -57,11 +55,10 @@ const ChatView = React.createClass({
         };
     },
 
-    componentWillMount() {
+    componentDidMount() {
         this.messages = [];
         this.isReceivingMoreMessages = false;
         this.handleTextChange = debounce(this.handleTextChange, 150);
-        this.isSpeechSupported = this.props.langCode in VOICE_LANG_CODES;
 
         const firebaseRef = new Firebase('https://txtling.firebaseio.com');
 
@@ -79,7 +76,11 @@ const ChatView = React.createClass({
 
             // Somehow make a check to only call when has badges
             // May be set badges in the store on AppState and then get from there by groupId
-            this.props.clearChatBadges(this.props.groupId);
+            // Note: this will fetch all chats
+            this.props.clearChatBadges(this.props.groupId).then(() => {
+                const currentGroup = this.props.chats.find((chat) => chat._id === this.props.groupId);
+                this.setState({ learnLanguage: currentGroup.learn_lang_code });
+            });
         });
     },
 
@@ -123,15 +124,14 @@ const ChatView = React.createClass({
         }
 
         this.messages = [snap.val()].concat(this.messages);
-
         this.updateMessageDataSource(this.messages);
     },
 
     handlePressSend() {
         let message = '';
 
-        if (this.props.groupId in this.props.chat.newMessageText) {
-            message = this.props.chat.newMessageText[this.props.groupId].trim();
+        if (this.props.groupId in this.props.newMessageText) {
+            message = this.props.newMessageText[this.props.groupId].trim();
         }
 
         if (!message.length) {
@@ -162,17 +162,28 @@ const ChatView = React.createClass({
     },
 
     handleSoundPress(rowData) {
-        const { langCode } = this.props;
-
         Speech.speak({
             text: rowData.translated_message,
-            voice: VOICE_LANG_CODES[langCode],
+            voice: VOICE_LANG_CODES[this.state.learnLanguage],
             rate: 0.4
         });
     },
 
     handleBackButton() {
         this.props.navigator.pop();
+    },
+
+    handleSettingsButton() {
+        this.props.navigator.push({
+            id: ROUTES.chatSettingsView,
+            passProps: {
+                groupId: this.props.groupId,
+                onComplete: (data) => {
+                    this.messages = [{ type: 'info', data }].concat(this.messages);
+                    this.updateMessageDataSource(this.messages);
+                }
+            }
+        });
     },
 
     updateKeyboardSpace(frames) {
@@ -185,15 +196,24 @@ const ChatView = React.createClass({
         this.setState({ keyboardSpace: 0 });
     },
 
-    renderRow(rowData, sectionID, rowID) {
+    renderRow(rowData) {
         const isMe = rowData.user_id === this.props.user._id;
 
-        return (<ChatRow
-            isMe={isMe}
-            isOpen={false}
-            data={rowData}
-            isSound={this.isSpeechSupported}
-            onSoundPress={this.handleSoundPress} />);
+        if (rowData.type === 'info') {
+            return (
+                <View style={styles.infoRow}>
+                    <Text style={styles.infoRowText}>{`This chat's language was changed to ${rowData.data.human_readable}`}</Text>
+                </View>
+            );
+        } else {
+            return (<ChatRow
+                isMe={isMe}
+                isOpen={false}
+                data={rowData}
+                isSound={this.state.learnLanguage in VOICE_LANG_CODES}
+                onSoundPress={this.handleSoundPress} />);
+        }
+
     },
 
     renderFooterBar() {
@@ -203,7 +223,7 @@ const ChatView = React.createClass({
                     ref="chatTextInput"
                     style={styles.chatTextInput}
                     placeholder="Start texting"
-                    defaultValue={this.props.chat.newMessageText[this.props.groupId]}
+                    defaultValue={this.props.newMessageText[this.props.groupId]}
                     onChangeText={this.handleTextChange} />
                 <TouchableOpacity onPress={this.handlePressSend}>
                     <Text style={styles.sendButton}>Send</Text>
@@ -214,13 +234,14 @@ const ChatView = React.createClass({
 
     render() {
         // dataSource={this.props.dataSource}
-
         return (
             <View style={styles.main}>
                 <Navigation
                     navTitle={this.props.navTitle}
                     leftButtonTitle="Back"
-                    leftHandler={this.handleBackButton} />
+                    leftHandler={this.handleBackButton}
+                    rightButtonTitle="Settings"
+                    rightHandler={this.handleSettingsButton} />
                 <ListView
                     enableEmptySections
                     renderScrollComponent={(props) => (
@@ -265,16 +286,16 @@ const animations = {
     }
 };
 
-// const dataSource = new ListView.DataSource({
-//     rowHasChanged: (r1, r2) => r1 !== r2
-// });
-
 function mapStateToProps(state) {
     return {
-        chat: state.Chat,
-        user: state.Login
-        // dataSource: dataSource.cloneWithRows(state.Chat.messages)
+        newMessageText: state.chats.newMessageText,
+        user: state.Login,
+        chats: state.chats.allChats
     };
 }
 
-export default connect(mapStateToProps, { clearChatBadges, clearNewMessage, updateNewMessage })(ChatView);
+export default connect(mapStateToProps, {
+    clearChatBadges,
+    clearNewMessage,
+    updateNewMessage
+})(ChatView);

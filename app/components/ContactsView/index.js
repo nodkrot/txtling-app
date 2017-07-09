@@ -11,7 +11,8 @@ import {
 } from 'react-native';
 import Navigation from '../Navigation';
 import { RowButton } from '../Form';
-import * as ContactsActions from '../../actions/ContactsActions'
+import { createContacts, getContacts } from '../../actions/ContactsActions';
+import { createChat } from '../../redux/chat';
 import { connect } from 'react-redux';
 import { Button } from '../Elements';
 import { ROUTES } from '../../constants/AppConstants';
@@ -68,8 +69,7 @@ class ContactsView extends Component {
                     id: ROUTES.chatView,
                     passProps: {
                         groupId: groups[0]._id,
-                        navTitle: rowData.first_name,
-                        langCode: groups[0].learn_lang_code
+                        navTitle: rowData.first_name
                     }
                 });
             }).catch((err) => console.log(err));
@@ -78,8 +78,7 @@ class ContactsView extends Component {
                 id: ROUTES.chatView,
                 passProps: {
                     groupId: rowData.group_id,
-                    navTitle: rowData.first_name,
-                    langCode: rowData.learn_language
+                    navTitle: rowData.first_name
                 }
             });
         }
@@ -213,7 +212,6 @@ ContactsView.propTypes = {
     createChat: PropTypes.func.isRequired,
     createContacts: PropTypes.func.isRequired,
     dataSource: PropTypes.object.isRequired,
-    getChats: PropTypes.func.isRequired,
     getContacts: PropTypes.func.isRequired,
     navigator: PropTypes.object,
     user: PropTypes.object.isRequired
@@ -234,4 +232,4 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps, ContactsActions)(ContactsView);
+export default connect(mapStateToProps, { createChat, createContacts, getContacts })(ContactsView);

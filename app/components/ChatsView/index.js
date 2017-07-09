@@ -12,7 +12,7 @@ import Navigation from '../Navigation';
 import { Button } from '../Elements';
 import { ROUTES } from '../../constants/AppConstants';
 import { getInitials } from '../../utilities';
-import * as ContactsActions from '../../actions/ContactsActions'
+import { getChats } from '../../redux/chat';
 import { connect } from 'react-redux';
 
 class ChatsView extends Component {
@@ -34,8 +34,7 @@ class ChatsView extends Component {
             id: ROUTES.chatView,
             passProps: {
                 groupId: rowData._id,
-                navTitle: opponent.first_name,
-                langCode: rowData.learn_lang_code
+                navTitle: opponent.first_name
             }
         });
     }
@@ -135,9 +134,9 @@ const dataSource = new ListView.DataSource({
 function mapStateToProps(state) {
     return {
         user: state.Login,
-        chats: state.Contacts.chats,
-        dataSource: dataSource.cloneWithRows(state.Contacts.chats)
+        chats: state.chats.allChats,
+        dataSource: dataSource.cloneWithRows(state.chats.allChats)
     };
 }
 
-export default connect(mapStateToProps, ContactsActions)(ChatsView);
+export default connect(mapStateToProps, { getChats })(ChatsView);

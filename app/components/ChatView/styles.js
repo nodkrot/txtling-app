@@ -9,6 +9,14 @@ export default StyleSheet.create({
     chatThreadHeader: {
         height: 10
     },
+    infoRow: {
+        paddingTop: 4,
+        paddingBottom: 12
+    },
+    infoRowText: {
+        textAlign: 'center',
+        color: Colors.darkestGrey
+    },
     footerBar: {
         backgroundColor: Colors.white,
         flexDirection: 'row',

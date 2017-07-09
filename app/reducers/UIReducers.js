@@ -29,7 +29,7 @@ export default function (state = initialState, action) {
                 isUserLoggedIn: true
             };
 
-        case LoginTypes.RECEIVE_LOGOUT:
+        case LoginTypes.LOGOUT:
             return {
                 ...state,
                 isUserLoggedIn: false

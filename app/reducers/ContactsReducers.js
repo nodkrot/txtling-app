@@ -4,12 +4,10 @@ import * as types from '../constants/ContactsConstants';
 import { LOGOUT } from '../constants/LoginConstants';
 
 const initialState = {
-    chats: [],
     contactsDataBlob: {},
     contactsSectionIds: [],
     phoneContacts: [],
     phoneContactIds: {},
-    chatBadgeNumber: 0,
     allowAccessContacts: true
 };
 
@@ -22,14 +20,6 @@ function compareContacts(a, b) {
         return -1;
     if (first > second)
         return 1;
-    return 0;
-}
-
-function compareChats(a, b) {
-    if (a.badges < b.badges)
-        return 1;
-    if (a.badges > b.badges)
-        return -1;
     return 0;
 }
 
@@ -116,16 +106,6 @@ export default function (state = initialState, action) {
                 contactsDataBlob,
                 contactsSectionIds
             };
-
-        case types.RECEIVE_GET_CHATS:
-        case types.RECEIVE_CLEAR_CHAT_BADGES:
-            return { ...state, chats: action.state.sort(compareChats) };
-
-        case types.RECEIVE_CREATE_CHAT:
-            return { ...state, chats: [...action.state, ...state.chats] };
-
-        case types.SET_GLOBAL_BADGE_NUMBER:
-            return { ...state, chatBadgeNumber: action.state };
 
         case types.TOGGLE_SELECT_ROW:
             state.phoneContactIds[action.state].selected = !state.phoneContactIds[action.state].selected;
