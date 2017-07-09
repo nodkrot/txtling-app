@@ -11,7 +11,8 @@ import {
 } from 'react-native';
 import Navigation from '../Navigation';
 import { RowButton } from '../Form';
-import * as ContactsActions from '../../actions/ContactsActions'
+import { createContacts, getContacts } from '../../actions/ContactsActions';
+import { createChat } from '../../redux/chat';
 import { connect } from 'react-redux';
 import { Button } from '../Elements';
 import { ROUTES } from '../../constants/AppConstants';
@@ -213,7 +214,6 @@ ContactsView.propTypes = {
     createChat: PropTypes.func.isRequired,
     createContacts: PropTypes.func.isRequired,
     dataSource: PropTypes.object.isRequired,
-    getChats: PropTypes.func.isRequired,
     getContacts: PropTypes.func.isRequired,
     navigator: PropTypes.object,
     user: PropTypes.object.isRequired
@@ -234,4 +234,4 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps, ContactsActions)(ContactsView);
+export default connect(mapStateToProps, { createChat, createContacts, getContacts })(ContactsView);

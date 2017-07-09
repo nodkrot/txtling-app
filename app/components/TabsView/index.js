@@ -9,7 +9,7 @@ import {
 import { connect } from 'react-redux';
 import { ROUTES } from '../../constants/AppConstants';
 // import TabNavigator from 'react-native-tab-navigator';
-import * as ContactsActions from '../../actions/ContactsActions'
+import { getChats, setGlobalBadgeNumber } from '../../redux/chat';
 import ContactsView from '../ContactsView';
 import ChatsView from '../ChatsView';
 import SettingsView from '../SettingsView';
@@ -204,8 +204,8 @@ TabsView.propTypes = {
 
 function mapStateToProps(state) {
     return {
-        badgeNumber: state.Contacts.chatBadgeNumber
+        badgeNumber: state.chats.chatBadgeNumber
     };
 }
 
-export default connect(mapStateToProps, ContactsActions)(TabsView);
+export default connect(mapStateToProps, { getChats, setGlobalBadgeNumber })(TabsView);

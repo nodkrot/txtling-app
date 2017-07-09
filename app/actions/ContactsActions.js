@@ -1,4 +1,4 @@
-import { AsyncStorage, PushNotificationIOS } from 'react-native';
+import { AsyncStorage } from 'react-native';
 import Contacts from 'react-native-contacts';
 import * as types from '../constants/ContactsConstants';
 import { BASE_URL } from '../constants/AppConstants';
@@ -105,109 +105,6 @@ export function getPhoneContacts() {
             return Promise.resolve();
         }
     }
-}
-
-function requestGetChats() {
-    return { type: types.REQUEST_GET_CHATS };
-}
-
-function receiveGetChats(state) {
-    return { type: types.RECEIVE_GET_CHATS, state };
-}
-
-function failureGetChats() {
-    return { type: types.FAILURE_GET_CHATS };
-}
-
-export function getChats() {
-    return (dispatch) => {
-        dispatch(requestGetChats());
-
-        return AsyncStorage.getItem('AUTH_TOKEN').then((value) => {
-            return fetch(`${BASE_URL}chats`, {
-                headers: {
-                    Authorization: `JWT ${value}`
-                }
-            });
-        })
-        .then((response) => response.json())
-        .then((res) => {
-            dispatch(receiveGetChats(res.data));
-            return res.data;
-        })
-        .catch(() => dispatch(failureGetChats()));
-    }
-}
-
-function requestCreateChat() {
-    return { type: types.REQUEST_CREATE_CHAT };
-}
-
-function receiveCreateChat(state) {
-    return { type: types.RECEIVE_CREATE_CHAT, state };
-}
-
-export function createChat(payload) {
-    return (dispatch) => {
-        dispatch(requestCreateChat());
-
-        return AsyncStorage.getItem('AUTH_TOKEN').then((value) => {
-            return fetch(`${BASE_URL}chats`, {
-                method: 'post',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                    'Authorization': `JWT ${value}`
-                },
-                body: JSON.stringify(payload)
-            });
-        })
-        .then((response) => response.json())
-        .then((res) => {
-            dispatch(receiveCreateChat(res.data));
-            return res.data;
-        });
-        // .catch((err) => console.log(err)); // eslint-disable-line
-    }
-}
-
-function requestClearChatBadges() {
-    return { type: types.REQUEST_CLEAR_CHAT_BADGES };
-}
-
-function receiveClearChatBadges(state) {
-    return { type: types.RECEIVE_CLEAR_CHAT_BADGES, state };
-}
-
-export function clearChatBadges(groupId) {
-    return (dispatch) => {
-        dispatch(requestClearChatBadges());
-
-        return AsyncStorage.getItem('AUTH_TOKEN').then((value) => {
-            return fetch(`${BASE_URL}chats/clear-badges`, {
-                method: 'post',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                    'Authorization': `JWT ${value}`
-                },
-                body: JSON.stringify({ group_id: groupId })
-            });
-        })
-        .then((response) => response.json())
-        .then((res) => {
-            const totalBadges = res.data.reduce((acc, group) => acc + group.badges, 0);
-
-            dispatch(receiveClearChatBadges(res.data));
-            dispatch(setGlobalBadgeNumber(totalBadges));
-            PushNotificationIOS.setApplicationIconBadgeNumber(totalBadges);
-        })
-        .catch((err) => console.log(err)); // eslint-disable-line
-    }
-}
-
-export function setGlobalBadgeNumber(number) {
-    return { type: types.SET_GLOBAL_BADGE_NUMBER, state: number };
 }
 
 export function toggleRow(id) {
