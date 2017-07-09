@@ -9,7 +9,7 @@ import {
 import { connect } from 'react-redux';
 import { ROUTES } from '../../constants/AppConstants';
 // import TabNavigator from 'react-native-tab-navigator';
-import { getChats, setGlobalBadgeNumber } from '../../redux/chat';
+import { setGlobalBadgeNumber } from '../../redux/chat';
 import ContactsView from '../ContactsView';
 import ChatsView from '../ChatsView';
 import SettingsView from '../SettingsView';
@@ -76,34 +76,25 @@ class TabsView extends Component {
         const currentRoutes = this.props.navigator.getCurrentRoutes();
         const currentRoute = currentRoutes[currentRoutes.length - 1];
 
-        // FIX: As an alternative we can pass group object through push service
-        this.props.getChats().then((groups) => {
-            const group = groups.find((c) => c._id === data.group_id);
-
-            if (group) {
-                if (currentRoute.id === ROUTES.chatView) {
-                    if (currentRoute.passProps.groupId !== data.group_id) {
-                        this.props.navigator.replace({
-                            id: ROUTES.chatView,
-                            passProps: {
-                                groupId: data.group_id,
-                                navTitle: data.first_name,
-                                langCode: group.learn_lang_code
-                            }
-                        });
+        if (currentRoute.id === ROUTES.chatView) {
+            if (currentRoute.passProps.groupId !== data.group_id) {
+                this.props.navigator.replace({
+                    id: ROUTES.chatView,
+                    passProps: {
+                        groupId: data.group_id,
+                        navTitle: data.first_name
                     }
-                } else {
-                    this.props.navigator.push({
-                        id: ROUTES.chatView,
-                        passProps: {
-                            groupId: data.group_id,
-                            navTitle: data.first_name,
-                            langCode: group.learn_lang_code
-                        }
-                    });
-                }
+                });
             }
-        });
+        } else {
+            this.props.navigator.push({
+                id: ROUTES.chatView,
+                passProps: {
+                    groupId: data.group_id,
+                    navTitle: data.first_name
+                }
+            });
+        }
     }
 
     isSelectedTab(tab) {
@@ -198,7 +189,6 @@ class TabsView extends Component {
 TabsView.propTypes = {
     badgeNumber: PropTypes.number,
     navigator: PropTypes.object,
-    getChats: PropTypes.func.isRequired,
     setGlobalBadgeNumber: PropTypes.func.isRequired
 };
 
@@ -208,4 +198,4 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps, { getChats, setGlobalBadgeNumber })(TabsView);
+export default connect(mapStateToProps, { setGlobalBadgeNumber })(TabsView);

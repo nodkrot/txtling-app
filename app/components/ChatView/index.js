@@ -36,14 +36,15 @@ const ChatView = React.createClass({
         clearChatBadges: PropTypes.func.isRequired,
         updateNewMessage: PropTypes.func.isRequired,
         groupId: PropTypes.string.isRequired,
-        langCode: PropTypes.string.isRequired,
         navTitle: PropTypes.string.isRequired,
         navigator: PropTypes.object,
-        user: PropTypes.object
+        user: PropTypes.object,
+        chats: PropTypes.array.isRequired
     },
 
     getInitialState() {
         return {
+            learnLanguage: '',
             keyboardSpace: 0,
             pageSize: 25,
             distanceFromTop: 150,
@@ -54,11 +55,10 @@ const ChatView = React.createClass({
         };
     },
 
-    componentWillMount() {
+    componentDidMount() {
         this.messages = [];
         this.isReceivingMoreMessages = false;
         this.handleTextChange = debounce(this.handleTextChange, 150);
-        this.isSpeechSupported = this.props.langCode in VOICE_LANG_CODES;
 
         const firebaseRef = new Firebase('https://txtling.firebaseio.com');
 
@@ -76,7 +76,11 @@ const ChatView = React.createClass({
 
             // Somehow make a check to only call when has badges
             // May be set badges in the store on AppState and then get from there by groupId
-            this.props.clearChatBadges(this.props.groupId);
+            // Note: this will fetch all chats
+            this.props.clearChatBadges(this.props.groupId).then(() => {
+                const currentGroup = this.props.chats.find((chat) => chat._id === this.props.groupId);
+                this.setState({ learnLanguage: currentGroup.learn_lang_code });
+            });
         });
     },
 
@@ -120,7 +124,6 @@ const ChatView = React.createClass({
         }
 
         this.messages = [snap.val()].concat(this.messages);
-
         this.updateMessageDataSource(this.messages);
     },
 
@@ -159,11 +162,9 @@ const ChatView = React.createClass({
     },
 
     handleSoundPress(rowData) {
-        const { langCode } = this.props;
-
         Speech.speak({
             text: rowData.translated_message,
-            voice: VOICE_LANG_CODES[langCode],
+            voice: VOICE_LANG_CODES[this.state.learnLanguage],
             rate: 0.4
         });
     },
@@ -176,7 +177,11 @@ const ChatView = React.createClass({
         this.props.navigator.push({
             id: ROUTES.chatSettingsView,
             passProps: {
-                groupId: this.props.groupId
+                groupId: this.props.groupId,
+                onComplete: (data) => {
+                    this.messages = [{ type: 'info', data }].concat(this.messages);
+                    this.updateMessageDataSource(this.messages);
+                }
             }
         });
     },
@@ -191,15 +196,24 @@ const ChatView = React.createClass({
         this.setState({ keyboardSpace: 0 });
     },
 
-    renderRow(rowData, sectionID, rowID) {
+    renderRow(rowData) {
         const isMe = rowData.user_id === this.props.user._id;
 
-        return (<ChatRow
-            isMe={isMe}
-            isOpen={false}
-            data={rowData}
-            isSound={this.isSpeechSupported}
-            onSoundPress={this.handleSoundPress} />);
+        if (rowData.type === 'info') {
+            return (
+                <View style={styles.infoRow}>
+                    <Text style={styles.infoRowText}>{`This chat's language was changed to ${rowData.data.human_readable}`}</Text>
+                </View>
+            );
+        } else {
+            return (<ChatRow
+                isMe={isMe}
+                isOpen={false}
+                data={rowData}
+                isSound={this.state.learnLanguage in VOICE_LANG_CODES}
+                onSoundPress={this.handleSoundPress} />);
+        }
+
     },
 
     renderFooterBar() {
@@ -220,7 +234,6 @@ const ChatView = React.createClass({
 
     render() {
         // dataSource={this.props.dataSource}
-
         return (
             <View style={styles.main}>
                 <Navigation
@@ -276,8 +289,13 @@ const animations = {
 function mapStateToProps(state) {
     return {
         newMessageText: state.chats.newMessageText,
-        user: state.Login
+        user: state.Login,
+        chats: state.chats.allChats
     };
 }
 
-export default connect(mapStateToProps, { clearChatBadges, clearNewMessage, updateNewMessage })(ChatView);
+export default connect(mapStateToProps, {
+    clearChatBadges,
+    clearNewMessage,
+    updateNewMessage
+})(ChatView);

@@ -7,9 +7,9 @@ const chatRow = {
 };
 
 const bubble = {
-    borderRadius: 8,
-    paddingTop: 8,
-    paddingBottom: 8,
+    borderRadius: 9,
+    paddingTop: 9,
+    paddingBottom: 9,
     paddingLeft: 12,
     paddingRight: 12,
     width: 250
