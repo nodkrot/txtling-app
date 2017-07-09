@@ -21,8 +21,7 @@ import { AutoExpandingTextField } from '../../components/Form';
 import InvertibleScrollView from 'react-native-invertible-scroll-view';
 import ChatRow from './components/ChatRow';
 import Speech from 'react-native-speech';
-import { clearNewMessage, updateNewMessage } from '../../redux/chat';
-import { clearChatBadges } from '../../actions/ContactsActions';
+import { clearNewMessage, updateNewMessage, clearChatBadges } from '../../redux/chat';
 
 const VOICE_LANG_CODES = ['ar-SA', 'cs-CZ', 'da-DK', 'de-DE', 'el-GR', 'en-AU', 'en-GB', 'en-IE', 'en-US', 'en-ZA', 'es-ES', 'es-MX', 'fi-FI', 'fr-CA', 'fr-FR', 'he-IL', 'hi-IN', 'hu-HU', 'id-ID', 'it-IT', 'ja-JP', 'ko-KR', 'nl-BE', 'nl-NL', 'no-NO', 'pl-PL', 'pt-BR', 'pt-PT', 'ro-RO', 'ru-RU', 'sk-SK', 'sv-SE', 'th-TH', 'tr-TR', 'zh-CN', 'zh-HK', 'zh-TW']
     .reduce((acc, code) => {
@@ -32,17 +31,14 @@ const VOICE_LANG_CODES = ['ar-SA', 'cs-CZ', 'da-DK', 'de-DE', 'el-GR', 'en-AU', 
 
 const ChatView = React.createClass({
     propTypes: {
-        // clearMessages: PropTypes.func.isRequired,
-        // dataSource: PropTypes.object.isRequired,
-        // receiveMessage: PropTypes.func.isRequired,
-        chat: PropTypes.object.isRequired,
+        newMessageText: PropTypes.object.isRequired,
         clearNewMessage: PropTypes.func.isRequired,
         clearChatBadges: PropTypes.func.isRequired,
+        updateNewMessage: PropTypes.func.isRequired,
         groupId: PropTypes.string.isRequired,
         langCode: PropTypes.string.isRequired,
         navTitle: PropTypes.string.isRequired,
         navigator: PropTypes.object,
-        updateNewMessage: PropTypes.func.isRequired,
         user: PropTypes.object
     },
 
@@ -131,8 +127,8 @@ const ChatView = React.createClass({
     handlePressSend() {
         let message = '';
 
-        if (this.props.groupId in this.props.chat.newMessageText) {
-            message = this.props.chat.newMessageText[this.props.groupId].trim();
+        if (this.props.groupId in this.props.newMessageText) {
+            message = this.props.newMessageText[this.props.groupId].trim();
         }
 
         if (!message.length) {
@@ -213,7 +209,7 @@ const ChatView = React.createClass({
                     ref="chatTextInput"
                     style={styles.chatTextInput}
                     placeholder="Start texting"
-                    defaultValue={this.props.chat.newMessageText[this.props.groupId]}
+                    defaultValue={this.props.newMessageText[this.props.groupId]}
                     onChangeText={this.handleTextChange} />
                 <TouchableOpacity onPress={this.handlePressSend}>
                     <Text style={styles.sendButton}>Send</Text>
@@ -277,15 +273,10 @@ const animations = {
     }
 };
 
-// const dataSource = new ListView.DataSource({
-//     rowHasChanged: (r1, r2) => r1 !== r2
-// });
-
 function mapStateToProps(state) {
     return {
-        chat: state.chat,
+        newMessageText: state.chats.newMessageText,
         user: state.Login
-        // dataSource: dataSource.cloneWithRows(state.Chat.messages)
     };
 }
 
