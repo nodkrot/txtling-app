@@ -183,10 +183,6 @@ export default function reducer(state = initialState, action) {
             return { ...state, chatBadgeNumber: action.state };
         case RECEIVE_CREATE_CHAT:
             return { ...state, allChats: [...action.state, ...state.allChats] };
-        // case RECEIVE_UPDATE_SETTINGS:
-        //     return {
-        //         ...state
-        //     }
         default:
             return state;
     }
