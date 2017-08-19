@@ -12,7 +12,7 @@ export const TOGGLE_SELECT_ROW = 'TOGGLE_SELECT_ROW';
 export const RESET_PHONE_CONTACTS = 'RESET_PHONE_CONTACTS';
 
 export const toggleRow = (id) => {
-    return { type: TOGGLE_SELECT_ROW, state: id };
+    return { type: TOGGLE_SELECT_ROW, payload: id };
 };
 
 export const resetPhoneContacts = () => {
