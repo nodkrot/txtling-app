@@ -1,7 +1,7 @@
 /* eslint no-case-declarations: 0 */
 import { chain } from 'lodash';
 import * as types from '../constants/ContactsConstants';
-import { LOGOUT } from '../constants/LoginConstants';
+import { LOGOUT } from '../redux/user.js';
 
 const initialState = {
     contactsDataBlob: {},

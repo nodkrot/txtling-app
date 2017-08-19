@@ -88,7 +88,7 @@ const dataSource = new ListView.DataSource({
 
 function mapStateToProps(state) {
     return {
-        user: state.Login,
+        user: state.user,
         dataSource: dataSource.cloneWithRows(state.languages.allLanguages),
         languages: state.languages.allLanguages
     };

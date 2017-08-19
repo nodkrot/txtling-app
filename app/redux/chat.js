@@ -1,4 +1,5 @@
 import { AsyncStorage, PushNotificationIOS } from 'react-native';
+import { LOGOUT } from './user.js';
 import { BASE_URL } from '../constants/AppConstants';
 
 export const UPDATE_NEW_MESSAGE = 'UPDATE_NEW_MESSAGE';
@@ -190,6 +191,8 @@ export default function reducer(state = initialState, action) {
                     .map((chat) => chat._id === action.payload._id ? action.payload : chat)
                     .sort(compareChats)
             };
+        case LOGOUT:
+            return initialState;
         default:
             return state;
     }

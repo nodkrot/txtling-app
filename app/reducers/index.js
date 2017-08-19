@@ -1,11 +1,11 @@
 import { combineReducers } from 'redux';
 import Contacts from './ContactsReducers';
-import Login from './LoginReducers';
 import UI from './UIReducers';
-import chats from '../redux/chat';
-import languages from '../redux/languages';
+import user from '../redux/user.js';
+import chats from '../redux/chat.js';
+import languages from '../redux/languages.js';
 import ui from '../redux/ui.js';
 
 export default combineReducers({
-    Contacts, Login, chats, UI, languages, ui
+    Contacts, chats, UI, languages, ui, user
 });

@@ -226,7 +226,7 @@ function mapStateToProps(state) {
     const { contactsDataBlob, contactsSectionIds } = state.Contacts;
 
     return {
-        user: state.Login,
+        user: state.user,
         allowAccessContacts: state.Contacts.allowAccessContacts,
         dataSource: dataSource.cloneWithRowsAndSections(contactsDataBlob, contactsSectionIds)
     };
