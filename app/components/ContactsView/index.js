@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import Navigation from '../Navigation';
 import { RowButton } from '../Form';
-import { createContacts, getContacts } from '../../actions/ContactsActions';
+import { createContacts, getContacts } from '../../redux/contacts.js';
 import { createChat } from '../../redux/chat';
 import { connect } from 'react-redux';
 import { Button } from '../Elements';
@@ -223,11 +223,11 @@ const dataSource = new ListView.DataSource({
 });
 
 function mapStateToProps(state) {
-    const { contactsDataBlob, contactsSectionIds } = state.Contacts;
+    const { contactsDataBlob, contactsSectionIds } = state.contacts;
 
     return {
         user: state.user,
-        allowAccessContacts: state.Contacts.allowAccessContacts,
+        allowAccessContacts: state.contacts.allowAccessContacts,
         dataSource: dataSource.cloneWithRowsAndSections(contactsDataBlob, contactsSectionIds)
     };
 }

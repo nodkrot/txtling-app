@@ -6,7 +6,7 @@ import createLogger from 'redux-logger';
 import promiseMiddleware from 'redux-promise-middleware';
 import asyncTracker from './middlewares/asyncTracker.js';
 import App from './App.js';
-import reducer from './reducers';
+import reducer from './redux/index.js';
 
 const logger = createLogger({ collapsed: true });
 const promise = promiseMiddleware();
