@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { ROUTES } from '../../constants/AppConstants';
+import Tracker from '../../utilities/tracker.js';
 // import TabNavigator from 'react-native-tab-navigator';
 import { setGlobalBadgeNumber } from '../../redux/chat';
 import ContactsView from '../ContactsView';
@@ -16,9 +17,9 @@ import ChatsView from '../ChatsView';
 import SettingsView from '../SettingsView';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-const CONTACTS = 'contacts';
-const CHATS = 'chats';
-const SETTINGS = 'settings';
+const CONTACTS = 'contacts-view';
+const CHATS = 'chats-view';
+const SETTINGS = 'settings-view';
 
 class TabsView extends Component {
 
@@ -26,6 +27,8 @@ class TabsView extends Component {
         super(props);
 
         this.state = { selectedTab: CONTACTS };
+
+        Tracker.trackScreenView(CONTACTS);
 
         this.setTab = this.setTab.bind(this);
         this.isSelectedTab = this.isSelectedTab.bind(this);
@@ -97,21 +100,25 @@ class TabsView extends Component {
         }
     }
 
-    isSelectedTab(tab) {
-        return this.state.selectedTab === tab;
+    isSelectedTab(tabName) {
+        return this.state.selectedTab === tabName;
     }
 
-    setTab(tab) {
-        this.setState({ selectedTab: tab });
+    setTab(tabName) {
+        Tracker.trackScreenView(tabName);
+        this.setState({ selectedTab: tabName });
     }
 
     renderContent(tabName) {
-        if (tabName === CONTACTS) {
-            return (<ContactsView {...this.props} />);
-        } else if (tabName === CHATS) {
-            return (<ChatsView {...this.props} />);
-        } else if (tabName === SETTINGS) {
-            return (<SettingsView {...this.props} />);
+        switch(tabName) {
+            case CONTACTS:
+                return <ContactsView {...this.props} />;
+            case CHATS:
+                return <ChatsView {...this.props} />;
+            case SETTINGS:
+                return <SettingsView {...this.props} />;
+            default:
+                return null;
         }
     }
 

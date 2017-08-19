@@ -2,6 +2,7 @@ import Firebase from 'firebase';
 import { AsyncStorage } from 'react-native';
 import * as types from '../constants/LoginConstants';
 import { BASE_URL } from '../constants/AppConstants';
+import Tracker from '../utilities/tracker.js';
 
 const firebaseRef = new Firebase('https://txtling.firebaseio.com');
 
@@ -27,6 +28,10 @@ export function isLoggedIn() {
 
             if (hasToken) {
                 firebaseRef.authWithCustomToken(fireToken);
+            }
+
+            if (userInfo._id) {
+                Tracker.setUser(userInfo._id);
             }
 
             dispatch(receiveIsLoggedIn({ hasToken, userInfo }));

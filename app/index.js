@@ -75,7 +75,7 @@ class App extends Component {
     }
 
     render() {
-        if (this.props.ui.isFetchingUser) {
+        if (!this.props.ui.isUserFetched) {
             return null;
         }
 
@@ -92,8 +92,8 @@ App.propTypes = {
     isLoggedIn: PropTypes.func.isRequired,
     navigator: PropTypes.object,
     ui: PropTypes.shape({
+        isUserFetched: PropTypes.bool,
         isUserLoggedIn: PropTypes.bool,
-        isFetchingUser: PropTypes.bool,
         isScreenLoading: PropTypes.bool
     }),
     user: PropTypes.shape({

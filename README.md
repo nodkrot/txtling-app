@@ -8,7 +8,7 @@ React Native application with Redux.
 https://facebook.github.io/react-native/docs/getting-started.html#requirements
 
 ```
-npm install -g react-native-cli rnpm
+npm install -g react-native-cli
 npm install
 react-native link
 ```
@@ -78,13 +78,11 @@ http://ticons.fokkezb.nl
     - Description for using native APIs
 
 
-## Fixes for issues after migration
+## Deprecation
 
-##### react-native-camera has been removed due to issues
-https://github.com/lwansbrough/react-native-camera/issues/386
-
-##### iOS10 issue with descriptions for contacts
-https://github.com/lwansbrough/react-native-camera/issues/426
+- `react-native-invertible-scroll-view`
+- `react-native-search-bar`
+- `react-native-material-kit`
 
 
 ## Debugging on a device with Chrome Developer Tools
