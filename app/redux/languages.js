@@ -7,8 +7,8 @@ function requestGetLanguages() {
     return { type: REQUEST_GET_LANGUAGES };
 }
 
-function receiveGetLanguages(state) {
-    return { type: RECEIVE_GET_LANGUAGES, state };
+function receiveGetLanguages(payload) {
+    return { type: RECEIVE_GET_LANGUAGES, payload };
 }
 
 export function getLanguages() {
@@ -31,7 +31,7 @@ export default function reducer(state = initialState, action) {
         case RECEIVE_GET_LANGUAGES:
             return {
                 ...state,
-                allLanguages: action.state
+                allLanguages: action.payload
             };
 
         default:

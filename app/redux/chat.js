@@ -15,19 +15,19 @@ const RECEIVE_CLEAR_CHAT_BADGES = 'RECEIVE_CLEAR_CHAT_BADGES';
 const SET_GLOBAL_BADGE_NUMBER = 'SET_GLOBAL_BADGE_NUMBER';
 
 export function updateNewMessage(groupId, message) {
-    return { type: UPDATE_NEW_MESSAGE, state: { groupId, message } };
+    return { type: UPDATE_NEW_MESSAGE, payload: { groupId, message } };
 }
 
 export function clearNewMessage(groupId) {
-    return { type: CLEAR_NEW_MESSAGE, state: { groupId } };
+    return { type: CLEAR_NEW_MESSAGE, payload: { groupId } };
 }
 
 function requestGetChats() {
     return { type: REQUEST_GET_CHATS };
 }
 
-function receiveGetChats(state) {
-    return { type: RECEIVE_GET_CHATS, state };
+function receiveGetChats(payload) {
+    return { type: RECEIVE_GET_CHATS, payload };
 }
 
 function failureGetChats() {
@@ -58,8 +58,8 @@ function requestCreateChat() {
     return { type: REQUEST_CREATE_CHAT };
 }
 
-function receiveCreateChat(state) {
-    return { type: RECEIVE_CREATE_CHAT, state };
+function receiveCreateChat(payload) {
+    return { type: RECEIVE_CREATE_CHAT, payload };
 }
 
 export function createChat(payload) {
@@ -90,8 +90,8 @@ function requestUpdateSettings() {
     return { type: REQUEST_UPDATE_SETTINGS };
 }
 
-function receiveUpdateSettings(state) {
-    return { type: RECEIVE_UPDATE_SETTINGS, state };
+function receiveUpdateSettings(payload) {
+    return { type: RECEIVE_UPDATE_SETTINGS, payload };
 }
 
 export function updateSettings(data) {
@@ -119,8 +119,8 @@ function requestClearChatBadges() {
     return { type: REQUEST_CLEAR_CHAT_BADGES };
 }
 
-function receiveClearChatBadges(state) {
-    return { type: RECEIVE_CLEAR_CHAT_BADGES, state };
+function receiveClearChatBadges(payload) {
+    return { type: RECEIVE_CLEAR_CHAT_BADGES, payload };
 }
 
 export function clearChatBadges(groupId) {
@@ -151,7 +151,7 @@ export function clearChatBadges(groupId) {
 }
 
 export function setGlobalBadgeNumber(number) {
-    return { type: SET_GLOBAL_BADGE_NUMBER, state: number };
+    return { type: SET_GLOBAL_BADGE_NUMBER, payload: number };
 }
 
 function compareChats(a, b) {
@@ -171,18 +171,25 @@ const initialState = {
 export default function reducer(state = initialState, action) {
     switch (action.type) {
         case UPDATE_NEW_MESSAGE:
-            state.newMessageText[action.state.groupId] = action.state.message;
+            state.newMessageText[action.payload.groupId] = action.payload.message;
             return { ...state };
         case CLEAR_NEW_MESSAGE:
-            state.newMessageText[action.state.groupId] = '';
+            state.newMessageText[action.payload.groupId] = '';
             return { ...state };
         case RECEIVE_GET_CHATS:
         case RECEIVE_CLEAR_CHAT_BADGES:
-            return { ...state, allChats: action.state.sort(compareChats) };
+            return { ...state, allChats: action.payload.sort(compareChats) };
         case SET_GLOBAL_BADGE_NUMBER:
-            return { ...state, chatBadgeNumber: action.state };
+            return { ...state, chatBadgeNumber: action.payload };
         case RECEIVE_CREATE_CHAT:
-            return { ...state, allChats: [...action.state, ...state.allChats] };
+            return { ...state, allChats: [...action.payload, ...state.allChats] };
+        case RECEIVE_UPDATE_SETTINGS:
+            return {
+                ...state,
+                allChats: state.allChats
+                    .map((chat) => chat._id === action.payload._id ? action.payload : chat)
+                    .sort(compareChats)
+            };
         default:
             return state;
     }
