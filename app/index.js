@@ -1,36 +1,18 @@
 import React, { Component, PropTypes } from 'react';
 import {
     AppState,
-    // Animated,
-    // Image,
     View
 } from 'react-native';
 import Firebase from 'firebase';
-import Dimensions from 'Dimensions';
 import { connect } from 'react-redux';
 import { StyleSheet } from 'react-native';
 import { isLoggedIn } from './actions/LoginActions';
 import Router from './router';
 import { ROUTES } from './constants/AppConstants';
 
-const SCREEN_WIDTH = Dimensions.get('window').width;
-// const SCREEN_HEIGHT = Dimensions.get('window').height;
-
 const styles = StyleSheet.create({
     main: {
         flex: 1
-    },
-    loader: {
-        width: 52,
-        height: 52
-    },
-    overlay: {
-        position: 'absolute',
-        left: 0,
-        top: 0,
-        width: SCREEN_WIDTH,
-        alignItems: 'center',
-        justifyContent: 'center'
     }
 });
 
@@ -38,11 +20,6 @@ class App extends Component {
 
     constructor(props) {
         super(props);
-
-        this.state = {
-            // fadeAnim: new Animated.Value(0),
-            overlayHeight: 0
-        };
 
         this.handleAppStateChange = this.handleAppStateChange.bind(this);
     }
@@ -53,16 +30,6 @@ class App extends Component {
 
         AppState.addEventListener('change', this.handleAppStateChange);
     }
-
-    // componentWillReceiveProps(nextProps) {
-    //     if (nextProps.ui.isScreenLoading !== this.props.ui.isScreenLoading) {
-    //         if (nextProps.ui.isScreenLoading) {
-    //             this.animateOverlay(1);
-    //         } else {
-    //             this.animateOverlay(0);
-    //         }
-    //     }
-    // }
 
     componentWillUpdate() {
         this.handleAppStateChange(AppState.currentState);
@@ -88,19 +55,6 @@ class App extends Component {
             }
         }
     }
-
-    // animateOverlay(toValue = 0, duration = 175) {
-    //     this.setState({ overlayHeight: SCREEN_HEIGHT }, () => {
-    //         Animated.timing(
-    //             this.state.fadeAnim,
-    //             { toValue, duration }
-    //         ).start(({ finished }) => {
-    //             if (finished && !toValue) {
-    //                 this.setState({ overlayHeight: 0 });
-    //             }
-    //         });
-    //     });
-    // }
 
     getInitialRoute() {
         if (this.props.ui.isUserLoggedIn) {
@@ -131,13 +85,6 @@ class App extends Component {
         );
     }
 }
-
-// <Animated.View style={[{
-//     opacity: this.state.fadeAnim,
-//     height: this.state.overlayHeight
-// }, styles.overlay]}>
-//     <Image style={styles.loader} source={require('./images/loader.gif')} />
-// </Animated.View>
 
 App.propTypes = {
     isLoggedIn: PropTypes.func.isRequired,
