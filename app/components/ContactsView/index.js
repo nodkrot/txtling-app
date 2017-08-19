@@ -60,7 +60,7 @@ class ContactsView extends Component {
                     last_name: rowData.last_name,
                     number: rowData.number
                 }]
-            }).then((groups) => {
+            }).then(({ value }) => {
                 // Update contact with group_id
                 // Can be done neater with normalizr
                 this.props.getContacts();
@@ -68,7 +68,7 @@ class ContactsView extends Component {
                 this.props.navigator.push({
                     id: ROUTES.chatView,
                     passProps: {
-                        groupId: groups[0]._id,
+                        groupId: value[0]._id,
                         navTitle: rowData.first_name
                     }
                 });
