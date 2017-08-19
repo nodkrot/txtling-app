@@ -15,7 +15,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import Navigation from '../Navigation';
 import { Button } from '../Elements';
 import SearchListView from '../SearchListView';
-import * as ContactsActions from '../../actions/ContactsActions';
+import { getPhoneContacts, toggleRow, resetPhoneContacts } from '../../redux/contacts.js';
 import { INVITE_URL } from '../../constants/AppConstants.js';
 
 const Composer = NativeModules.RNMessageComposer;
@@ -192,11 +192,11 @@ InviteView.propTypes = {
     allowAccessContacts: PropTypes.bool.isRequired,
     contacts: PropTypes.array.isRequired,
     dataSource: PropTypes.object.isRequired,
-    getPhoneContacts: PropTypes.func.isRequired,
     minInvitees: PropTypes.number,
     navTitle: PropTypes.string,
     onAfterInvite: PropTypes.func,
     onCancel: PropTypes.func,
+    getPhoneContacts: PropTypes.func.isRequired,
     phoneContactIds: PropTypes.object.isRequired,
     resetPhoneContacts: PropTypes.func.isRequired,
     toggleRow: PropTypes.func.isRequired
@@ -213,11 +213,11 @@ const dataSource = new ListView.DataSource({
 
 function mapStateToProps(state) {
     return {
-        dataSource: dataSource.cloneWithRows(state.Contacts.phoneContacts),
-        allowAccessContacts: state.Contacts.allowAccessContacts,
-        phoneContactIds: state.Contacts.phoneContactIds,
-        contacts: state.Contacts.phoneContacts
+        dataSource: dataSource.cloneWithRows(state.contacts.phoneContacts),
+        allowAccessContacts: state.contacts.allowAccessContacts,
+        phoneContactIds: state.contacts.phoneContactIds,
+        contacts: state.contacts.phoneContacts
     };
 }
 
-export default connect(mapStateToProps, ContactsActions)(InviteView);
+export default connect(mapStateToProps, { getPhoneContacts, toggleRow, resetPhoneContacts })(InviteView);
