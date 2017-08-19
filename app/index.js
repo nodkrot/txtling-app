@@ -12,9 +12,9 @@ const logger = createLogger({ collapsed: true });
 const promise = promiseMiddleware();
 
 const middleware = process.env.NODE_ENV === 'production' ?
-    [thunk, asyncTracker, promise] :
-    // [thunk, asyncTracker, promise];
-    [thunk, asyncTracker, promise, logger];
+    [thunk, promise, asyncTracker] :
+    // [thunk, promise, asyncTracker];
+    [thunk, promise, asyncTracker, logger];
 
 const createStoreWithMiddleware = applyMiddleware(...middleware)(createStore);
 const store = createStoreWithMiddleware(reducer);
