@@ -243,7 +243,6 @@ const ChatView = React.createClass({
                     rightButtonTitle="Settings"
                     rightHandler={this.handleSettingsButton} />
                 <ListView
-                    enableEmptySections
                     renderScrollComponent={(props) => (
                         <InvertibleScrollView {...props} inverted keyboardShouldPersistTaps />
                     )}

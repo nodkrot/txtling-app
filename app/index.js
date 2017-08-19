@@ -9,6 +9,7 @@ import { StyleSheet } from 'react-native';
 import { isLoggedIn } from './actions/LoginActions';
 import Router from './router';
 import { ROUTES } from './constants/AppConstants';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 const styles = StyleSheet.create({
     main: {
@@ -80,6 +81,7 @@ class App extends Component {
 
         return (
             <View style={styles.main}>
+                <Spinner visible={this.props.ui.isScreenLoading} />
                 <Router initialRoute={this.getInitialRoute()} />
             </View>
         );

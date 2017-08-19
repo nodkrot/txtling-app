@@ -109,7 +109,6 @@ class ChatsView extends Component {
             <View style={styles.main}>
                 <Navigation navTitle="Chats" />
                 <ListView
-                    enableEmptySections
                     contentInset={{ bottom: 49 }}
                     automaticallyAdjustContentInsets={false}
                     dataSource={this.props.dataSource}

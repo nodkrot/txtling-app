@@ -4,6 +4,7 @@ import React, { Component, PropTypes } from 'react';
 import {
     TabBarIOS,
     AppState,
+    InteractionManager,
     PushNotificationIOS
 } from 'react-native';
 import { connect } from 'react-redux';
@@ -33,6 +34,10 @@ class TabsView extends Component {
     }
 
     componentWillMount() {
+        InteractionManager.runAfterInteractions(() => {
+            PushNotificationIOS.requestPermissions();
+        });
+
         let backgroundNotification = null;
 
         PushNotificationIOS.getInitialNotification().then((notification) => {
@@ -52,11 +57,6 @@ class TabsView extends Component {
                 this.handPushNotification(backgroundNotification);
                 backgroundNotification = null;
             }
-
-            // if (newAppState === 'active' && backgroundNotification === null) {
-            //     // App was on and user just taps on the app
-            //     this.setBadgeNumber();
-            // }
         });
 
         // App was off

@@ -1,7 +1,8 @@
 import { BASE_URL } from '../constants/AppConstants';
 
-const REQUEST_GET_LANGUAGES = 'REQUEST_GET_LANGUAGES';
-const RECEIVE_GET_LANGUAGES = 'RECEIVE_GET_LANGUAGES';
+export const REQUEST_GET_LANGUAGES = 'REQUEST_GET_LANGUAGES';
+export const RECEIVE_GET_LANGUAGES = 'RECEIVE_GET_LANGUAGES';
+export const FAILURE_GET_LANGUAGES = 'FAILURE_GET_LANGUAGES';
 
 function requestGetLanguages() {
     return { type: REQUEST_GET_LANGUAGES };
@@ -11,6 +12,10 @@ function receiveGetLanguages(payload) {
     return { type: RECEIVE_GET_LANGUAGES, payload };
 }
 
+function failureGetLanguages() {
+    return { type: FAILURE_GET_LANGUAGES };
+}
+
 export function getLanguages() {
     return (dispatch) => {
         dispatch(requestGetLanguages());
@@ -18,7 +23,7 @@ export function getLanguages() {
         return fetch(`${BASE_URL}languages`)
             .then((response) => response.json())
             .then((res) => dispatch(receiveGetLanguages(res.data)))
-            .catch((err) => console.log(err)); // eslint-disable-line
+            .catch(() => dispatch(failureGetLanguages()));
     };
 }
 

@@ -103,8 +103,6 @@ class PhoneView extends Component {
             this.props.login.number,
             this.state.code
         ).then(() => {
-            PushNotificationIOS.requestPermissions();
-
             switch(this.props.login.state) {
                 case 'confirmed':
                     this.props.navigator.push({

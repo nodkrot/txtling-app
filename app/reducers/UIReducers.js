@@ -1,5 +1,7 @@
 import * as LoginTypes from '../constants/LoginConstants';
 import * as ContactTypes from '../constants/ContactsConstants';
+import { REQUEST_GET_CHATS, RECEIVE_GET_CHATS, FAILURE_GET_CHATS } from '../redux/chat.js';
+import { REQUEST_GET_LANGUAGES, RECEIVE_GET_LANGUAGES, FAILURE_GET_LANGUAGES } from '../redux/languages.js';
 
 const initialState = {
     isUserLoggedIn: false,
@@ -37,7 +39,8 @@ export default function (state = initialState, action) {
 
         case ContactTypes.REQUEST_GET_CONTACTS:
         case ContactTypes.REQUEST_CREATE_CONTACTS:
-        case ContactTypes.REQUEST_GET_CHATS:
+        case REQUEST_GET_CHATS:
+        case REQUEST_GET_LANGUAGES:
             return {
                 ...state,
                 isScreenLoading: true
@@ -45,10 +48,12 @@ export default function (state = initialState, action) {
 
         case ContactTypes.RECEIVE_GET_CONTACTS:
         case ContactTypes.RECEIVE_CREATE_CONTACTS:
-        case ContactTypes.RECEIVE_GET_CHATS:
+        case RECEIVE_GET_CHATS:
+        case RECEIVE_GET_LANGUAGES:
         case ContactTypes.FAILURE_GET_CONTACTS:
         case ContactTypes.FAILURE_CREATE_CONTACTS:
-        case ContactTypes.FAILURE_GET_CHATS:
+        case FAILURE_GET_CHATS:
+        case FAILURE_GET_LANGUAGES:
             return {
                 ...state,
                 isScreenLoading: false
