@@ -132,7 +132,7 @@ const dataSource = new ListView.DataSource({
 
 function mapStateToProps(state) {
     return {
-        user: state.Login,
+        user: state.user,
         chats: state.chats.allChats,
         dataSource: dataSource.cloneWithRows(state.chats.allChats)
     };

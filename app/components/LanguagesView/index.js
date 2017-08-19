@@ -14,7 +14,7 @@ import Navigation from '../Navigation';
 import { connect } from 'react-redux';
 import { ROUTES } from '../../constants/AppConstants';
 import { getLanguages } from '../../redux/languages';
-import { registerLanguage } from '../../actions/LoginActions';
+import { registerLanguage } from '../../redux/user.js';
 import SearchListView from '../SearchListView';
 
 function searchFor(item, query) {
@@ -49,6 +49,7 @@ class LanguagesView extends Component {
                 passProps: {
                     navTitle: 'Invite minimum 3 friends',
                     minInvitees: 3,
+                    onCancel: () => this.props.navigator.pop(),
                     onAfterInvite: () => {
                         this.props.navigator.push({
                             id: ROUTES.tabsView,

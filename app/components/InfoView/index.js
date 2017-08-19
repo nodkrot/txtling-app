@@ -8,7 +8,7 @@ import {
     View
 } from 'react-native';
 import { connect } from 'react-redux';
-import { registerUser } from '../../actions/LoginActions';
+import { registerUser } from '../../redux/user.js';
 import Navigation from '../Navigation';
 import { Button } from '../Elements';
 import { TextField } from '../Form';
@@ -150,7 +150,7 @@ InfoView.propTypes = {
 
 function mapStateToProps(state) {
     return {
-        login: state.Login
+        login: state.user
     };
 }
 

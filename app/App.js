@@ -6,7 +6,7 @@ import {
 import Firebase from 'firebase';
 import { connect } from 'react-redux';
 import { StyleSheet } from 'react-native';
-import { isLoggedIn } from './actions/LoginActions';
+import { isLoggedIn } from './redux/user.js';
 import Router from './router';
 import { ROUTES } from './constants/AppConstants';
 import Spinner from 'react-native-loading-spinner-overlay';
@@ -105,8 +105,8 @@ App.propTypes = {
 
 function mapStateToProps(state) {
     return {
-        user: state.Login,
-        ui: state.UI
+        user: state.user,
+        ui: state.ui
     };
 }
 

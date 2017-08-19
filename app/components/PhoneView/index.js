@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { formatPhone } from '../../utilities';
-import * as LoginActions from '../../actions/LoginActions';
+import { registerDeviceToken, generateCode, confirmCode } from '../../redux/user.js';
 import { ROUTES } from '../../constants/AppConstants';
 import Navigation from '../Navigation';
 import { Button } from '../Elements';
@@ -202,8 +202,8 @@ PhoneView.propTypes = {
 
 function mapStateToProps(state) {
     return {
-        login: state.Login
+        login: state.user
     };
 }
 
-export default connect(mapStateToProps, LoginActions)(PhoneView);
+export default connect(mapStateToProps, { registerDeviceToken, generateCode, confirmCode })(PhoneView);

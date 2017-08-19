@@ -288,7 +288,7 @@ const animations = {
 function mapStateToProps(state) {
     return {
         newMessageText: state.chats.newMessageText,
-        user: state.Login,
+        user: state.user,
         chats: state.chats.allChats
     };
 }

@@ -33,6 +33,7 @@
     "react-timer-mixin": "^0.13.3",
     "redux": "^3.5.2",
     "redux-logger": "^2.6.1",
+    "redux-promise-middleware": "^4.3.0",
     "redux-thunk": "^2.1.0"
   },
   "jest": {

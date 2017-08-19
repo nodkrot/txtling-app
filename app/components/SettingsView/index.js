@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import ProfileView from '../ProfileView';
 import Navigation from '../Navigation';
 import { Row, RowButton } from '../Form';
-import * as LoginActions from '../../actions/LoginActions';
+import { logout } from '../../redux/user.js';
 import { ROUTES } from '../../constants/AppConstants';
 
 class SettingsView extends Component {
@@ -43,8 +43,8 @@ SettingsView.propTypes = {
 
 function mapStateToProps(state) {
     return {
-        profile: state.Login
+        profile: state.user
     };
 }
 
-export default connect(mapStateToProps, LoginActions)(SettingsView);
+export default connect(mapStateToProps, { logout })(SettingsView);
