@@ -4,25 +4,19 @@ import { REQUEST_GET_CHATS, RECEIVE_GET_CHATS, FAILURE_GET_CHATS } from '../redu
 import { REQUEST_GET_LANGUAGES, RECEIVE_GET_LANGUAGES, FAILURE_GET_LANGUAGES } from '../redux/languages.js';
 
 const initialState = {
+    isUserFetched: false,
     isUserLoggedIn: false,
-    isFetchingUser: false,
     isScreenLoading: false
 };
 
 export default function (state = initialState, action) {
 
     switch (action.type) {
-        case LoginTypes.REQUEST_IS_LOGGED_IN:
-            return {
-                ...state,
-                isFetchingUser: true
-            };
-
         case LoginTypes.RECEIVE_IS_LOGGED_IN:
             return {
                 ...state,
                 isUserLoggedIn: action.state.hasToken,
-                isFetchingUser: false
+                isUserFetched: true
             };
 
         case LoginTypes.RECEIVE_CODE_CONFIRM:

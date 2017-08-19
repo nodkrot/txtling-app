@@ -5,6 +5,8 @@ export const BASE_URL = process.env.NODE_ENV === 'production'
     : 'http://192.168.1.151:3000/';
 export const INVITE_URL = 'http://api.txtling.com/in';
 
+export const GOOGLE_TRACKING_ID = 'UA-44634837-1';
+
 export const ROUTES = {
     introView: 'intro-view',
     phoneView: 'phone-view',

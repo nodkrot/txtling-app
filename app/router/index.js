@@ -11,6 +11,7 @@ import TabsView from '../components/TabsView';
 import ChatView from '../components/ChatView';
 import ChatSettingsView from '../components/ChatSettingsView';
 import ContactView from '../components/ContactView';
+import Tracker from '../utilities/tracker.js';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const BaseConfig = Navigator.SceneConfigs.FloatFromRight;
@@ -27,6 +28,11 @@ const CustomSceneConfig = {
 
 export default class Router extends Component {
     renderScene(route, navigator) {
+        // TabView is being tracked by itself in TabsView.js
+        if (route.id !== ROUTES.tabsView) {
+            Tracker.trackScreenView(route.id);
+        }
+
         switch (route.id) {
             case ROUTES.introView:
                 return (<IntroView navigator={navigator} {...route.passProps} />);

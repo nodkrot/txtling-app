@@ -4258,6 +4258,10 @@ react-native-contacts@^0.5.1:
   version "0.5.2"
   resolved "https://registry.yarnpkg.com/react-native-contacts/-/react-native-contacts-0.5.2.tgz#04de37e3ee5db10cb5f61572b31ce18f20339bbb"
 
+react-native-google-analytics-bridge@4.0.3:
+  version "4.0.3"
+  resolved "https://registry.yarnpkg.com/react-native-google-analytics-bridge/-/react-native-google-analytics-bridge-4.0.3.tgz#1bb160bb2252b21fc27c338ff1ebddb62f04d2c6"
+
 react-native-invertible-scroll-view@1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/react-native-invertible-scroll-view/-/react-native-invertible-scroll-view-1.0.0.tgz#60ceb384dc950c34eba3a5aeda39f97cdc7d4e23"
