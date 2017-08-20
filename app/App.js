@@ -5,17 +5,10 @@ import {
 } from 'react-native';
 import Firebase from 'firebase';
 import { connect } from 'react-redux';
-import { StyleSheet } from 'react-native';
 import { isLoggedIn } from './redux/user.js';
 import Router from './router';
 import { ROUTES } from './constants/AppConstants';
 import Spinner from 'react-native-loading-spinner-overlay';
-
-const styles = StyleSheet.create({
-    main: {
-        flex: 1
-    }
-});
 
 class App extends Component {
 
@@ -80,7 +73,7 @@ class App extends Component {
         }
 
         return (
-            <View style={styles.main}>
+            <View style={{ flex: 1 }}>
                 <Spinner visible={this.props.ui.isScreenLoading} />
                 <Router initialRoute={this.getInitialRoute()} />
             </View>

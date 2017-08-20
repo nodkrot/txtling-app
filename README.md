@@ -78,7 +78,7 @@ http://ticons.fokkezb.nl
     - Description for using native APIs
 
 
-## Deprecation
+## Deprecation list
 
 - `react-native-invertible-scroll-view`
 - `react-native-search-bar`
