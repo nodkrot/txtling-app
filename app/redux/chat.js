@@ -20,7 +20,8 @@ export function clearNewMessage(groupId) {
 
 export const getChats = () => ({
     type: GET_CHATS,
-    payload: AsyncStorage.getItem('AUTH_TOKEN').then((value) => {
+    payload: AsyncStorage.getItem('AUTH_TOKEN')
+        .then((value) => {
             return fetch(`${BASE_URL}chats`, {
                 headers: {
                     Authorization: `JWT ${value}`
