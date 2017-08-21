@@ -93,9 +93,7 @@ const ChatView = React.createClass({
     },
 
     updateMessageDataSource(data) {
-        this.setState({
-            messageDataSource: this.state.messageDataSource.cloneWithRows(data)
-        });
+        this.setState({ messageDataSource: this.state.messageDataSource.cloneWithRows(data) });
     },
 
     requestMoreMessages() {
