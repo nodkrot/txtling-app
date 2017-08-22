@@ -15,7 +15,9 @@ export default StyleSheet.create({
     },
     infoRowText: {
         textAlign: 'center',
-        color: Colors.darkestGrey
+        color: Colors.darkestGrey,
+        paddingLeft: 8,
+        paddingRight: 8
     },
     footerBar: {
         backgroundColor: Colors.white,

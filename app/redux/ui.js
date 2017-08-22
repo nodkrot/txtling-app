@@ -1,7 +1,7 @@
-import * as userActions from './user.js';
-import * as chatActions from './chat.js';
-import * as contactsActions from './contacts.js';
-import * as languageActions from './languages.js';
+import * as userActions from './user';
+import * as chatActions from './chat';
+import * as contactsActions from './contacts';
+import * as languageActions from './languages';
 
 const initialState = {
     isUserFetched: false,
@@ -33,6 +33,7 @@ export default function reducer(state = initialState, action) {
         case `${contactsActions.GET_CONTACTS}_PENDING`:
         case `${contactsActions.CREATE_CONTACTS}_PENDING`:
         case `${chatActions.GET_CHATS}_PENDING`:
+        case `${chatActions.CREATE_CHAT}_PENDING`:
         case `${languageActions.GET_LANGUAGES}_PENDING`:
             return {
                 ...state,
@@ -42,10 +43,12 @@ export default function reducer(state = initialState, action) {
         case `${contactsActions.GET_CONTACTS}_FULFILLED`:
         case `${contactsActions.CREATE_CONTACTS}_FULFILLED`:
         case `${chatActions.GET_CHATS}_FULFILLED`:
+        case `${chatActions.CREATE_CHAT}_FULFILLED`:
         case `${languageActions.GET_LANGUAGES}_FULFILLED`:
         case `${contactsActions.GET_CONTACTS}_REJECTED`:
         case `${contactsActions.CREATE_CONTACTS}_REJECTED`:
         case `${chatActions.GET_CHATS}_REJECTED`:
+        case `${chatActions.CREATE_CHAT}_REJECTED`:
         case `${languageActions.GET_LANGUAGES}_REJECTED`:
             return {
                 ...state,
@@ -53,7 +56,7 @@ export default function reducer(state = initialState, action) {
             };
 
         case 'ASYNC_STATE_TRACKER':
-            return { ...state, asyncStates: { ...action.payload } }
+            return { ...state, asyncStates: { ...action.payload } };
 
         default:
             return state;

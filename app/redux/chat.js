@@ -5,7 +5,7 @@ import { BASE_URL } from '../constants/AppConstants';
 export const UPDATE_NEW_MESSAGE = 'UPDATE_NEW_MESSAGE';
 export const CLEAR_NEW_MESSAGE = 'CLEAR_NEW_MESSAGE';
 export const GET_CHATS = 'GET_CHATS';
-export const CREATE_CHAT = 'CREATE_CHATS';
+export const CREATE_CHAT = 'CREATE_CHAT';
 export const UPDATE_SETTINGS = 'UPDATE_SETTINGS';
 export const CLEAR_CHAT_BADGES = 'CLEAR_CHAT_BADGES';
 export const SET_GLOBAL_BADGE_NUMBER = 'SET_GLOBAL_BADGE_NUMBER';

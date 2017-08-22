@@ -73,7 +73,6 @@ class ChatView extends React.Component {
     state = {
         learnLanguage: '',
         keyboardSpace: 0,
-        pageSize: 25,
         distanceFromTop: 150,
         scrollEventThrottle: 200,
         messageDataSource: new ListView.DataSource({
@@ -90,7 +89,7 @@ class ChatView extends React.Component {
 
         this.rawMessagesRef = firebaseRef.child('raw_messages');
         this.receiveRef = firebaseRef.child('txtling_messages').child(this.props.groupId);
-        this.paginationRef = new Firebase.util.Paginate(this.receiveRef, '$priority', { pageSize: this.state.pageSize });
+        this.paginationRef = new Firebase.util.Paginate(this.receiveRef, '$priority', { pageSize: 15 });
 
         this.keyboardWillShowListener = Keyboard.addListener('keyboardWillShow', this.updateKeyboardSpace);
         this.keyboardWillHideListener = Keyboard.addListener('keyboardWillHide', this.resetKeyboardSpace);
@@ -168,6 +167,7 @@ class ChatView extends React.Component {
             group_id: this.props.groupId,
             first_name: this.props.user.first_name,
             last_name: this.props.user.last_name,
+            language: this.state.learnLanguage,
             timestamp: Firebase.ServerValue.TIMESTAMP
         });
 
@@ -188,7 +188,7 @@ class ChatView extends React.Component {
     handleSoundPress = (rowData) => {
         Speech.speak({
             text: rowData.translated_message,
-            voice: VOICE_LANG_CODES[this.state.learnLanguage],
+            voice: VOICE_LANG_CODES[rowData.language],
             rate: 0.4
         });
     }
@@ -226,7 +226,9 @@ class ChatView extends React.Component {
         if (rowData.type === 'info') {
             return (
                 <View style={styles.infoRow}>
-                    <Text style={styles.infoRowText}>{`This chat's language was changed to ${rowData.data.human_readable}`}</Text>
+                    <Text style={styles.infoRowText}>
+                        {`This chat's language was changed to ${rowData.data.human_readable}`}
+                    </Text>
                 </View>
             );
         }
@@ -235,7 +237,7 @@ class ChatView extends React.Component {
             isMe={isMe}
             isOpen={false}
             data={rowData}
-            isSound={this.state.learnLanguage in VOICE_LANG_CODES}
+            isSound={rowData.language in VOICE_LANG_CODES}
             onSoundPress={this.handleSoundPress} />);
     }
 
@@ -266,7 +268,6 @@ class ChatView extends React.Component {
                     rightButtonTitle="Settings"
                     rightHandler={this.handleSettingsButton} />
                 <ListView
-                    key={this.state.learnLanguage} // Hack to rerender ListView when language is received
                     renderScrollComponent={(props) => (
                         <InvertibleScrollView {...props} inverted keyboardShouldPersistTaps />
                     )}
