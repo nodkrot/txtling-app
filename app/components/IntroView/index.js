@@ -1,13 +1,11 @@
-import styles from './styles';
-
 import React, { Component, PropTypes } from 'react';
 import { View, Text, Image, StatusBar } from 'react-native';
 import Swiper from 'react-native-swiper';
 import { ROUTES } from '../../constants/AppConstants';
 import { LinkButton, Button } from '../Elements';
+import styles from './styles';
 
 class IntroView extends Component {
-
     constructor(props) {
         super(props);
 

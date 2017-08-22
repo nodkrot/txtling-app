@@ -1,5 +1,3 @@
-import { Colors } from '../../styles';
-
 import React, { Component, PropTypes } from 'react';
 import {
     TabBarIOS,
@@ -8,21 +6,21 @@ import {
     PushNotificationIOS
 } from 'react-native';
 import { connect } from 'react-redux';
+import Icon from 'react-native-vector-icons/Ionicons';
 import { ROUTES } from '../../constants/AppConstants';
-import Tracker from '../../utilities/tracker.js';
+import Tracker from '../../utilities/tracker';
 // import TabNavigator from 'react-native-tab-navigator';
 import { setGlobalBadgeNumber } from '../../redux/chat';
 import ContactsView from '../ContactsView';
 import ChatsView from '../ChatsView';
 import SettingsView from '../SettingsView';
-import Icon from 'react-native-vector-icons/Ionicons';
+import { Colors } from '../../styles';
 
 const CONTACTS = 'contacts-view';
 const CHATS = 'chats-view';
 const SETTINGS = 'settings-view';
 
 class TabsView extends Component {
-
     constructor(props) {
         super(props);
 
@@ -110,7 +108,7 @@ class TabsView extends Component {
     }
 
     renderContent(tabName) {
-        switch(tabName) {
+        switch (tabName) {
             case CONTACTS:
                 return <ContactsView {...this.props} />;
             case CHATS:

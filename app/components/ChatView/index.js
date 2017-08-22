@@ -57,6 +57,7 @@ const animations = {
 };
 
 class ChatView extends React.Component {
+    static displayName = 'ChatView'
 
     static propTypes = {
         newMessageText: PropTypes.object.isRequired,
@@ -281,7 +282,7 @@ class ChatView extends React.Component {
             </View>
         );
     }
-};
+}
 
 function mapStateToProps(state) {
     return {
