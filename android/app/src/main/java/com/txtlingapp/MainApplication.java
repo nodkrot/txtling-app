@@ -6,7 +6,6 @@ import android.util.Log;
 import com.facebook.react.ReactApplication;
 import com.idehub.GoogleAnalyticsBridge.GoogleAnalyticsBridgePackage;
 import com.oblador.vectoricons.VectorIconsPackage;
-import com.github.xinthink.rnmk.ReactMaterialKitPackage;
 import com.rt2zz.reactnativecontacts.ReactNativeContacts;
 import com.lwansbrough.ReactCamera.ReactCamera;
 import com.facebook.react.ReactInstanceManager;
@@ -31,7 +30,6 @@ public class MainApplication extends Application implements ReactApplication {
           new MainReactPackage(),
             new GoogleAnalyticsBridgePackage(),
             new VectorIconsPackage(),
-            new ReactMaterialKitPackage(),
             new ReactNativeContacts(),
             new ReactCamera()
       );
