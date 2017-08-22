@@ -6,12 +6,13 @@ export default StyleSheet.create({
         height: 44,
         fontSize: 18
     },
-    textfieldWrapper: {
+    textInputWrapper: {
+        borderBottomColor: Colors.grey,
+        borderBottomWidth: 2,
         marginBottom: 8
     },
-    textfieldWithFloatingLabel: {
-        height: 38,
-        marginTop: 10
+    textInput: {
+        height: 44
     },
     fab: {
         width: 200,
@@ -58,9 +59,9 @@ export default StyleSheet.create({
         fontSize: 12,
         color: Colors.darkerGrey,
         marginTop: 4
-    },
+    }
 });
 
 export const primaryColor = Colors.primary;
 export const whiteColor = Colors.white;
-export const activeColor = Colors.grey;
+export const greyColor = Colors.grey;

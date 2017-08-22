@@ -1,7 +1,6 @@
-import styles from './styles';
-
 import React, { Component, PropTypes } from 'react';
 import { TextInput } from 'react-native';
+import styles from './styles';
 
 const INPUT_LINE_HEIGHT = 35;
 

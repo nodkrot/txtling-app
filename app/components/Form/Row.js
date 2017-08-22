@@ -1,7 +1,6 @@
-import styles from './styles';
-
 import React, { PropTypes } from 'react';
 import { View, Text } from 'react-native';
+import styles from './styles';
 
 export default React.createClass({
     propTypes: {

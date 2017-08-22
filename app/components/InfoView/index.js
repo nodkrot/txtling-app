@@ -1,5 +1,3 @@
-import styles from './styles';
-
 import React, { Component, PropTypes } from 'react';
 import {
     // TouchableHighlight,
@@ -8,16 +6,16 @@ import {
     View
 } from 'react-native';
 import { connect } from 'react-redux';
-import { registerUser } from '../../redux/user.js';
+import { registerUser } from '../../redux/user';
 import Navigation from '../Navigation';
 import { Button } from '../Elements';
 import { TextField } from '../Form';
 import { ROUTES } from '../../constants/AppConstants';
 // import CameraView from '../CameraView';
 // import CameraRollView from '../CameraRollView';
+import styles from './styles';
 
 class InfoView extends Component {
-
     constructor(props) {
         super(props);
 

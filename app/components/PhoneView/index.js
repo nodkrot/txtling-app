@@ -1,5 +1,3 @@
-import styles from './styles';
-
 import React, { Component, PropTypes } from 'react';
 import {
     Animated,
@@ -9,14 +7,14 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { formatPhone } from '../../utilities';
-import { registerDeviceToken, generateCode, confirmCode } from '../../redux/user.js';
+import { registerDeviceToken, generateCode, confirmCode } from '../../redux/user';
 import { ROUTES } from '../../constants/AppConstants';
 import Navigation from '../Navigation';
 import { Button } from '../Elements';
 import { TextField } from '../Form';
+import styles from './styles';
 
 class PhoneView extends Component {
-
     constructor(props) {
         super(props);
 
@@ -103,7 +101,7 @@ class PhoneView extends Component {
             this.props.login.number,
             this.state.code
         ).then(() => {
-            switch(this.props.login.state) {
+            switch (this.props.login.state) {
                 case 'confirmed':
                     this.props.navigator.push({
                         id: ROUTES.infoView,
@@ -131,6 +129,8 @@ class PhoneView extends Component {
                         }
                     });
                     break;
+                default:
+                    break;
             }
         }).catch((err) => console.log(err));
     }
@@ -142,11 +142,11 @@ class PhoneView extends Component {
     render() {
         const button = this.state.isCodeFieldActive
             ? (<Button
-                    text="Next"
-                    onPress={this.handleCodeSubmit} />)
+                text="Next"
+                onPress={this.handleCodeSubmit} />)
             : (<Button
-                    text="Get Code"
-                    onPress={this.handlePhoneSubmit} />);
+                text="Get Code"
+                onPress={this.handlePhoneSubmit} />);
 
         return (
             <View style={styles.main}>
