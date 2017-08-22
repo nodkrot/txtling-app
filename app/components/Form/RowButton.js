@@ -1,11 +1,10 @@
-import { activeColor } from './styles';
-
 import React, { PropTypes } from 'react';
 import {
     View,
     TouchableHighlight
 } from 'react-native';
 import Row from './Row';
+import { greyColor } from './styles';
 
 export default React.createClass({
     propTypes: {
@@ -17,7 +16,7 @@ export default React.createClass({
 
     render() {
         return (
-            <TouchableHighlight onPress={this.props.onPress} underlayColor={activeColor}>
+            <TouchableHighlight onPress={this.props.onPress} underlayColor={greyColor}>
                 <View>
                     <Row {...this.props} />
                 </View>

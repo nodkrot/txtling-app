@@ -82,7 +82,6 @@ http://ticons.fokkezb.nl
 
 - `react-native-invertible-scroll-view`
 - `react-native-search-bar`
-- `react-native-material-kit`
 - `react-native-navbar`
 - `jest-react-native`
 

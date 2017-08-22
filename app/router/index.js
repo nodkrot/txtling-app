@@ -11,7 +11,7 @@ import TabsView from '../components/TabsView';
 import ChatView from '../components/ChatView';
 import ChatSettingsView from '../components/ChatSettingsView';
 import ContactView from '../components/ContactView';
-import Tracker from '../utilities/tracker.js';
+import Tracker from '../utilities/tracker';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const BaseConfig = Navigator.SceneConfigs.FloatFromRight;
