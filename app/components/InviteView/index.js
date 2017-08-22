@@ -1,5 +1,3 @@
-import styles, { greyColor, darkGreyColor, greenColor } from './styles';
-
 import React, { Component, PropTypes } from 'react';
 import {
     View,
@@ -15,8 +13,9 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import Navigation from '../Navigation';
 import { Button } from '../Elements';
 import SearchListView from '../SearchListView';
-import { getPhoneContacts, toggleRow, resetPhoneContacts } from '../../redux/contacts.js';
-import { INVITE_URL } from '../../constants/AppConstants.js';
+import { getPhoneContacts, toggleRow, resetPhoneContacts } from '../../redux/contacts';
+import { INVITE_URL } from '../../constants/AppConstants';
+import styles, { greyColor, darkGreyColor, greenColor } from './styles';
 
 const Composer = NativeModules.RNMessageComposer;
 
@@ -28,7 +27,6 @@ function searchFor(item, query) {
 }
 
 class InviteView extends Component {
-
     constructor(props) {
         super(props);
 
@@ -77,7 +75,7 @@ class InviteView extends Component {
         }
 
         Composer.composeMessageWithArgs({
-            messageText: `Hey, let\'s try Txtling: ${INVITE_URL}`,
+            messageText: `Hey, let's try Txtling: ${INVITE_URL}`,
             recipients: this.selectedContacts.map((contact) => contact.number)
         }, (result) => {
             switch (result) {

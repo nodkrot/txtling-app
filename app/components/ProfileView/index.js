@@ -1,5 +1,3 @@
-import styles from './styles';
-
 import React, { Component, PropTypes } from 'react';
 import {
     ScrollView,
@@ -7,9 +5,9 @@ import {
     Text
 } from 'react-native';
 import { getInitials } from '../../utilities';
+import styles from './styles';
 
 class ProfileView extends Component {
-
     render() {
         const { first_name, last_name } = this.props.profile;
 

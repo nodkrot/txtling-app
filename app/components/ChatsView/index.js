@@ -1,5 +1,3 @@
-import styles, { activeColor } from './styles';
-
 import React, { Component, PropTypes } from 'react';
 import {
     View,
@@ -8,15 +6,15 @@ import {
     ListView,
     TouchableHighlight
 } from 'react-native';
+import { connect } from 'react-redux';
 import Navigation from '../Navigation';
 import { Button } from '../Elements';
 import { ROUTES } from '../../constants/AppConstants';
 import { getInitials } from '../../utilities';
 import { getChats } from '../../redux/chat';
-import { connect } from 'react-redux';
+import styles, { activeColor } from './styles';
 
 class ChatsView extends Component {
-
     constructor(props) {
         super(props);
 
