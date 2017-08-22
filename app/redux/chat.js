@@ -1,5 +1,5 @@
 import { AsyncStorage, PushNotificationIOS } from 'react-native';
-import { LOGOUT } from './user.js';
+import { LOGOUT } from './user';
 import { BASE_URL } from '../constants/AppConstants';
 
 export const UPDATE_NEW_MESSAGE = 'UPDATE_NEW_MESSAGE';
@@ -18,16 +18,18 @@ export function clearNewMessage(groupId) {
     return { type: CLEAR_NEW_MESSAGE, payload: { groupId } };
 }
 
+export function setGlobalBadgeNumber(number) {
+    return { type: SET_GLOBAL_BADGE_NUMBER, payload: number };
+}
+
 export const getChats = () => ({
     type: GET_CHATS,
     payload: AsyncStorage.getItem('AUTH_TOKEN')
-        .then((value) => {
-            return fetch(`${BASE_URL}chats`, {
-                headers: {
-                    Authorization: `JWT ${value}`
-                }
-            });
-        })
+        .then((value) => fetch(`${BASE_URL}chats`, {
+            headers: {
+                Authorization: `JWT ${value}`
+            }
+        }))
         .then((response) => response.json())
         .then((res) => res.data)
         .catch((err) => console.log(err)) // eslint-disable-line
@@ -94,12 +96,8 @@ export const clearChatBadges = (groupId) => {
                 })
                 .catch((err) => console.log(err)) // eslint-disable-line
         });
-    }
+    };
 };
-
-export function setGlobalBadgeNumber(number) {
-    return { type: SET_GLOBAL_BADGE_NUMBER, payload: number };
-}
 
 function compareChats(a, b) {
     if (a.badges < b.badges)
@@ -134,7 +132,7 @@ export default function reducer(state = initialState, action) {
             return {
                 ...state,
                 allChats: state.allChats
-                    .map((chat) => chat._id === action.payload._id ? action.payload : chat)
+                    .map((chat) => (chat._id === action.payload._id ? action.payload : chat))
                     .sort(compareChats)
             };
         case LOGOUT:
