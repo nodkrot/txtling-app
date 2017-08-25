@@ -90,7 +90,7 @@ class ChatsView extends Component {
     }
 
     render() {
-        if (!this.props.chats.length) {
+        if (this.props.didFetchChats && !this.props.chats.length) {
             return (
                 <View style={styles.main}>
                     <Navigation navTitle="Chats" />
@@ -119,6 +119,7 @@ class ChatsView extends Component {
 ChatsView.propTypes = {
     chats: PropTypes.array,
     dataSource: PropTypes.object.isRequired,
+    didFetchChats: PropTypes.bool.isRequired,
     getChats: PropTypes.func.isRequired,
     navigator: PropTypes.object,
     user: PropTypes.object
@@ -132,7 +133,8 @@ function mapStateToProps(state) {
     return {
         user: state.user,
         chats: state.chats.allChats,
-        dataSource: dataSource.cloneWithRows(state.chats.allChats)
+        dataSource: dataSource.cloneWithRows(state.chats.allChats),
+        didFetchChats: state.chats.didFetchChats
     };
 }
 

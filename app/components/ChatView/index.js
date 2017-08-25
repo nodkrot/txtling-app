@@ -72,7 +72,6 @@ class ChatView extends React.Component {
     }
 
     state = {
-        learnLanguage: '',
         keyboardSpace: 0,
         distanceFromTop: 150,
         scrollEventThrottle: 200,
@@ -83,6 +82,7 @@ class ChatView extends React.Component {
 
     componentDidMount() {
         this.messages = [];
+        this.learnLanguage = '';
         this.isReceivingMoreMessages = false;
         this.handleTextChange = debounce(this.handleTextChange, 150);
 
@@ -105,7 +105,7 @@ class ChatView extends React.Component {
             // Note: this will fetch all chats
             this.props.clearChatBadges(this.props.groupId).then(() => {
                 const currentGroup = this.props.chats.find((chat) => chat._id === this.props.groupId);
-                this.setState({ learnLanguage: currentGroup.learn_lang_code });
+                this.learnLanguage = currentGroup.learn_lang_code;
             });
         });
     }
@@ -168,7 +168,7 @@ class ChatView extends React.Component {
             group_id: this.props.groupId,
             first_name: this.props.user.first_name,
             last_name: this.props.user.last_name,
-            language: this.state.learnLanguage,
+            language: this.learnLanguage,
             timestamp: Firebase.ServerValue.TIMESTAMP
         });
 
@@ -204,6 +204,7 @@ class ChatView extends React.Component {
             passProps: {
                 groupId: this.props.groupId,
                 onComplete: (data) => {
+                    this.learnLanguage = data.google_code;
                     this.messages = [{ type: 'info', data }].concat(this.messages);
                     this.updateMessageDataSource(this.messages);
                 }
@@ -273,6 +274,7 @@ class ChatView extends React.Component {
                         <InvertibleScrollView {...props} inverted keyboardShouldPersistTaps />
                     )}
                     onScroll={this.handleScroll}
+                    removeClippedSubviews={false}
                     scrollEventThrottle={this.state.scrollEventThrottle}
                     dataSource={this.state.messageDataSource}
                     renderRow={this.renderRow}

@@ -8,6 +8,7 @@ export default class extends React.Component {
     static propTypes = {
         focused: PropTypes.bool,
         style: PropTypes.object,
+        wrapperStyle: PropTypes.object,
         onFocus: PropTypes.func,
         onBlur: PropTypes.func
     }
@@ -43,13 +44,13 @@ export default class extends React.Component {
     render() {
         const borderColor = this.state.isFocused ? primaryColor : greyColor;
         return (
-            <View style={[styles.textInputWrapper, { borderBottomColor: borderColor }, this.props.style]}>
+            <View style={[styles.textInputWrapper, { borderBottomColor: borderColor }, this.props.wrapperStyle]}>
                 <TextInput
                     {...this.props}
                     ref={(el) => { this.field = el; }}
                     onFocus={this.onFocus}
                     onBlur={this.onBlur}
-                    style={styles.textInput} />
+                    style={[styles.textInput, this.props.style]} />
             </View>
         );
     }

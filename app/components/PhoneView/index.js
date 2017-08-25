@@ -157,13 +157,13 @@ class PhoneView extends Component {
                 <View style={styles.container}>
                     <View style={styles.formGroup}>
                         <TextField
-                            style={{ width: 44 }}
+                            wrapperStyle={{ width: 44 }}
                             textAlign="center"
                             editable={false}
                             defaultValue="+1" />
                         <TextField
                             ref="phoneField"
-                            style={{ flex: 1 }}
+                            wrapperStyle={{ flex: 1 }}
                             placeholder="Your phone number"
                             keyboardType="phone-pad"
                             value={this.state.phone}
@@ -173,13 +173,13 @@ class PhoneView extends Component {
                     </View>
                     <Animated.View style={[{ height: this.state.codeFieldHeight }, styles.formGroup]}>
                         <TextField
-                            style={{ width: 44 }}
+                            wrapperStyle={{ width: 44 }}
                             textAlign="center"
                             editable={false}
                             defaultValue="C-" />
                         <TextField
                             ref="codeField"
-                            style={{ flex: 1 }}
+                            wrapperStyle={{ flex: 1 }}
                             placeholder="Your code"
                             keyboardType="number-pad"
                             maxLength={6}
