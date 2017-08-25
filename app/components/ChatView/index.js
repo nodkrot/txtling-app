@@ -18,7 +18,7 @@ import Tracker from '../../utilities/tracker';
 import { getScrollOffset } from '../../utilities';
 import { ROUTES } from '../../constants/AppConstants';
 import Navigation from '../Navigation';
-import { AutoExpandingTextField } from '../../components/Form';
+import { ExpandingTextField } from '../../components/Elements';
 import ChatRow from './components/ChatRow';
 import { clearNewMessage, updateNewMessage, clearChatBadges } from '../../redux/chat';
 
@@ -249,7 +249,7 @@ class ChatView extends React.Component {
     renderFooterBar = () => {
         return (
             <View style={styles.footerBar}>
-                <AutoExpandingTextField
+                <ExpandingTextField
                     ref="chatTextInput"
                     style={styles.chatTextInput}
                     placeholder="Start texting"

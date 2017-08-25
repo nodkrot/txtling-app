@@ -3,7 +3,7 @@ import { View } from 'react-native';
 import { connect } from 'react-redux';
 import ProfileView from '../ProfileView';
 import Navigation from '../Navigation';
-import { Row, RowButton } from '../Form';
+import { Row, RowButton } from '../Elements';
 import { logout } from '../../redux/user';
 import { ROUTES } from '../../constants/AppConstants';
 import styles from './styles';
