@@ -91,7 +91,7 @@ class InfoView extends Component {
                         value={this.state.firstName}
                         onChangeText={this.handleFirstNameChange}
                         autoCorrect={false}
-                        focused />
+                        autoFocus />
                     <TextField
                         placeholder="Last Name"
                         onChangeText={this.handleLastNameChange}
@@ -119,7 +119,7 @@ class InfoView extends Component {
             placeholder="First Name"
             value={this.state.firstName}
             autoCorrect={false}
-            focused />
+            autoFocus />
         <TextField
             placeholder="Last Name"
             autoCorrect={false}

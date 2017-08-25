@@ -1,5 +1,3 @@
-import styles from './styles';
-
 import React, { Component, PropTypes } from 'react';
 import {
     View,
@@ -8,12 +6,13 @@ import {
 import Navigation from '../Navigation';
 import ProfileView from '../ProfileView';
 import { Row, RowButton } from '../Form';
-import { INVITE_URL } from '../../constants/AppConstants.js';
+import Tracker from '../../utilities/tracker';
+import { INVITE_URL } from '../../constants/AppConstants';
+import styles from './styles';
 
 const Composer = NativeModules.RNMessageComposer;
 
 class ContactView extends Component {
-
     constructor(props) {
         super(props);
 
@@ -26,8 +25,10 @@ class ContactView extends Component {
     }
 
     handleInvite() {
+        Tracker.trackEvent('CTA', 'Single Invite');
+
         Composer.composeMessageWithArgs({
-            messageText: `Hey, let\'s try Txtling: ${INVITE_URL}`,
+            messageText: `Hey, let's try Txtling: ${INVITE_URL}`,
             recipients: [this.props.profile.number]
         }, (result) => {
             switch (result) {
@@ -61,7 +62,10 @@ class ContactView extends Component {
                     leftHandler={this.handleBackButton} />
                 <ProfileView {...this.props}>
                     <Row text={number} />
-                    <RowButton text="Invite to Txtling" onPress={this.handleInvite} rowTextStyle={styles.inviteButton} />
+                    <RowButton
+                        text="Invite to Txtling"
+                        onPress={this.handleInvite}
+                        rowTextStyle={styles.inviteButton} />
                 </ProfileView>
             </View>
         );

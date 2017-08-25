@@ -4,14 +4,21 @@ import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import createLogger from 'redux-logger';
 import promiseMiddleware from 'redux-promise-middleware';
-import asyncTracker from './middlewares/asyncTracker.js';
-import App from './App.js';
-import reducer from './redux/index.js';
+import { GoogleAnalyticsSettings } from 'react-native-google-analytics-bridge';
+import asyncTracker from './middlewares/asyncTracker';
+import App from './App';
+import reducer from './redux';
+
+const isProduction = process.env.NODE_ENV === 'production';
+
+if (!isProduction) {
+    GoogleAnalyticsSettings.setDryRun(true);
+}
 
 const logger = createLogger({ collapsed: true });
 const promise = promiseMiddleware();
 
-const middleware = process.env.NODE_ENV === 'production' ?
+const middleware = isProduction ?
     [thunk, promise, asyncTracker] :
     [thunk, promise, asyncTracker];
     // [thunk, promise, asyncTracker, logger];

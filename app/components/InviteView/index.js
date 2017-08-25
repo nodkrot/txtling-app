@@ -15,6 +15,7 @@ import { Button } from '../Elements';
 import SearchListView from '../SearchListView';
 import { getPhoneContacts, toggleRow, resetPhoneContacts } from '../../redux/contacts';
 import { INVITE_URL } from '../../constants/AppConstants';
+import Tracker from '../../utilities/tracker';
 import styles, { greyColor, darkGreyColor, greenColor } from './styles';
 
 const Composer = NativeModules.RNMessageComposer;
@@ -73,6 +74,8 @@ class InviteView extends Component {
         if (this.selectedContacts.length < this.props.minInvitees) {
             return;
         }
+
+        Tracker.trackEvent('CTA', 'Invite to Txtling', { label: 'recipients', value: this.selectedContacts.length });
 
         Composer.composeMessageWithArgs({
             messageText: `Hey, let's try Txtling: ${INVITE_URL}`,

@@ -14,6 +14,7 @@ import Speech from 'react-native-speech';
 import InvertibleScrollView from 'react-native-invertible-scroll-view';
 import Firebase from 'firebase';
 import 'firebase-util';
+import Tracker from '../../utilities/tracker';
 import { getScrollOffset } from '../../utilities';
 import { ROUTES } from '../../constants/AppConstants';
 import Navigation from '../Navigation';
@@ -84,7 +85,7 @@ class ChatView extends React.Component {
         this.messages = [];
         this.learnLanguage = '';
         this.isReceivingMoreMessages = false;
-        this.handleTextChange = debounce(this.handleTextChange, 150);
+        this.handleTextChange = debounce(this.handleTextChange, 100);
 
         const firebaseRef = new Firebase('https://txtling.firebaseio.com');
 
@@ -199,6 +200,8 @@ class ChatView extends React.Component {
     }
 
     handleSettingsButton = () => {
+        Tracker.trackEvent('CTA', 'Chat Settings');
+
         this.props.navigator.push({
             id: ROUTES.chatSettingsView,
             passProps: {

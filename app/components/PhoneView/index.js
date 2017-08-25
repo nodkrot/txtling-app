@@ -169,7 +169,7 @@ class PhoneView extends Component {
                             value={this.state.phone}
                             onChangeText={this.handlePhoneChange}
                             onFocus={this.handlePhoneFocus}
-                            focused />
+                            autoFocus />
                     </View>
                     <Animated.View style={[{ height: this.state.codeFieldHeight }, styles.formGroup]}>
                         <TextField
