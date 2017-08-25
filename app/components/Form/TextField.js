@@ -6,25 +6,15 @@ export default class extends React.Component {
     static displayName = 'TextField'
 
     static propTypes = {
-        focused: PropTypes.bool,
-        style: PropTypes.object,
-        wrapperStyle: PropTypes.object,
+        autoFocus: PropTypes.bool,
+        style: TextInput.propTypes.style,
+        wrapperStyle: View.propTypes.style,
         onFocus: PropTypes.func,
         onBlur: PropTypes.func
     }
 
-    static defaultProps = {
-        focused: false
-    }
-
     state = {
-        isFocused: this.props.focused
-    }
-
-    componentDidMount() {
-        if (this.props.focused) {
-            this.focus();
-        }
+        isFocused: Boolean(this.props.autoFocus)
     }
 
     focus = () => {

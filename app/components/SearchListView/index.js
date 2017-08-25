@@ -3,10 +3,11 @@ import {
     View,
     Modal,
     ListView,
-    StatusBar
+    StatusBar,
+    TouchableOpacity
 } from 'react-native';
 import { debounce } from 'lodash';
-// import SearchBar from 'react-native-search-bar';
+import Icon from 'react-native-vector-icons/Ionicons';
 import { TextField } from '../Form';
 import styles from './styles';
 
@@ -34,7 +35,7 @@ export default React.createClass({
     },
 
     componentWillMount() {
-        this.search = debounce(this.search, 150);
+        this.search = debounce(this.search, 100);
     },
 
     componentDidMount() {
@@ -43,9 +44,7 @@ export default React.createClass({
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.dataSet !== this.props.dataSet) {
-            this.setState({
-                searchDataSource: this.getDataSource(nextProps.dataSet)
-            });
+            this.setDataSource(nextProps.dataSet);
         }
     },
 
@@ -53,7 +52,7 @@ export default React.createClass({
         if (!this.isOpen()) {
             this.search('');
             this.setState({ isModalVisible: true });
-            StatusBar.setBarStyle('default');
+            StatusBar.setBarStyle('default', true);
         }
     },
 
@@ -70,42 +69,37 @@ export default React.createClass({
 
     search(q) {
         if (!q) {
-            this.setState({ searchDataSource: this.getDataSource(this.props.dataSet) });
-            return;
+            this.setDataSource(this.props.dataSet);
+        } else {
+            let results = resultsCache.dataForQuery[q];
+
+            if (!results) {
+                results = this.props.dataSet.filter((c) => this.props.searchRow(c, q));
+                resultsCache.dataForQuery[q] = results;
+                resultsCache.totalForQuery[q] = results.length;
+            }
+
+            this.setDataSource(results);
         }
-
-        let results = resultsCache.dataForQuery[q];
-
-        if (!results) {
-            results = this.props.dataSet.filter((c) => this.props.searchRow(c, q));
-            resultsCache.dataForQuery[q] = results;
-            resultsCache.totalForQuery[q] = results.length;
-        }
-
-        this.setState({ searchDataSource: this.getDataSource(results) });
     },
 
-    getDataSource(data) {
-        return this.state.searchDataSource.cloneWithRows(data);
+    setDataSource(data) {
+        this.setState({ searchDataSource: this.state.searchDataSource.cloneWithRows(data) });
     },
 
     renderHeader() {
         return (
-            <View>
+            <View style={styles.searchWrapper}>
                 <TextField
-                    focused
+                    autoFocus
+                    wrapperStyle={styles.searchField}
                     placeholder="Search"
-                    onChangeText={this.handleSearchChange} />
+                    onChangeText={this.search} />
+                <TouchableOpacity onPress={this.close}>
+                    <Icon name="ios-close" size={44} style={styles.closeIcon} />
+                </TouchableOpacity>
             </View>
         );
-        // return (
-        //     <SearchBar
-        //         ref="searchBar"
-        //         placeholder="Search"
-        //         showsCancelButton
-        //         onCancelButtonPress={this.close}
-        //         onChangeText={this.search} />
-        // );
     },
 
     render() {
@@ -119,6 +113,7 @@ export default React.createClass({
                         <View style={styles.topSpacer} />
                         {this.renderHeader()}
                         <ListView
+                            keyboardShouldPersistTaps={true}
                             dataSource={this.state.searchDataSource}
                             renderRow={this.props.renderRow} />
                     </View>

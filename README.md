@@ -81,7 +81,6 @@ http://ticons.fokkezb.nl
 ## Deprecation list
 
 - `react-native-invertible-scroll-view`
-- `react-native-search-bar`
 - `react-native-navbar`
 
 

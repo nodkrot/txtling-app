@@ -15,6 +15,7 @@ import { createContacts, getContacts } from '../../redux/contacts.js';
 import { createChat } from '../../redux/chat';
 import { connect } from 'react-redux';
 import { Button } from '../Elements';
+import Tracker from '../../utilities/tracker';
 import { ROUTES } from '../../constants/AppConstants';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { getInitials } from '../../utilities';
@@ -92,6 +93,8 @@ class ContactsView extends Component {
     }
 
     handleInviteRowPress() {
+        Tracker.trackEvent('CTA', 'Invite Friends');
+
         this.props.navigator.push({
             id: ROUTES.inviteView,
             passProps: {

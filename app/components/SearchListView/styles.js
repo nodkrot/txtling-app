@@ -12,5 +12,15 @@ export default StyleSheet.create({
     },
     topSpacer: {
         height: 20
+    },
+    searchWrapper: {
+        flexDirection: 'row'
+    },
+    searchField: {
+        flex: 1
+    },
+    closeIcon: {
+        paddingLeft: 16,
+        paddingRight: 16
     }
 });
