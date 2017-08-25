@@ -11,7 +11,6 @@ export default StyleSheet.create({
         backgroundColor: Colors.white
     },
     topSpacer: {
-        height: 20,
-        backgroundColor: '#ccc' // TODO: fix color
+        height: 20
     }
 });

@@ -1,13 +1,14 @@
-import styles from './styles';
-
 import React, { PropTypes } from 'react';
 import {
     View,
     Modal,
-    ListView
+    ListView,
+    StatusBar
 } from 'react-native';
 import { debounce } from 'lodash';
-import SearchBar from 'react-native-search-bar';
+// import SearchBar from 'react-native-search-bar';
+import { TextField } from '../Form';
+import styles from './styles';
 
 const resultsCache = {
     dataForQuery: {},
@@ -52,13 +53,14 @@ export default React.createClass({
         if (!this.isOpen()) {
             this.search('');
             this.setState({ isModalVisible: true });
-            // this.refs.searchModal.refs.searchBar.focus();
+            StatusBar.setBarStyle('default');
         }
     },
 
     close() {
         if (this.isOpen()) {
             this.setState({ isModalVisible: false });
+            StatusBar.setBarStyle('light-content');
         }
     },
 
@@ -89,13 +91,21 @@ export default React.createClass({
 
     renderHeader() {
         return (
-            <SearchBar
-                ref="searchBar"
-                placeholder="Search"
-                showsCancelButton
-                onCancelButtonPress={this.close}
-                onChangeText={this.search} />
+            <View>
+                <TextField
+                    focused
+                    placeholder="Search"
+                    onChangeText={this.handleSearchChange} />
+            </View>
         );
+        // return (
+        //     <SearchBar
+        //         ref="searchBar"
+        //         placeholder="Search"
+        //         showsCancelButton
+        //         onCancelButtonPress={this.close}
+        //         onChangeText={this.search} />
+        // );
     },
 
     render() {

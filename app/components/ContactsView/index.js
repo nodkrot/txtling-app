@@ -197,6 +197,7 @@ class ContactsView extends Component {
                 <ListView
                     contentInset={{ bottom: 49 }}
                     automaticallyAdjustContentInsets={false}
+                    removeClippedSubviews={false}
                     renderHeader={this.renderHeader}
                     dataSource={this.props.dataSource}
                     renderRow={this.renderRow}

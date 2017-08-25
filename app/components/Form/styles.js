@@ -12,7 +12,9 @@ export default StyleSheet.create({
         marginBottom: 8
     },
     textInput: {
-        height: 44
+        height: 44,
+        paddingLeft: 8,
+        paddingRight: 8
     },
     fab: {
         width: 200,

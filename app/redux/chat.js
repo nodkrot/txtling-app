@@ -38,17 +38,15 @@ export const getChats = () => ({
 export const createChat = (payload) => ({
     type: CREATE_CHAT,
     payload: AsyncStorage.getItem('AUTH_TOKEN')
-        .then((value) => {
-            return fetch(`${BASE_URL}chats`, {
-                method: 'post',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                    'Authorization': `JWT ${value}`
-                },
-                body: JSON.stringify(payload)
-            });
-        })
+        .then((value) => fetch(`${BASE_URL}chats`, {
+            method: 'post',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': `JWT ${value}`
+            },
+            body: JSON.stringify(payload)
+        }))
         .then((response) => response.json())
         .then((res) => res.data)
 });
@@ -74,17 +72,15 @@ export const clearChatBadges = (groupId) => {
         return dispatch({
             type: CLEAR_CHAT_BADGES,
             payload: AsyncStorage.getItem('AUTH_TOKEN')
-                .then((value) => {
-                    return fetch(`${BASE_URL}chats/clear-badges`, {
-                        method: 'post',
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json',
-                            'Authorization': `JWT ${value}`
-                        },
-                        body: JSON.stringify({ group_id: groupId })
-                    });
-                })
+                .then((value) => fetch(`${BASE_URL}chats/clear-badges`, {
+                    method: 'post',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        'Authorization': `JWT ${value}`
+                    },
+                    body: JSON.stringify({ group_id: groupId })
+                }))
                 .then((response) => response.json())
                 .then((res) => {
                     const totalBadges = res.data.reduce((acc, group) => acc + group.badges, 0);
@@ -100,17 +96,20 @@ export const clearChatBadges = (groupId) => {
 };
 
 function compareChats(a, b) {
-    if (a.badges < b.badges)
+    if (a.badges < b.badges) {
         return 1;
-    if (a.badges > b.badges)
+    }
+    if (a.badges > b.badges) {
         return -1;
+    }
     return 0;
 }
 
 const initialState = {
     newMessageText: {},
     allChats: [],
-    chatBadgeNumber: 0
+    chatBadgeNumber: 0,
+    didFetchChats: false
 };
 
 export default function reducer(state = initialState, action) {
@@ -123,7 +122,7 @@ export default function reducer(state = initialState, action) {
             return { ...state };
         case `${GET_CHATS}_FULFILLED`:
         case `${CLEAR_CHAT_BADGES}_FULFILLED`:
-            return { ...state, allChats: action.payload.sort(compareChats) };
+            return { ...state, allChats: action.payload.sort(compareChats), didFetchChats: true };
         case SET_GLOBAL_BADGE_NUMBER:
             return { ...state, chatBadgeNumber: action.payload };
         case `${CREATE_CHAT}_FULFILLED`:
