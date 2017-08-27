@@ -10,8 +10,7 @@ import { formatPhone } from '../../utilities';
 import { registerDeviceToken, generateCode, confirmCode } from '../../redux/user';
 import { ROUTES } from '../../constants/AppConstants';
 import Navigation from '../Navigation';
-import { Button } from '../Elements';
-import { TextField } from '../Form';
+import { Button, TextField } from '../Elements';
 import styles from './styles';
 
 class PhoneView extends Component {
@@ -25,14 +24,6 @@ class PhoneView extends Component {
             isCodeFieldActive: false,
             isTokenReistered: false
         };
-
-        this.handlePhoneChange = this.handlePhoneChange.bind(this);
-        this.handleCodeChange = this.handleCodeChange.bind(this);
-        this.handlePhoneFocus = this.handlePhoneFocus.bind(this);
-        this.handlePhoneSubmit = this.handlePhoneSubmit.bind(this);
-        this.handleCodeSubmit = this.handleCodeSubmit.bind(this);
-        this.handleBackButton = this.handleBackButton.bind(this);
-        this.handlePushRegistration = this.handlePushRegistration.bind(this);
     }
 
     componentWillMount() {
@@ -41,14 +32,6 @@ class PhoneView extends Component {
 
     componentWillUnmount() {
         PushNotificationIOS.removeEventListener('register', this.handlePushRegistration);
-    }
-
-    handlePushRegistration(token) {
-        // This is a bug, event is triggered twice, will be fixed in future RN versions
-        if (!this.state.isTokenReistered) {
-            this.props.registerDeviceToken({ device_token: token });
-            this.setState({ isTokenReistered: true });
-        }
     }
 
     toggleCodeField(toValue, duration = 255) {
@@ -62,20 +45,28 @@ class PhoneView extends Component {
         });
     }
 
-    handlePhoneFocus() {
+    handlePushRegistration = (token) => {
+        // This is a bug, event is triggered twice, will be fixed in future RN versions
+        if (!this.state.isTokenReistered) {
+            this.props.registerDeviceToken({ device_token: token });
+            this.setState({ isTokenReistered: true });
+        }
+    }
+
+    handlePhoneFocus = () => {
         this.setState({ isCodeFieldActive: false });
         this.toggleCodeField(0);
     }
 
-    handlePhoneChange(value) {
+    handlePhoneChange = (value) => {
         this.setState({ phone: formatPhone(value) });
     }
 
-    handleCodeChange(value) {
+    handleCodeChange = (value) => {
         this.setState({ code: value });
     }
 
-    handlePhoneSubmit() {
+    handlePhoneSubmit = () => {
         const phoneNumber = this.state.phone.replace(/\(|\)| |-|\D/g, '');
 
         if (phoneNumber.length < 10) {
@@ -92,7 +83,7 @@ class PhoneView extends Component {
         }).catch((err) => console.log(err));
     }
 
-    handleCodeSubmit() {
+    handleCodeSubmit = () => {
         if (this.state.code < 6) {
             return;
         }
@@ -135,7 +126,7 @@ class PhoneView extends Component {
         }).catch((err) => console.log(err));
     }
 
-    handleBackButton() {
+    handleBackButton = () => {
         this.props.navigator.pop();
     }
 
@@ -143,9 +134,11 @@ class PhoneView extends Component {
         const button = this.state.isCodeFieldActive
             ? (<Button
                 text="Next"
+                loading={this.props.isConfirmCodeLoading}
                 onPress={this.handleCodeSubmit} />)
             : (<Button
                 text="Get Code"
+                loading={this.props.isGetCodeLoading}
                 onPress={this.handlePhoneSubmit} />);
 
         return (
@@ -157,13 +150,13 @@ class PhoneView extends Component {
                 <View style={styles.container}>
                     <View style={styles.formGroup}>
                         <TextField
-                            wrapperStyle={{ width: 44 }}
+                            wrapperStyle={styles.preTextField}
                             textAlign="center"
                             editable={false}
                             defaultValue="+1" />
                         <TextField
                             ref="phoneField"
-                            wrapperStyle={{ flex: 1 }}
+                            wrapperStyle={styles.textField}
                             placeholder="Your phone number"
                             keyboardType="phone-pad"
                             value={this.state.phone}
@@ -173,13 +166,13 @@ class PhoneView extends Component {
                     </View>
                     <Animated.View style={[{ height: this.state.codeFieldHeight }, styles.formGroup]}>
                         <TextField
-                            wrapperStyle={{ width: 44 }}
+                            wrapperStyle={styles.preTextField}
                             textAlign="center"
                             editable={false}
                             defaultValue="C-" />
                         <TextField
                             ref="codeField"
-                            wrapperStyle={{ flex: 1 }}
+                            wrapperStyle={styles.textField}
                             placeholder="Your code"
                             keyboardType="number-pad"
                             maxLength={6}
@@ -197,12 +190,16 @@ PhoneView.propTypes = {
     generateCode: PropTypes.func,
     login: PropTypes.object,
     navigator: PropTypes.object,
-    registerDeviceToken: PropTypes.func
+    registerDeviceToken: PropTypes.func,
+    isGetCodeLoading: PropTypes.bool,
+    isConfirmCodeLoading: PropTypes.bool
 };
 
 function mapStateToProps(state) {
     return {
-        login: state.user
+        login: state.user,
+        isGetCodeLoading: state.ui.asyncStates.GENERATE_CODE,
+        isConfirmCodeLoading: state.ui.asyncStates.CODE_CONFIRM
     };
 }
 

@@ -8,8 +8,7 @@ import {
 import { connect } from 'react-redux';
 import { registerUser } from '../../redux/user';
 import Navigation from '../Navigation';
-import { Button } from '../Elements';
-import { TextField } from '../Form';
+import { Button, TextField } from '../Elements';
 import { ROUTES } from '../../constants/AppConstants';
 // import CameraView from '../CameraView';
 // import CameraRollView from '../CameraRollView';
@@ -88,17 +87,20 @@ class InfoView extends Component {
                 <View style={styles.container}>
                     <TextField
                         placeholder="First Name"
+                        wrapperStyle={styles.textField}
                         value={this.state.firstName}
                         onChangeText={this.handleFirstNameChange}
                         autoCorrect={false}
                         autoFocus />
                     <TextField
                         placeholder="Last Name"
+                        wrapperStyle={styles.textField}
                         onChangeText={this.handleLastNameChange}
                         autoCorrect={false}
                         value={this.state.lastName} />
                     <Button
                         text="Next"
+                        loading={this.props.isRegisteringUser}
                         onPress={this.handleButtonPress} />
                 </View>
             </View>
@@ -143,12 +145,14 @@ class InfoView extends Component {
 
 InfoView.propTypes = {
     navigator: PropTypes.object,
-    registerUser: PropTypes.func.isRequired
+    registerUser: PropTypes.func.isRequired,
+    isRegisteringUser: PropTypes.bool
 };
 
 function mapStateToProps(state) {
     return {
-        login: state.user
+        login: state.user,
+        isRegisteringUser: state.ui.asyncStates.REGISTER_USER
     };
 }
 

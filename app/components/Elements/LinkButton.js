@@ -1,8 +1,7 @@
-import styles, { linkButtonIconColor } from './styles';
-
 import React, { PropTypes } from 'react';
 import { Text, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import styles, { darkerGreyColor } from './styles';
 
 export default React.createClass({
 
@@ -30,7 +29,7 @@ export default React.createClass({
                 <Icon
                     name={this.props.icon}
                     size={18}
-                    color={linkButtonIconColor}
+                    color={darkerGreyColor}
                     style={styles.linkButtonIcon} />
             </TouchableOpacity>
         );

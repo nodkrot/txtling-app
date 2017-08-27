@@ -1,6 +1,6 @@
 import Firebase from 'firebase';
 import { AsyncStorage } from 'react-native';
-import Tracker from '../utilities/tracker.js';
+import Tracker from '../utilities/tracker';
 import { BASE_URL } from '../constants/AppConstants';
 
 const firebaseRef = new Firebase('https://txtling.firebaseio.com');
@@ -19,8 +19,8 @@ export const isLoggedIn = () => ({
     payload: Promise.all([
         AsyncStorage.getItem('AUTH_TOKEN'),
         AsyncStorage.getItem('USER_INFO'),
-        AsyncStorage.getItem('FIRE_TOKEN'),
-    ]).then(([ authToken, userInfoJson, fireToken ]) => {
+        AsyncStorage.getItem('FIRE_TOKEN')
+    ]).then(([authToken, userInfoJson, fireToken]) => {
         const hasToken = Boolean(authToken) && Boolean(fireToken);
         const userInfo = userInfoJson ? JSON.parse(userInfoJson) : {};
 

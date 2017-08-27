@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import { debounce } from 'lodash';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { TextField } from '../Form';
+import { TextField } from '../Elements';
 import styles from './styles';
 
 const resultsCache = {
