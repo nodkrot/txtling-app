@@ -5,7 +5,7 @@ import {
 } from 'react-native';
 import Navigation from '../Navigation';
 import ProfileView from '../ProfileView';
-import { Row, RowButton } from '../Form';
+import { Row, RowButton } from '../Elements';
 import Tracker from '../../utilities/tracker';
 import { INVITE_URL } from '../../constants/AppConstants';
 import styles from './styles';

@@ -4,8 +4,7 @@ import styles from './styles';
 
 const INPUT_LINE_HEIGHT = 35;
 
-export default class AutoExpandingTextField extends Component {
-
+export default class ExpandingTextField extends Component {
     constructor(props) {
         super(props);
 
@@ -32,7 +31,7 @@ export default class AutoExpandingTextField extends Component {
 
     render() {
         const textInputStyles = [
-            styles.autoExpandingTextField,
+            styles.expandingTextField,
             this.props.style,
             { height: Math.max(INPUT_LINE_HEIGHT, this.state.height) }
         ];
@@ -50,11 +49,11 @@ export default class AutoExpandingTextField extends Component {
     }
 }
 
-AutoExpandingTextField.propTypes = {
+ExpandingTextField.propTypes = {
     defaultValue: PropTypes.any,
     style: PropTypes.any
 };
 
-AutoExpandingTextField.defaultProps = {
+ExpandingTextField.defaultProps = {
     style: {}
 };
