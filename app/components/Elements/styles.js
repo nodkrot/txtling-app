@@ -64,8 +64,7 @@ export default StyleSheet.create({
     },
     textInputWrapper: {
         borderBottomColor: Colors.grey,
-        borderBottomWidth: 2,
-        marginBottom: 8
+        borderBottomWidth: 2
     },
 
     expandingTextField: {

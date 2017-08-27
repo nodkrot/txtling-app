@@ -87,12 +87,14 @@ class InfoView extends Component {
                 <View style={styles.container}>
                     <TextField
                         placeholder="First Name"
+                        wrapperStyle={styles.textField}
                         value={this.state.firstName}
                         onChangeText={this.handleFirstNameChange}
                         autoCorrect={false}
                         autoFocus />
                     <TextField
                         placeholder="Last Name"
+                        wrapperStyle={styles.textField}
                         onChangeText={this.handleLastNameChange}
                         autoCorrect={false}
                         value={this.state.lastName} />

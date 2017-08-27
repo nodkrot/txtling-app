@@ -14,5 +14,13 @@ export default StyleSheet.create({
     formGroup: {
         overflow: 'hidden',
         flexDirection: 'row'
+    },
+    preTextField: {
+        width: 44,
+        marginBottom: 8
+    },
+    textField: {
+        flex: 1,
+        marginBottom: 8
     }
 });

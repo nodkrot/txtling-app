@@ -9,7 +9,7 @@ export default class extends Component {
     static propTypes = {
         icon: PropTypes.string,
         loading: PropTypes.bool,
-        onPress: PropTypes.func,
+        onPress: PropTypes.func.isRequired,
         style: PropTypes.any,
         text: PropTypes.string.isRequired
     }
@@ -34,7 +34,6 @@ export default class extends Component {
             return (
                 <TouchableOpacity
                     style={[buttonStyle, styles.disabledButton]}
-                    onPress={this.props.onPress}
                     activeOpacity={0.6}>
                     <ActivityIndicator color={whiteColor} />
                 </TouchableOpacity>

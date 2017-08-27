@@ -19,6 +19,9 @@ export default StyleSheet.create({
     name: {
         flex: 2
     },
+    textField: {
+        marginBottom: 8
+    },
     cameraButton: {
         marginTop: 6,
         width: 88,
