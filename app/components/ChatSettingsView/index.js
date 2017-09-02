@@ -8,11 +8,17 @@ import { updateSettings } from '../../redux/chat';
 import styles, { activeColor } from './styles';
 
 class ChatSettingsView extends Component {
-    constructor(props) {
-        super(props);
+    static displayName = 'ChatSettingsView'
 
-        this.handleBackButton = this.handleBackButton.bind(this);
-        this.renderRow = this.renderRow.bind(this);
+    static propTypes = {
+        groupId: PropTypes.string,
+        user: PropTypes.object,
+        navigator: PropTypes.object,
+        languages: PropTypes.array,
+        dataSource: PropTypes.object,
+        getLanguages: PropTypes.func,
+        updateSettings: PropTypes.func,
+        onComplete: PropTypes.func
     }
 
     componentWillMount() {
@@ -23,11 +29,11 @@ class ChatSettingsView extends Component {
         }
     }
 
-    handleBackButton() {
+    handleBackButton = () => {
         this.props.navigator.pop();
     }
 
-    handleRowPress(lang) {
+    handleRowPress = (lang) => {
         this.props.updateSettings({
             id: this.props.groupId,
             learn_lang: lang.human_readable,
@@ -38,22 +44,20 @@ class ChatSettingsView extends Component {
         });
     }
 
-    renderRow(rowData) {
-        return (
-            <TouchableHighlight onPress={() => this.handleRowPress(rowData)} underlayColor={activeColor}>
-                <View>
-                    <View style={styles.row}>
-                        <Image
-                            source={{ uri: rowData.image_url }}
-                            style={styles.image} />
-                        <Text style={styles.text}>
-                            {rowData.human_readable}
-                        </Text>
-                    </View>
+    renderRow = (rowData) => (
+        <TouchableHighlight onPress={() => this.handleRowPress(rowData)} underlayColor={activeColor}>
+            <View>
+                <View style={styles.row}>
+                    <Image
+                        source={{ uri: rowData.image_url }}
+                        style={styles.image} />
+                    <Text style={styles.text}>
+                        {rowData.human_readable}
+                    </Text>
                 </View>
-            </TouchableHighlight>
-        );
-    }
+            </View>
+        </TouchableHighlight>
+    )
 
     render() {
         return (
@@ -69,17 +73,6 @@ class ChatSettingsView extends Component {
         );
     }
 }
-
-ChatSettingsView.propTypes = {
-    groupId: PropTypes.string,
-    user: PropTypes.object,
-    navigator: PropTypes.object,
-    languages: PropTypes.array,
-    dataSource: PropTypes.object,
-    getLanguages: PropTypes.func,
-    updateSettings: PropTypes.func,
-    onComplete: PropTypes.func
-};
 
 const dataSource = new ListView.DataSource({
     rowHasChanged: (r1, r2) => r1 !== r2

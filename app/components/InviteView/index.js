@@ -29,22 +29,35 @@ function searchFor(item, query) {
 }
 
 class InviteView extends Component {
-    constructor(props) {
-        super(props);
+    static displayName = 'InviteView'
 
-        this.selectedContacts = [];
-
-        this.state = {
-            totalSelectedContact: 0,
-            searchDataSource: new ListView.DataSource({
-                rowHasChanged: (row1, row2) => row1 !== row2
-            })
-        };
-
-        this.renderRow = this.renderRow.bind(this);
-        this.handleRowPress = this.handleRowPress.bind(this);
-        this.handleInviteButton = this.handleInviteButton.bind(this);
+    static propTypes = {
+        allowAccessContacts: PropTypes.bool.isRequired,
+        contacts: PropTypes.array.isRequired,
+        dataSource: PropTypes.object.isRequired,
+        minInvitees: PropTypes.number,
+        navTitle: PropTypes.string,
+        onAfterInvite: PropTypes.func,
+        onCancel: PropTypes.func,
+        getPhoneContacts: PropTypes.func.isRequired,
+        phoneContactIds: PropTypes.object.isRequired,
+        resetPhoneContacts: PropTypes.func.isRequired,
+        toggleRow: PropTypes.func.isRequired
     }
+
+    static defaultProps = {
+        navTitle: 'Invite Friends',
+        minInvitees: 1
+    }
+
+    state = {
+        totalSelectedContact: 0,
+        searchDataSource: new ListView.DataSource({
+            rowHasChanged: (row1, row2) => row1 !== row2
+        })
+    }
+
+    selectedContacts = []
 
     componentWillMount() {
         InteractionManager.runAfterInteractions(() => {
@@ -56,7 +69,7 @@ class InviteView extends Component {
         this.props.resetPhoneContacts();
     }
 
-    handleRowPress(rowData) {
+    handleRowPress = (rowData) => {
         this.props.toggleRow(rowData.phone_id);
         this.refs.searchWrapper.close();
 
@@ -71,7 +84,7 @@ class InviteView extends Component {
         this.setState({ totalSelectedContact: this.selectedContacts.length });
     }
 
-    handleInviteButton() {
+    handleInviteButton = () => {
         if (this.selectedContacts.length < this.props.minInvitees) {
             return;
         }
@@ -105,7 +118,7 @@ class InviteView extends Component {
         });
     }
 
-    renderRow(rowData) {
+    renderRow = (rowData) => {
         const isSelected = this.props.phoneContactIds[rowData.phone_id].selected;
         const icon = isSelected ? 'ios-checkmark-circle' : 'ios-checkmark-circle-outline';
 
@@ -189,25 +202,6 @@ class InviteView extends Component {
         );
     }
 }
-
-InviteView.propTypes = {
-    allowAccessContacts: PropTypes.bool.isRequired,
-    contacts: PropTypes.array.isRequired,
-    dataSource: PropTypes.object.isRequired,
-    minInvitees: PropTypes.number,
-    navTitle: PropTypes.string,
-    onAfterInvite: PropTypes.func,
-    onCancel: PropTypes.func,
-    getPhoneContacts: PropTypes.func.isRequired,
-    phoneContactIds: PropTypes.object.isRequired,
-    resetPhoneContacts: PropTypes.func.isRequired,
-    toggleRow: PropTypes.func.isRequired
-};
-
-InviteView.defaultProps = {
-    navTitle: 'Invite Friends',
-    minInvitees: 1
-};
 
 const dataSource = new ListView.DataSource({
     rowHasChanged: (r1, r2) => r1 !== r2

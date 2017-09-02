@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import {
     TouchableHighlight,
     View,
@@ -13,25 +13,21 @@ import styles from './styles';
 
 
 class CameraView extends Component {
+    static displayName = 'CameraView'
 
-    constructor() {
-        super();
+    static propTypes = {}
 
-        this.state = {
-            cameraType: Camera.constants.Type.front
-        };
-
-        this.handleSwitchCamera = this.handleSwitchCamera.bind(this);
-        this.handleTakePicture = this.handleTakePicture.bind(this);
+    state = {
+        cameraType: Camera.constants.Type.front
     }
 
-    handleSwitchCamera() {
+    handleSwitchCamera = () => {
         const state = this.state;
         state.cameraType = state.cameraType === Camera.constants.Type.back ? Camera.constants.Type.front : Camera.constants.Type.back;
         this.setState(state);
     }
 
-    handleTakePicture() {
+    handleTakePicture = () => {
         this.refs.cam.capture((err, data) => {
             console.log(err, data);
         });
