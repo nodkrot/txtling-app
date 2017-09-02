@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react';
+import React, { Component, PropTypes } from 'react';
 import {
     View,
     TouchableHighlight
@@ -6,13 +6,15 @@ import {
 import Row from './Row';
 import { greyColor } from './styles';
 
-export default React.createClass({
-    propTypes: {
+export default class RowButton extends Component {
+    static displayName = 'RowButton'
+
+    static propTypes = {
         onPress: PropTypes.func,
         rowStyle: PropTypes.any,
         rowTextStyle: PropTypes.any,
         text: PropTypes.string
-    },
+    }
 
     render() {
         return (
@@ -23,4 +25,4 @@ export default React.createClass({
             </TouchableHighlight>
         );
     }
-});
+}

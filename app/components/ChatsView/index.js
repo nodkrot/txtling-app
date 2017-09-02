@@ -15,19 +15,22 @@ import { getChats } from '../../redux/chat';
 import styles, { activeColor } from './styles';
 
 class ChatsView extends Component {
-    constructor(props) {
-        super(props);
+    static displayName = 'ChatsView'
 
-        this.renderRow = this.renderRow.bind(this);
-        this.handleRowPress = this.handleRowPress.bind(this);
-        this.handleInvitePress = this.handleInvitePress.bind(this);
+    static propTypes = {
+        chats: PropTypes.array,
+        dataSource: PropTypes.object.isRequired,
+        didFetchChats: PropTypes.bool.isRequired,
+        getChats: PropTypes.func.isRequired,
+        navigator: PropTypes.object,
+        user: PropTypes.object
     }
 
     componentWillMount() {
         this.props.getChats();
     }
 
-    handleRowPress(rowData, opponent) {
+    handleRowPress = (rowData, opponent) => {
         this.props.navigator.push({
             id: ROUTES.chatView,
             passProps: {
@@ -37,7 +40,7 @@ class ChatsView extends Component {
         });
     }
 
-    handleInvitePress() {
+    handleInvitePress = () => {
         this.props.navigator.push({
             id: ROUTES.inviteView,
             passProps: {
@@ -47,7 +50,7 @@ class ChatsView extends Component {
         });
     }
 
-    renderRow(rowData) {
+    renderRow = (rowData) => {
         const opponent = rowData.persons.filter((p) => p._id !== this.props.user._id)[0];
 
         if (!opponent) {
@@ -115,15 +118,6 @@ class ChatsView extends Component {
         );
     }
 }
-
-ChatsView.propTypes = {
-    chats: PropTypes.array,
-    dataSource: PropTypes.object.isRequired,
-    didFetchChats: PropTypes.bool.isRequired,
-    getChats: PropTypes.func.isRequired,
-    navigator: PropTypes.object,
-    user: PropTypes.object
-};
 
 const dataSource = new ListView.DataSource({
     rowHasChanged: (r1, r2) => r1 !== r2

@@ -1,24 +1,21 @@
-import React, { PropTypes } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { Text, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import styles, { darkerGreyColor } from './styles';
 
-export default React.createClass({
+export default class LinkButton extends Component {
+    static displayName = 'LinkButton'
 
-    displayName: 'LinkButton',
-
-    propTypes: {
+    static propTypes = {
         icon: PropTypes.string,
         onPress: PropTypes.func,
         style: PropTypes.any,
         text: PropTypes.string.isRequired
-    },
+    }
 
-    getDefaultProps() {
-        return {
-            icon: 'ios-ionic'
-        };
-    },
+    state = {
+        icon: 'ios-ionic'
+    }
 
     render() {
         const linkButtonStyle = [styles.linkButton, this.props.style];
@@ -34,4 +31,4 @@ export default React.createClass({
             </TouchableOpacity>
         );
     }
-});
+}

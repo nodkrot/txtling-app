@@ -1,6 +1,4 @@
-import styles from './styles';
-
-import React, { PropTypes } from 'react';
+import React, { Component, PropTypes } from 'react';
 import {
     View,
     Image,
@@ -10,22 +8,21 @@ import {
     NativeModules
 } from 'react-native';
 import Dimensions from 'Dimensions';
+import styles from './styles';
 
 const thumbSize = Dimensions.get('window').width / 4;
 
 
-export default React.createClass({
-    propTypes() {
-        return {
-            onImageSelect: PropTypes.func.isRequired
-        };
-    },
+export default class CameraRollView extends Component {
+    static displayName = 'CameraRollView'
 
-    getInitialState() {
-        return {
-            images: []
-        };
-    },
+    static propTypes = {
+        onImageSelect: PropTypes.func.isRequired
+    }
+
+    state = {
+        images: []
+    }
 
     componentDidMount() {
         const fetchParams = {
@@ -33,24 +30,22 @@ export default React.createClass({
         };
 
         CameraRoll.getPhotos(fetchParams, this.storeImages, (err) => console.log(err));
-    },
+    }
 
-    storeImages(data) {
+    storeImages = (data) => {
         const assets = data.edges;
         const images = assets.map((asset) => asset.node.image);
 
-        this.setState({
-            images
-        });
-    },
+        this.setState({ images });
+    }
 
-    handleImageSelect(uri) {
+    handleImageSelect = (uri) => {
         NativeModules.ReadImageData.readImage(uri, (image) => {
             this.props.onImageSelect(uri, image);
         });
-    },
+    }
 
-    renderImageThumbs() {
+    renderImageThumbs = () => {
         return this.state.images.map((image, i) => {
             return (
                 <TouchableHighlight key={i} onPress={() => this.handleImageSelect(image.uri)}>
@@ -58,7 +53,7 @@ export default React.createClass({
                 </TouchableHighlight>
             );
         });
-    },
+    }
 
     render() {
         return (
@@ -71,4 +66,4 @@ export default React.createClass({
             </View>
         );
     }
-});
+}
