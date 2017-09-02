@@ -43,6 +43,7 @@ class TabsView extends Component {
             PushNotificationIOS.requestPermissions();
         });
 
+        // https://stackoverflow.com/questions/34337117/detect-whether-react-native-ios-app-was-opened-via-push-notification
         let backgroundNotification = null;
 
         PushNotificationIOS.getInitialNotification().then((notification) => {
@@ -61,6 +62,10 @@ class TabsView extends Component {
             if (newAppState === 'active' && backgroundNotification !== null) {
                 this.handPushNotification(backgroundNotification);
                 backgroundNotification = null;
+
+                // TODO: Calling getChats() if there were new push notifications
+                // while app is not off to update chats view with badges
+                // PS. Without loading screen, maybe have different action
             }
         });
 
