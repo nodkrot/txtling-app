@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Text, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import styles, { darkerGreyColor } from './styles';
+import styles, { darkerGrey } from './styles';
 
 export default class LinkButton extends Component {
     static displayName = 'LinkButton'
@@ -14,9 +14,7 @@ export default class LinkButton extends Component {
         text: PropTypes.string.isRequired
     }
 
-    state = {
-        icon: 'ios-ionic'
-    }
+    state = { icon: 'ios-ionic' }
 
     render() {
         const linkButtonStyle = [styles.linkButton, this.props.style];
@@ -27,7 +25,7 @@ export default class LinkButton extends Component {
                 <Icon
                     name={this.props.icon}
                     size={18}
-                    color={darkerGreyColor}
+                    color={darkerGrey}
                     style={styles.linkButtonIcon} />
             </TouchableOpacity>
         );

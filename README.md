@@ -80,8 +80,9 @@ http://ticons.fokkezb.nl
 
 ## Deprecation list
 
+- `firebase-util`
 - `react-native-invertible-scroll-view`
-- `react-native-navbar`
+- `jest-react-native`
 
 
 ## Debugging on a device with Chrome Developer Tools

@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {
-    AppState,
-    View
-} from 'react-native';
+import { AppState, View } from 'react-native';
 import { connect } from 'react-redux';
 import Spinner from 'react-native-loading-spinner-overlay';
 import firebaseRef from './firebase/database';
