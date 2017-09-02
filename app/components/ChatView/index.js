@@ -204,10 +204,16 @@ class ChatView extends Component {
             id: ROUTES.chatSettingsView,
             passProps: {
                 groupId: this.props.groupId,
-                onComplete: (data) => {
-                    this.learnLanguage = data.google_code;
-                    this.messages = [{ type: 'info', data }].concat(this.messages);
-                    this.updateMessageDataSource(this.messages);
+                onComplete: (languageData) => {
+                    const firstName = this.props.user.first_name;
+
+                    this.receiveRef.push().setWithPriority({
+                        type: 'info',
+                        message: `${firstName} changed language of this chat to ${languageData.human_readable}`,
+                        timestamp: Firebase.ServerValue.TIMESTAMP
+                    }, 0 - Date.now());
+
+                    this.learnLanguage = languageData.google_code;
                 }
             }
         });
@@ -230,7 +236,7 @@ class ChatView extends Component {
             return (
                 <View style={styles.infoRow}>
                     <Text style={styles.infoRowText}>
-                        {`This chat's language was changed to ${rowData.data.human_readable}`}
+                        {rowData.message}
                     </Text>
                 </View>
             );
