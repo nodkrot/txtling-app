@@ -1,9 +1,7 @@
-import Firebase from 'firebase';
 import { AsyncStorage } from 'react-native';
 import Tracker from '../utilities/tracker';
 import { BASE_URL } from '../constants/AppConstants';
-
-const firebaseRef = new Firebase('https://txtling.firebaseio.com');
+import firebaseRef from '../firebase/database';
 
 export const IS_LOGGED_IN = 'IS_LOGGED_IN';
 export const GENERATE_CODE = 'GENERATE_CODE';
@@ -153,7 +151,7 @@ export const uploadImage = (image) => {
                 AsyncStorage.setItem('USER_INFO', JSON.stringify(res.data));
                 return res.data;
             })
-    }
+    };
 };
 
 export const logout = () => {
@@ -165,9 +163,7 @@ export const logout = () => {
 const initialState = { /* user object */ };
 
 export default function reducer(state = initialState, action) {
-
     switch (action.type) {
-
         case `${IS_LOGGED_IN}_FULFILLED`:
             return { ...state, ...action.payload.userInfo };
 
