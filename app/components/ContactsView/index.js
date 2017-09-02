@@ -1,5 +1,3 @@
-import styles, { activeColor, primaryColor } from './styles';
-
 import React, { Component, PropTypes } from 'react';
 import {
     View,
@@ -9,15 +7,16 @@ import {
     TouchableHighlight,
     InteractionManager
 } from 'react-native';
-import Navigation from '../Navigation';
-import { createContacts, getContacts } from '../../redux/contacts.js';
-import { createChat } from '../../redux/chat';
 import { connect } from 'react-redux';
+import Icon from 'react-native-vector-icons/Ionicons';
+import Navigation from '../Navigation';
+import { createContacts, getContacts } from '../../redux/contacts';
+import { createChat } from '../../redux/chat';
 import { Button, RowButton } from '../Elements';
 import Tracker from '../../utilities/tracker';
 import { ROUTES } from '../../constants/AppConstants';
-import Icon from 'react-native-vector-icons/Ionicons';
 import { getInitials } from '../../utilities';
+import styles, { activeColor, primaryColor } from './styles';
 
 // import SearchListView from '../SearchListView';
 
@@ -29,26 +28,24 @@ import { getInitials } from '../../utilities';
 // }
 
 class ContactsView extends Component {
+    static displayName = 'ContactsView'
 
-    constructor(props) {
-        super(props);
-
-        this.renderRow = this.renderRow.bind(this);
-        this.renderHeader = this.renderHeader.bind(this);
-        this.renderRegisteredRow = this.renderRegisteredRow.bind(this);
-        this.renderNonregisteredRow = this.renderNonregisteredRow.bind(this);
-        this.handleRegisteredRowPress = this.handleRegisteredRowPress.bind(this);
-        this.handleNonregisteredRowPress = this.handleNonregisteredRowPress.bind(this);
-        this.handleInviteRowPress = this.handleInviteRowPress.bind(this);
+    static propTypes = {
+        allowAccessContacts: PropTypes.bool.isRequired,
+        createChat: PropTypes.func.isRequired,
+        createContacts: PropTypes.func.isRequired,
+        dataSource: PropTypes.object.isRequired,
+        getContacts: PropTypes.func.isRequired,
+        navigator: PropTypes.object,
+        user: PropTypes.object.isRequired
     }
-
     componentWillMount() {
         InteractionManager.runAfterInteractions(() => {
             this.props.createContacts();
         });
     }
 
-    handleRegisteredRowPress(rowData) {
+    handleRegisteredRowPress = (rowData) => {
         // this.refs.searchWrapper.close();
 
         if (!rowData.group_id) {
@@ -84,14 +81,14 @@ class ContactsView extends Component {
         }
     }
 
-    handleNonregisteredRowPress(rowData) {
+    handleNonregisteredRowPress = (rowData) => {
         this.props.navigator.push({
             id: ROUTES.contactView,
             passProps: { profile: rowData }
         });
     }
 
-    handleInviteRowPress() {
+    handleInviteRowPress = () => {
         Tracker.trackEvent('CTA', 'Invite Friends');
 
         this.props.navigator.push({
@@ -103,15 +100,15 @@ class ContactsView extends Component {
         });
     }
 
-    renderRow(rowData, sectionId) {
+    renderRow = (rowData, sectionId) => {
         if (sectionId === 'registered') {
             return this.renderRegisteredRow(rowData);
-        } else {
-            return this.renderNonregisteredRow(rowData);
         }
+
+        return this.renderNonregisteredRow(rowData);
     }
 
-    renderRegisteredRow(rowData) {
+    renderRegisteredRow = (rowData) => {
         if (rowData._id === this.props.user._id) {
             return null;
         }
@@ -134,17 +131,15 @@ class ContactsView extends Component {
         );
     }
 
-    renderNonregisteredRow(rowData) {
-        return (
-            <RowButton
-                onPress={() => this.handleNonregisteredRowPress(rowData)}
-                text={`${rowData.first_name} ${rowData.last_name}`}
-                subText={rowData.number}
-                rowStyle={styles.unregisteredRow} />
-        );
-    }
+    renderNonregisteredRow = (rowData) => (
+        <RowButton
+            onPress={() => this.handleNonregisteredRowPress(rowData)}
+            text={`${rowData.first_name} ${rowData.last_name}`}
+            subText={rowData.number}
+            rowStyle={styles.unregisteredRow} />
+    )
 
-    renderSectionHeader(sectionData, sectionId) {
+    renderSectionHeader = (sectionData, sectionId) => {
         if (sectionId === 'registered') {
             return null;
         }
@@ -156,20 +151,18 @@ class ContactsView extends Component {
         );
     }
 
-    renderHeader() {
-        return (
-            <TouchableHighlight onPress={this.handleInviteRowPress} underlayColor={activeColor}>
-                <View style={styles.row}>
-                    <Icon
-                        name="ios-people"
-                        size={26}
-                        color={primaryColor}
-                        style={styles.rowLinkIcon} />
-                    <Text style={[styles.text, styles.rowLink]}>Invite Friends</Text>
-                </View>
-            </TouchableHighlight>
-        );
-    }
+    renderHeader = () => (
+        <TouchableHighlight onPress={this.handleInviteRowPress} underlayColor={activeColor}>
+            <View style={styles.row}>
+                <Icon
+                    name="ios-people"
+                    size={26}
+                    color={primaryColor}
+                    style={styles.rowLinkIcon} />
+                <Text style={[styles.text, styles.rowLink]}>Invite Friends</Text>
+            </View>
+        </TouchableHighlight>
+    )
 
     render() {
         const navProps = {
@@ -209,16 +202,6 @@ class ContactsView extends Component {
         );
     }
 }
-
-ContactsView.propTypes = {
-    allowAccessContacts: PropTypes.bool.isRequired,
-    createChat: PropTypes.func.isRequired,
-    createContacts: PropTypes.func.isRequired,
-    dataSource: PropTypes.object.isRequired,
-    getContacts: PropTypes.func.isRequired,
-    navigator: PropTypes.object,
-    user: PropTypes.object.isRequired
-};
 
 const dataSource = new ListView.DataSource({
     rowHasChanged: (row1, row2) => row1 !== row2,

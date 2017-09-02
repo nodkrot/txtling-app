@@ -1,17 +1,19 @@
-import React, { PropTypes } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { View, Text } from 'react-native';
 import styles from './styles';
 
-export default React.createClass({
-    propTypes: {
+export default class Row extends Component {
+    static displayName = 'Row'
+
+    static propTypes = {
         rowStyle: PropTypes.any,
         rowTextStyle: PropTypes.any,
         text: PropTypes.string,
         subText: PropTypes.string
-    },
+    }
 
     render() {
-        let SubText = this.props.subText
+        const SubText = this.props.subText
             ? <Text style={styles.rowButtonSubText}>{this.props.subText}</Text> : null;
 
         return (
@@ -25,4 +27,4 @@ export default React.createClass({
             </View>
         );
     }
-});
+}

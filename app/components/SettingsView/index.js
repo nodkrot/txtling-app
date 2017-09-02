@@ -9,13 +9,15 @@ import { ROUTES } from '../../constants/AppConstants';
 import styles from './styles';
 
 class SettingsView extends Component {
-    constructor(props) {
-        super(props);
+    static displayName = 'SettingsView'
 
-        this.handleButtonPress = this.handleButtonPress.bind(this);
+    static propTypes = {
+        logout: PropTypes.func.isRequired,
+        navigator: PropTypes.object,
+        profile: PropTypes.object.isRequired
     }
 
-    handleButtonPress() {
+    handleButtonPress = () => {
         this.props.logout();
         this.props.navigator.push({ id: ROUTES.introView });
     }
@@ -32,12 +34,6 @@ class SettingsView extends Component {
         );
     }
 }
-
-SettingsView.propTypes = {
-    logout: PropTypes.func.isRequired,
-    navigator: PropTypes.object,
-    profile: PropTypes.object.isRequired
-};
 
 function mapStateToProps(state) {
     return {

@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react';
+import React, { Component, PropTypes } from 'react';
 import {
     View,
     Modal,
@@ -16,58 +16,55 @@ const resultsCache = {
     totalForQuery: {}
 };
 
-export default React.createClass({
+export default class SearchListView extends Component {
+    static displayName = 'SearchListView'
 
-    propTypes: {
+    static propTypes = {
         children: PropTypes.shape({ type: PropTypes.oneOf([ListView]) }).isRequired,
         dataSet: PropTypes.array.isRequired,
         renderRow: PropTypes.func.isRequired,
         searchRow: PropTypes.func.isRequired
-    },
+    }
 
-    getInitialState() {
-        return {
-            isModalVisible: false,
-            searchDataSource: new ListView.DataSource({
-                rowHasChanged: (r1, r2) => r1 !== r2
-            })
-        };
-    },
+    state = {
+        isModalVisible: false,
+        searchDataSource: new ListView.DataSource({
+            rowHasChanged: (r1, r2) => r1 !== r2
+        })
+    }
 
     componentWillMount() {
         this.search = debounce(this.search, 100);
-    },
+    }
 
     componentDidMount() {
         this.search('');
-    },
+    }
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.dataSet !== this.props.dataSet) {
             this.setDataSource(nextProps.dataSet);
         }
-    },
+    }
 
-    open() {
+    open = () => {
         if (!this.isOpen()) {
             this.search('');
             this.setState({ isModalVisible: true });
             StatusBar.setBarStyle('default', true);
         }
-    },
+    }
 
-    close() {
+    close = () => {
         if (this.isOpen()) {
             this.setState({ isModalVisible: false });
             StatusBar.setBarStyle('light-content');
         }
-    },
+    }
 
-    isOpen() {
-        return this.state.isModalVisible;
-    },
+    isOpen = () => this.state.isModalVisible
 
-    search(q) {
+    search = (q) => {
         if (!q) {
             this.setDataSource(this.props.dataSet);
         } else {
@@ -81,26 +78,24 @@ export default React.createClass({
 
             this.setDataSource(results);
         }
-    },
+    }
 
-    setDataSource(data) {
+    setDataSource = (data) => {
         this.setState({ searchDataSource: this.state.searchDataSource.cloneWithRows(data) });
-    },
+    }
 
-    renderHeader() {
-        return (
-            <View style={styles.searchWrapper}>
-                <TextField
-                    autoFocus
-                    wrapperStyle={styles.searchField}
-                    placeholder="Search"
-                    onChangeText={this.search} />
-                <TouchableOpacity onPress={this.close}>
-                    <Icon name="ios-close" size={44} style={styles.closeIcon} />
-                </TouchableOpacity>
-            </View>
-        );
-    },
+    renderHeader = () => (
+        <View style={styles.searchWrapper}>
+            <TextField
+                autoFocus
+                wrapperStyle={styles.searchField}
+                placeholder="Search"
+                onChangeText={this.search} />
+            <TouchableOpacity onPress={this.close}>
+                <Icon name="ios-close" size={44} style={styles.closeIcon} />
+            </TouchableOpacity>
+        </View>
+    )
 
     render() {
         return (
@@ -122,4 +117,4 @@ export default React.createClass({
             </View>
         );
     }
-});
+}

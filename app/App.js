@@ -11,10 +11,21 @@ import Router from './router';
 import { ROUTES } from './constants/AppConstants';
 
 class App extends Component {
-    constructor(props) {
-        super(props);
+    static displayName = 'App'
 
-        this.handleAppStateChange = this.handleAppStateChange.bind(this);
+    static propTypes = {
+        isLoggedIn: PropTypes.func.isRequired,
+        navigator: PropTypes.object,
+        ui: PropTypes.shape({
+            isUserFetched: PropTypes.bool,
+            isUserLoggedIn: PropTypes.bool,
+            isScreenLoading: PropTypes.bool
+        }),
+        user: PropTypes.shape({
+            _id: PropTypes.string,
+            state: PropTypes.string,
+            firebase_token: PropTypes.string
+        })
     }
 
     componentWillMount() {
@@ -31,7 +42,7 @@ class App extends Component {
         AppState.removeEventListener('change', this.handleAppStateChange);
     }
 
-    handleAppStateChange(appState) {
+    handleAppStateChange = (appState) => {
         // TODO: handle logout state
         if (this.props.ui.isUserLoggedIn) {
             const presenceRef = firebaseRef.child('presence').child(this.props.user._id);
@@ -78,21 +89,6 @@ class App extends Component {
         );
     }
 }
-
-App.propTypes = {
-    isLoggedIn: PropTypes.func.isRequired,
-    navigator: PropTypes.object,
-    ui: PropTypes.shape({
-        isUserFetched: PropTypes.bool,
-        isUserLoggedIn: PropTypes.bool,
-        isScreenLoading: PropTypes.bool
-    }),
-    user: PropTypes.shape({
-        _id: PropTypes.string,
-        state: PropTypes.string,
-        firebase_token: PropTypes.string
-    })
-};
 
 function mapStateToProps(state) {
     return {
