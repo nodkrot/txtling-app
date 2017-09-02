@@ -24,11 +24,14 @@ function searchFor(item, query) {
 }
 
 class LanguagesView extends Component {
-    constructor(props) {
-        super(props);
+    static displayName = 'LanguagesView'
 
-        this.renderRow = this.renderRow.bind(this);
-        this.handleBackButton = this.handleBackButton.bind(this);
+    static propTypes = {
+        dataSource: PropTypes.object.isRequired,
+        getLanguages: PropTypes.func.isRequired,
+        languages: PropTypes.array.isRequired,
+        navigator: PropTypes.object,
+        registerLanguage: PropTypes.func.isRequired
     }
 
     componentWillMount() {
@@ -37,7 +40,7 @@ class LanguagesView extends Component {
         });
     }
 
-    handleRowPress(rowData) {
+    handleRowPress = (rowData) => {
         this.refs.searchWrapper.close();
 
         this.props.registerLanguage({
@@ -63,26 +66,24 @@ class LanguagesView extends Component {
         });
     }
 
-    handleBackButton() {
+    handleBackButton = () => {
         this.props.navigator.pop();
     }
 
-    renderRow(rowData) {
-        return (
-            <TouchableHighlight onPress={() => this.handleRowPress(rowData)} underlayColor={activeColor}>
-                <View>
-                    <View style={styles.row}>
-                        <Image
-                            source={{ uri: rowData.image_url }}
-                            style={styles.image} />
-                        <Text style={styles.text}>
-                            {rowData.human_readable}
-                        </Text>
-                    </View>
+    renderRow = (rowData) => (
+        <TouchableHighlight onPress={() => this.handleRowPress(rowData)} underlayColor={activeColor}>
+            <View>
+                <View style={styles.row}>
+                    <Image
+                        source={{ uri: rowData.image_url }}
+                        style={styles.image} />
+                    <Text style={styles.text}>
+                        {rowData.human_readable}
+                    </Text>
                 </View>
-            </TouchableHighlight>
-        );
-    }
+            </View>
+        </TouchableHighlight>
+    )
 
     render() {
         return (
@@ -106,14 +107,6 @@ class LanguagesView extends Component {
         );
     }
 }
-
-LanguagesView.propTypes = {
-    dataSource: PropTypes.object.isRequired,
-    getLanguages: PropTypes.func.isRequired,
-    languages: PropTypes.array.isRequired,
-    navigator: PropTypes.object,
-    registerLanguage: PropTypes.func.isRequired
-};
 
 const dataSource = new ListView.DataSource({
     rowHasChanged: (r1, r2) => r1 !== r2

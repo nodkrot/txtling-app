@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View } from 'react-native';
+import { View, Navigator } from 'react-native';
 import { connect } from 'react-redux';
 import ProfileView from '../ProfileView';
 import Navigation from '../Navigation';
@@ -15,20 +15,26 @@ class SettingsView extends Component {
     static propTypes = {
         logout: PropTypes.func.isRequired,
         navigator: PropTypes.object,
-        profile: PropTypes.object.isRequired
+        user: PropTypes.object.isRequired
     }
 
     handleButtonPress = () => {
-        this.props.logout();
-        this.props.navigator.push({ id: ROUTES.introView });
+        this.props.logout(this.props.user._id);
+        this.props.navigator.push({
+            id: ROUTES.introView,
+            sceneConfig: {
+                ...Navigator.SceneConfigs.HorizontalSwipeJump,
+                gestures: null
+            }
+        });
     }
 
     render() {
         return (
             <View style={styles.main}>
                 <Navigation navTitle="Settings" />
-                <ProfileView {...this.props}>
-                    <Row text={this.props.profile.number} />
+                <ProfileView profile={this.props.user}>
+                    <Row text={this.props.user.number} />
                     <RowButton text="Log out" onPress={this.handleButtonPress} rowTextStyle={styles.logoutButton} />
                 </ProfileView>
             </View>
@@ -38,7 +44,7 @@ class SettingsView extends Component {
 
 function mapStateToProps(state) {
     return {
-        profile: state.user
+        user: state.user
     };
 }
 

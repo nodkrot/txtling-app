@@ -1,35 +1,14 @@
-import * as userActions from './user';
 import * as chatActions from './chat';
 import * as contactsActions from './contacts';
 import * as languageActions from './languages';
 
 const initialState = {
-    isUserFetched: false,
-    isUserLoggedIn: false,
     isScreenLoading: false,
     asyncStates: {}
 };
 
 export default function reducer(state = initialState, action) {
     switch (action.type) {
-        case `${userActions.IS_LOGGED_IN}_FULFILLED`:
-            return {
-                ...state,
-                isUserLoggedIn: action.payload.hasToken,
-                isUserFetched: true
-            };
-        case `${userActions.CODE_CONFIRM}_FULFILLED`:
-            return {
-                ...state,
-                isUserLoggedIn: true
-            };
-
-        case userActions.LOGOUT:
-            return {
-                ...state,
-                isUserLoggedIn: false
-            };
-
         case `${contactsActions.GET_CONTACTS}_PENDING`:
         case `${contactsActions.CREATE_CONTACTS}_PENDING`:
         case `${chatActions.GET_CHATS}_PENDING`:

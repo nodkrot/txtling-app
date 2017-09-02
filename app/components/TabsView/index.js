@@ -22,16 +22,20 @@ const CHATS = 'chats-view';
 const SETTINGS = 'settings-view';
 
 class TabsView extends Component {
-    constructor(props) {
-        super(props);
+    static displayName = 'TabsView'
 
-        this.state = { selectedTab: CONTACTS };
+    static propTypes = {
+        badgeNumber: PropTypes.number,
+        navigator: PropTypes.object,
+        setGlobalBadgeNumber: PropTypes.func.isRequired
+    }
+
+    state = { selectedTab: CONTACTS }
+
+    constructor() {
+        super();
 
         Tracker.trackScreenView(CONTACTS);
-
-        this.setTab = this.setTab.bind(this);
-        this.isSelectedTab = this.isSelectedTab.bind(this);
-        this.handPushNotification = this.handPushNotification.bind(this);
     }
 
     componentWillMount() {
@@ -68,7 +72,7 @@ class TabsView extends Component {
         });
     }
 
-    handPushNotification(notification) {
+    handPushNotification = (notification) => {
         const data = notification.getData();
         const currentRoutes = this.props.navigator.getCurrentRoutes();
         const currentRoute = currentRoutes[currentRoutes.length - 1];
@@ -94,16 +98,14 @@ class TabsView extends Component {
         }
     }
 
-    isSelectedTab(tabName) {
-        return this.state.selectedTab === tabName;
-    }
+    isSelectedTab = (tabName) => this.state.selectedTab === tabName
 
-    setTab(tabName) {
+    setTab = (tabName) => {
         Tracker.trackScreenView(tabName);
         this.setState({ selectedTab: tabName });
     }
 
-    renderContent(tabName) {
+    renderContent = (tabName) => {
         switch (tabName) {
             case CONTACTS:
                 return <ContactsView {...this.props} />;
@@ -186,12 +188,6 @@ class TabsView extends Component {
         // );
     }
 }
-
-TabsView.propTypes = {
-    badgeNumber: PropTypes.number,
-    navigator: PropTypes.object,
-    setGlobalBadgeNumber: PropTypes.func.isRequired
-};
 
 function mapStateToProps(state) {
     return {

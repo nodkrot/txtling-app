@@ -15,16 +15,24 @@ import { Button, TextField } from '../Elements';
 import styles from './styles';
 
 class PhoneView extends Component {
-    constructor(props) {
-        super(props);
+    static displayName = 'PhoneView'
 
-        this.state = {
-            phone: '',
-            code: '',
-            codeFieldHeight: new Animated.Value(0),
-            isCodeFieldActive: false,
-            isTokenReistered: false
-        };
+    static propTypes = {
+        confirmCode: PropTypes.func,
+        generateCode: PropTypes.func,
+        login: PropTypes.object,
+        navigator: PropTypes.object,
+        registerDeviceToken: PropTypes.func,
+        isGetCodeLoading: PropTypes.bool,
+        isConfirmCodeLoading: PropTypes.bool
+    }
+
+    state = {
+        phone: '',
+        code: '',
+        codeFieldHeight: new Animated.Value(0),
+        isCodeFieldActive: false,
+        isTokenReistered: false
     }
 
     componentWillMount() {
@@ -185,16 +193,6 @@ class PhoneView extends Component {
         );
     }
 }
-
-PhoneView.propTypes = {
-    confirmCode: PropTypes.func,
-    generateCode: PropTypes.func,
-    login: PropTypes.object,
-    navigator: PropTypes.object,
-    registerDeviceToken: PropTypes.func,
-    isGetCodeLoading: PropTypes.bool,
-    isConfirmCodeLoading: PropTypes.bool
-};
 
 function mapStateToProps(state) {
     return {

@@ -18,14 +18,13 @@ class App extends Component {
         isLoggedIn: PropTypes.func.isRequired,
         navigator: PropTypes.object,
         ui: PropTypes.shape({
-            isUserFetched: PropTypes.bool,
-            isUserLoggedIn: PropTypes.bool,
             isScreenLoading: PropTypes.bool
         }),
         user: PropTypes.shape({
             _id: PropTypes.string,
             state: PropTypes.string,
-            firebase_token: PropTypes.string
+            isUserLoggedIn: PropTypes.bool,
+            isUserFetched: PropTypes.bool
         })
     }
 
@@ -35,17 +34,13 @@ class App extends Component {
         AppState.addEventListener('change', this.handleAppStateChange);
     }
 
-    componentWillUpdate() {
-        this.handleAppStateChange(AppState.currentState);
-    }
-
     componentWillUnmount() {
         AppState.removeEventListener('change', this.handleAppStateChange);
     }
 
     handleAppStateChange = (appState) => {
         // TODO: handle logout state
-        if (this.props.ui.isUserLoggedIn) {
+        if (this.props.user.isUserLoggedIn) {
             const presenceRef = firebaseRef.child('presence').child(this.props.user._id);
             presenceRef.onDisconnect().remove();
 
@@ -61,7 +56,7 @@ class App extends Component {
     }
 
     getInitialRoute() {
-        if (this.props.ui.isUserLoggedIn) {
+        if (this.props.user.isUserLoggedIn) {
             switch (this.props.user.state) {
                 case 'confirmed':
                     return ROUTES.infoView;
@@ -78,7 +73,7 @@ class App extends Component {
     }
 
     render() {
-        if (!this.props.ui.isUserFetched) {
+        if (!this.props.user.isUserFetched) {
             return null;
         }
 

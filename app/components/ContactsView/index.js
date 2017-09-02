@@ -40,6 +40,7 @@ class ContactsView extends Component {
         navigator: PropTypes.object,
         user: PropTypes.object.isRequired
     }
+
     componentWillMount() {
         InteractionManager.runAfterInteractions(() => {
             this.props.createContacts();

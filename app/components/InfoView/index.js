@@ -1,50 +1,39 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {
-    // TouchableHighlight,
-    // Modal,
-    // Text,
-    View
-} from 'react-native';
+import { View } from 'react-native';
 import { connect } from 'react-redux';
 import { registerUser } from '../../redux/user';
 import Navigation from '../Navigation';
 import { Button, TextField } from '../Elements';
 import { ROUTES } from '../../constants/AppConstants';
-// import CameraView from '../CameraView';
-// import CameraRollView from '../CameraRollView';
 import styles from './styles';
 
 class InfoView extends Component {
-    constructor(props) {
-        super(props);
+    static displayName = 'InfoView'
 
-        this.state = {
-            firstName: '',
-            lastName: '',
-            animated: true,
-            modalVisible: false,
-            transparent: false
-        };
-
-        this.handleButtonPress = this.handleButtonPress.bind(this);
-        this.handleBackButton = this.handleBackButton.bind(this);
-        this.handleFirstNameChange = this.handleFirstNameChange.bind(this);
-        this.handleLastNameChange = this.handleLastNameChange.bind(this);
-        // this.handleCameraPress = this.handleCameraPress.bind(this);
-        // this.handleModalDismiss = this.handleModalDismiss.bind(this);
-        // this.handleImageSelect = this.handleImageSelect.bind(this);
+    static propTypes = {
+        navigator: PropTypes.object,
+        registerUser: PropTypes.func.isRequired,
+        isRegisteringUser: PropTypes.bool
     }
 
-    handleFirstNameChange(firstName) {
+    state = {
+        firstName: '',
+        lastName: '',
+        animated: true,
+        modalVisible: false,
+        transparent: false
+    }
+
+    handleFirstNameChange = (firstName) => {
         this.setState({ firstName });
     }
 
-    handleLastNameChange(lastName) {
+    handleLastNameChange = (lastName) => {
         this.setState({ lastName });
     }
 
-    handleButtonPress() {
+    handleButtonPress = () => {
         this.props.registerUser({
             first_name: this.state.firstName,
             last_name: this.state.lastName
@@ -55,26 +44,11 @@ class InfoView extends Component {
         });
     }
 
-    handleBackButton() {
+    handleBackButton = () => {
         this.props.navigator.pop();
     }
 
-    // TODO: Add camera view to the router
-    // handleCameraPress() {
-    //     this.setState({ modalVisible: true });
-
-    //     // this.props.navigator.push({
-    //     //     title: 'Camera View',
-    //     //     component: CameraView,
-    //     //     sceneConfig: Navigator.SceneConfigs.FloatFromBottom
-    //     // });
-    // }
-
-    // handleImageSelect() {
-    //     this.props.uploadImage();
-    // }
-
-    handleModalDismiss() {
+    handleModalDismiss = () => {
         this.setState({ modalVisible: false });
     }
 
@@ -143,13 +117,6 @@ class InfoView extends Component {
     </View>
 </Modal> */
 
-
-InfoView.propTypes = {
-    navigator: PropTypes.object,
-    registerUser: PropTypes.func.isRequired,
-    isRegisteringUser: PropTypes.bool
-};
-
 function mapStateToProps(state) {
     return {
         login: state.user,
@@ -157,6 +124,4 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps, {
-    registerUser
-})(InfoView);
+export default connect(mapStateToProps, { registerUser })(InfoView);

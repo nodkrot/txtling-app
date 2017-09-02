@@ -15,21 +15,24 @@ import styles, {
 } from './styles';
 
 export default class ChatRow extends Component {
-    constructor(props) {
-        super(props);
+    static displayName = 'ChatRow'
 
-        this.state = {
-            isOpen: this.props.isOpen,
-            toValue: 0,
-            bubbleHeight: new Animated.Value(0)
-        };
-
-        this.handleSoundPress = this.handleSoundPress.bind(this);
-        this.handleBubblePress = this.handleBubblePress.bind(this);
-        this.handleBubbleLayout = this.handleBubbleLayout.bind(this);
+    static propTypes = {
+        data: PropTypes.object.isRequired,
+        isMe: PropTypes.bool.isRequired,
+        isOpen: PropTypes.bool,
+        isSound: PropTypes.bool,
+        onPress: PropTypes.func,
+        onSoundPress: PropTypes.func
     }
 
-    animateBubbleTextHeight(toValue, duration) {
+    state = {
+        isOpen: this.props.isOpen,
+        toValue: 0,
+        bubbleHeight: new Animated.Value(0)
+    }
+
+    animateBubbleTextHeight = (toValue, duration) => {
         return new Promise((resolve) => {
             Animated.timing(
                 this.state.bubbleHeight,
@@ -40,13 +43,13 @@ export default class ChatRow extends Component {
         });
     }
 
-    handleBubbleLayout(event) {
+    handleBubbleLayout = (event) => {
         const { height } = event.nativeEvent.layout;
 
         this.setState({ toValue: height });
     }
 
-    handleBubblePress() {
+    handleBubblePress = () => {
         if (this.state.isOpen) {
             this.animateBubbleTextHeight(0, 225);
         } else {
@@ -60,13 +63,13 @@ export default class ChatRow extends Component {
         }
     }
 
-    handleSoundPress() {
+    handleSoundPress = () => {
         if (this.props.isSound && this.props.onSoundPress) {
             this.props.onSoundPress(this.props.data);
         }
     }
 
-    renderSoundIcon() {
+    renderSoundIcon = () => {
         if (!this.props.isSound) {
             return null;
         }
@@ -117,12 +120,3 @@ export default class ChatRow extends Component {
         );
     }
 }
-
-ChatRow.propTypes = {
-    data: PropTypes.object.isRequired,
-    isMe: PropTypes.bool.isRequired,
-    isOpen: PropTypes.bool,
-    isSound: PropTypes.bool,
-    onPress: PropTypes.func,
-    onSoundPress: PropTypes.func
-};

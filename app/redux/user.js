@@ -15,18 +15,20 @@ export const LOGOUT = 'LOGOUT';
 export const isLoggedIn = () => ({
     type: IS_LOGGED_IN,
     payload: Promise.all([
-        AsyncStorage.getItem('AUTH_TOKEN'),
         AsyncStorage.getItem('USER_INFO'),
+        AsyncStorage.getItem('AUTH_TOKEN'),
         AsyncStorage.getItem('FIRE_TOKEN')
-    ]).then(([authToken, userInfoJson, fireToken]) => {
+    ]).then(([userInfoJson, authToken, fireToken]) => {
         const hasToken = Boolean(authToken) && Boolean(fireToken);
         const userInfo = userInfoJson ? JSON.parse(userInfoJson) : {};
 
         if (hasToken) {
             firebaseRef.authWithCustomToken(fireToken);
-        }
 
-        if (userInfo._id) {
+            const presenceRef = firebaseRef.child('presence').child(userInfo._id);
+            presenceRef.onDisconnect().remove();
+            presenceRef.set(true);
+
             Tracker.setUser(userInfo._id);
         }
 
@@ -44,11 +46,11 @@ export const generateCode = (data) => ({
         },
         body: JSON.stringify(data)
     })
-    .then((response) => response.json())
-    .then((res) => {
-        AsyncStorage.setItem('USER_INFO', JSON.stringify(res.data));
-        return res.data;
-    })
+        .then((response) => response.json())
+        .then((res) => {
+            AsyncStorage.setItem('USER_INFO', JSON.stringify(res.data));
+            return res.data;
+        })
 });
 
 export const confirmCode = (username, password) => ({
@@ -61,15 +63,20 @@ export const confirmCode = (username, password) => ({
         },
         body: JSON.stringify({ username, password })
     })
-    .then((response) => response.json())
-    .then((res) => {
-        AsyncStorage.setItem('AUTH_TOKEN', res.data.tokens.auth);
-        AsyncStorage.setItem('FIRE_TOKEN', res.data.tokens.fire);
-        AsyncStorage.setItem('USER_INFO', JSON.stringify(res.data));
+        .then((response) => response.json())
+        .then((res) => {
+            AsyncStorage.setItem('AUTH_TOKEN', res.data.tokens.auth);
+            AsyncStorage.setItem('FIRE_TOKEN', res.data.tokens.fire);
+            AsyncStorage.setItem('USER_INFO', JSON.stringify(res.data));
 
-        firebaseRef.authWithCustomToken(res.data.tokens.fire);
-        return res.data;
-    })
+            firebaseRef.authWithCustomToken(res.data.tokens.fire);
+
+            const presenceRef = firebaseRef.child('presence').child(res.data._id);
+            presenceRef.onDisconnect().remove();
+            presenceRef.set(true);
+
+            return res.data;
+        })
 });
 
 export const registerDeviceToken = (data) => ({
@@ -154,21 +161,36 @@ export const uploadImage = (image) => {
     };
 };
 
-export const logout = () => {
+export const logout = (userId) => {
+    firebaseRef.child('presence').child(userId).remove();
     firebaseRef.unauth();
     AsyncStorage.clear();
     return { type: LOGOUT };
 };
 
-const initialState = { /* user object */ };
+const initialState = {
+    isUserLoggedIn: false,
+    isUserFetched: false
+};
 
 export default function reducer(state = initialState, action) {
     switch (action.type) {
         case `${IS_LOGGED_IN}_FULFILLED`:
-            return { ...state, ...action.payload.userInfo };
+            return {
+                ...state,
+                ...action.payload.userInfo,
+                isUserLoggedIn: action.payload.hasToken,
+                isUserFetched: true
+            };
+
+        case `${CODE_CONFIRM}_FULFILLED`:
+            return {
+                ...state,
+                ...action.payload,
+                isUserLoggedIn: true
+            };
 
         case `${GENERATE_CODE}_FULFILLED`:
-        case `${CODE_CONFIRM}_FULFILLED`:
         case `${REGISTER_DEVICE_TOKEN}_FULFILLED`:
         case `${REGISTER_USER}_FULFILLED`:
         case `${REGISTER_LANGUAGE}_FULFILLED`:
@@ -176,6 +198,12 @@ export default function reducer(state = initialState, action) {
             return {
                 ...state,
                 ...action.payload
+            };
+
+        case LOGOUT:
+            return {
+                isUserLoggedIn: false,
+                isUserFetched: true
             };
 
         default:

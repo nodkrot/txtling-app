@@ -6,24 +6,28 @@ import styles from './styles';
 const INPUT_LINE_HEIGHT = 35;
 
 export default class ExpandingTextField extends Component {
-    constructor(props) {
-        super(props);
+    static displayName = 'ExpandingTextField'
 
-        this.state = {
-            text: this.props.defaultValue,
-            height: INPUT_LINE_HEIGHT
-        };
-
-        this.clearInput = this.clearInput.bind(this);
-        this.handleChange = this.handleChange.bind(this);
+    static propTypes = {
+        defaultValue: PropTypes.any,
+        style: PropTypes.any
     }
 
-    clearInput() {
+    static defaultProps = {
+        style: {}
+    }
+
+    state = {
+        text: this.props.defaultValue,
+        height: INPUT_LINE_HEIGHT
+    }
+
+    clearInput = () => {
         this.refs.textInput.setNativeProps({ text: '' });
         this.setState({ height: INPUT_LINE_HEIGHT });
     }
 
-    handleChange(event) {
+    handleChange = (event) => {
         this.setState({
             text: event.nativeEvent.text,
             height: event.nativeEvent.contentSize.height
@@ -49,12 +53,3 @@ export default class ExpandingTextField extends Component {
         );
     }
 }
-
-ExpandingTextField.propTypes = {
-    defaultValue: PropTypes.any,
-    style: PropTypes.any
-};
-
-ExpandingTextField.defaultProps = {
-    style: {}
-};

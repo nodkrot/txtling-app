@@ -1,3 +1,6 @@
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import NavigationBar from 'react-native-navbar';
 import {
     tintColor,
     titleTintColor,
@@ -5,12 +8,21 @@ import {
     rightTintColor
 } from './styles';
 
-import React, { PropTypes, Component } from 'react';
-import NavigationBar from 'react-native-navbar';
-
 export default class Navigation extends Component {
-    constructor() {
-        super();
+    static displayName = 'Navigation'
+
+    static propTypes = {
+        leftButtonTitle: PropTypes.string,
+        leftHandler: PropTypes.func,
+        navTitle: PropTypes.string,
+        rightButtonTitle: PropTypes.string,
+        rightHandler: PropTypes.func
+    }
+
+    static defaultProps = {
+        navTitle: 'Hello World',
+        leftButtonTitle: '',
+        rightButtonTitle: ''
     }
 
     render() {
@@ -42,17 +54,3 @@ export default class Navigation extends Component {
         );
     }
 }
-
-Navigation.propTypes = {
-    leftButtonTitle: PropTypes.string,
-    leftHandler: PropTypes.func,
-    navTitle: PropTypes.string,
-    rightButtonTitle: PropTypes.string,
-    rightHandler: PropTypes.func
-};
-
-Navigation.defaultProps = {
-    navTitle: 'Hello World',
-    leftButtonTitle: '',
-    rightButtonTitle: ''
-};

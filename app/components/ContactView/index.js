@@ -14,18 +14,18 @@ import styles from './styles';
 const Composer = NativeModules.RNMessageComposer;
 
 class ContactView extends Component {
-    constructor(props) {
-        super(props);
+    static displayName = 'ContactView'
 
-        this.handleBackButton = this.handleBackButton.bind(this);
-        this.handleInvite = this.handleInvite.bind(this);
+    static propTypes = {
+        navigator: PropTypes.object,
+        profile: PropTypes.object.isRequired
     }
 
-    handleBackButton() {
+    handleBackButton = () => {
         this.props.navigator.pop();
     }
 
-    handleInvite() {
+    handleInvite = () => {
         Tracker.trackEvent('CTA', 'Single Invite');
 
         Composer.composeMessageWithArgs({
@@ -72,10 +72,5 @@ class ContactView extends Component {
         );
     }
 }
-
-ContactView.propTypes = {
-    navigator: PropTypes.object,
-    profile: PropTypes.object.isRequired
-};
 
 export default ContactView;
