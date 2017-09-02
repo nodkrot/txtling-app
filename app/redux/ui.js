@@ -13,6 +13,7 @@ export default function reducer(state = initialState, action) {
         case `${contactsActions.CREATE_CONTACTS}_PENDING`:
         case `${chatActions.GET_CHATS}_PENDING`:
         case `${chatActions.CREATE_CHAT}_PENDING`:
+        case `${chatActions.UPDATE_SETTINGS}_PENDING`:
         case `${languageActions.GET_LANGUAGES}_PENDING`:
             return {
                 ...state,
@@ -23,11 +24,13 @@ export default function reducer(state = initialState, action) {
         case `${contactsActions.CREATE_CONTACTS}_FULFILLED`:
         case `${chatActions.GET_CHATS}_FULFILLED`:
         case `${chatActions.CREATE_CHAT}_FULFILLED`:
+        case `${chatActions.UPDATE_SETTINGS}_FULFILLED`:
         case `${languageActions.GET_LANGUAGES}_FULFILLED`:
         case `${contactsActions.GET_CONTACTS}_REJECTED`:
         case `${contactsActions.CREATE_CONTACTS}_REJECTED`:
         case `${chatActions.GET_CHATS}_REJECTED`:
         case `${chatActions.CREATE_CHAT}_REJECTED`:
+        case `${chatActions.UPDATE_SETTINGS}_REJECTED`:
         case `${languageActions.GET_LANGUAGES}_REJECTED`:
             return {
                 ...state,

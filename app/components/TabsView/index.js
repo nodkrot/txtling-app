@@ -11,7 +11,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { ROUTES } from '../../constants/AppConstants';
 import Tracker from '../../utilities/tracker';
 // import TabNavigator from 'react-native-tab-navigator';
-import { setGlobalBadgeNumber } from '../../redux/chat';
+import { setGlobalBadgeNumber, updateBadgesAndChats } from '../../redux/chat';
 import ContactsView from '../ContactsView';
 import ChatsView from '../ChatsView';
 import SettingsView from '../SettingsView';
@@ -27,7 +27,8 @@ class TabsView extends Component {
     static propTypes = {
         badgeNumber: PropTypes.number,
         navigator: PropTypes.object,
-        setGlobalBadgeNumber: PropTypes.func.isRequired
+        setGlobalBadgeNumber: PropTypes.func.isRequired,
+        updateBadgesAndChats: PropTypes.func.isRequired
     }
 
     state = { selectedTab: CONTACTS }
@@ -59,13 +60,16 @@ class TabsView extends Component {
         });
 
         AppState.addEventListener('change', (newAppState) => {
-            if (newAppState === 'active' && backgroundNotification !== null) {
-                this.handPushNotification(backgroundNotification);
-                backgroundNotification = null;
-
-                // TODO: Calling getChats() if there were new push notifications
-                // while app is not off to update chats view with badges
-                // PS. Without loading screen, maybe have different action
+            if (newAppState === 'active') {
+                if (backgroundNotification !== null) {
+                    this.handPushNotification(backgroundNotification);
+                    backgroundNotification = null;
+                } else {
+                    // if there were new push notifications
+                    // while app was in the background
+                    // we need to update chats view with badges
+                    this.props.updateBadgesAndChats();
+                }
             }
         });
 
@@ -200,4 +204,4 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps, { setGlobalBadgeNumber })(TabsView);
+export default connect(mapStateToProps, { setGlobalBadgeNumber, updateBadgesAndChats })(TabsView);

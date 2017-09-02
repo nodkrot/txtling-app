@@ -6,6 +6,7 @@ export const UPDATE_NEW_MESSAGE = 'UPDATE_NEW_MESSAGE';
 export const CLEAR_NEW_MESSAGE = 'CLEAR_NEW_MESSAGE';
 export const GET_CHATS = 'GET_CHATS';
 export const CREATE_CHAT = 'CREATE_CHAT';
+export const UPDATE_BADGES_AND_CHATS = 'UPDATE_BADGES_AND_CHATS';
 export const UPDATE_SETTINGS = 'UPDATE_SETTINGS';
 export const CLEAR_CHAT_BADGES = 'CLEAR_CHAT_BADGES';
 export const SET_GLOBAL_BADGE_NUMBER = 'SET_GLOBAL_BADGE_NUMBER';
@@ -26,9 +27,7 @@ export const getChats = () => ({
     type: GET_CHATS,
     payload: AsyncStorage.getItem('AUTH_TOKEN')
         .then((value) => fetch(`${BASE_URL}chats`, {
-            headers: {
-                Authorization: `JWT ${value}`
-            }
+            headers: { Authorization: `JWT ${value}` }
         }))
         .then((response) => response.json())
         .then((res) => res.data)
@@ -95,6 +94,28 @@ export const clearChatBadges = (groupId) => {
     };
 };
 
+export const updateBadgesAndChats = () => {
+    return (dispatch) => {
+        return dispatch({
+            type: UPDATE_BADGES_AND_CHATS,
+            payload: AsyncStorage.getItem('AUTH_TOKEN')
+                .then((value) => fetch(`${BASE_URL}chats`, {
+                    headers: { Authorization: `JWT ${value}` }
+                }))
+                .then((response) => response.json())
+                .then((res) => {
+                    const totalBadges = res.data.reduce((acc, group) => acc + group.badges, 0);
+
+                    dispatch(setGlobalBadgeNumber(totalBadges));
+                    PushNotificationIOS.setApplicationIconBadgeNumber(totalBadges);
+
+                    return res.data;
+                })
+                .catch((err) => console.log(err)) // eslint-disable-line
+        });
+    };
+};
+
 function compareChats(a, b) {
     if (a.badges < b.badges) {
         return 1;
@@ -122,17 +143,27 @@ export default function reducer(state = initialState, action) {
             return { ...state };
         case `${GET_CHATS}_FULFILLED`:
         case `${CLEAR_CHAT_BADGES}_FULFILLED`:
-            return { ...state, allChats: action.payload.sort(compareChats), didFetchChats: true };
+        case `${UPDATE_BADGES_AND_CHATS}_FULFILLED`:
+            return {
+                ...state,
+                allChats: action.payload.sort(compareChats),
+                didFetchChats: true
+            };
         case SET_GLOBAL_BADGE_NUMBER:
-            return { ...state, chatBadgeNumber: action.payload };
+            return {
+                ...state,
+                chatBadgeNumber: action.payload
+            };
         case `${CREATE_CHAT}_FULFILLED`:
-            return { ...state, allChats: [...action.payload, ...state.allChats] };
+            return {
+                ...state,
+                allChats: [...action.payload, ...state.allChats]
+            };
         case `${UPDATE_SETTINGS}_FULFILLED`:
             return {
                 ...state,
                 allChats: state.allChats
                     .map((chat) => (chat._id === action.payload._id ? action.payload : chat))
-                    .sort(compareChats)
             };
         case LOGOUT:
             return initialState;
