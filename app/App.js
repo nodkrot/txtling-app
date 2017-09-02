@@ -3,15 +3,14 @@ import {
     AppState,
     View
 } from 'react-native';
-import Firebase from 'firebase';
 import { connect } from 'react-redux';
-import { isLoggedIn } from './redux/user.js';
+import Spinner from 'react-native-loading-spinner-overlay';
+import firebaseRef from './firebase/database';
+import { isLoggedIn } from './redux/user';
 import Router from './router';
 import { ROUTES } from './constants/AppConstants';
-import Spinner from 'react-native-loading-spinner-overlay';
 
 class App extends Component {
-
     constructor(props) {
         super(props);
 
@@ -19,7 +18,6 @@ class App extends Component {
     }
 
     componentWillMount() {
-        this.firebaseRef = new Firebase('https://txtling.firebaseio.com');
         this.props.isLoggedIn();
 
         AppState.addEventListener('change', this.handleAppStateChange);
@@ -36,7 +34,7 @@ class App extends Component {
     handleAppStateChange(appState) {
         // TODO: handle logout state
         if (this.props.ui.isUserLoggedIn) {
-            const presenceRef = this.firebaseRef.child('presence').child(this.props.user._id);
+            const presenceRef = firebaseRef.child('presence').child(this.props.user._id);
             presenceRef.onDisconnect().remove();
 
             if (appState === 'active') {
@@ -52,7 +50,7 @@ class App extends Component {
 
     getInitialRoute() {
         if (this.props.ui.isUserLoggedIn) {
-            switch(this.props.user.state) {
+            switch (this.props.user.state) {
                 case 'confirmed':
                     return ROUTES.infoView;
                 case 'registering':

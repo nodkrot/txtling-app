@@ -14,6 +14,7 @@ import Speech from 'react-native-speech';
 import InvertibleScrollView from 'react-native-invertible-scroll-view';
 import Firebase from 'firebase';
 import 'firebase-util';
+import firebaseRef from '../../firebase/database';
 import Tracker from '../../utilities/tracker';
 import { getScrollOffset } from '../../utilities';
 import { ROUTES } from '../../constants/AppConstants';
@@ -86,13 +87,9 @@ class ChatView extends React.Component {
         this.learnLanguage = '';
         this.isReceivingMoreMessages = false;
         this.handleTextChange = debounce(this.handleTextChange, 100);
-
-        const firebaseRef = new Firebase('https://txtling.firebaseio.com');
-
         this.rawMessagesRef = firebaseRef.child('raw_messages');
         this.receiveRef = firebaseRef.child('txtling_messages').child(this.props.groupId);
         this.paginationRef = new Firebase.util.Paginate(this.receiveRef, '$priority', { pageSize: 15 });
-
         this.keyboardWillShowListener = Keyboard.addListener('keyboardWillShow', this.updateKeyboardSpace);
         this.keyboardWillHideListener = Keyboard.addListener('keyboardWillHide', this.resetKeyboardSpace);
 
@@ -246,21 +243,19 @@ class ChatView extends React.Component {
             onSoundPress={this.handleSoundPress} />);
     }
 
-    renderFooterBar = () => {
-        return (
-            <View style={styles.footerBar}>
-                <ExpandingTextField
-                    ref="chatTextInput"
-                    style={styles.chatTextInput}
-                    placeholder="Start texting"
-                    defaultValue={this.props.newMessageText[this.props.groupId]}
-                    onChangeText={this.handleTextChange} />
-                <TouchableOpacity onPress={this.handlePressSend}>
-                    <Text style={styles.sendButton}>Send</Text>
-                </TouchableOpacity>
-            </View>
-        );
-    }
+    renderFooterBar = () => (
+        <View style={styles.footerBar}>
+            <ExpandingTextField
+                ref="chatTextInput"
+                style={styles.chatTextInput}
+                placeholder="Start texting"
+                defaultValue={this.props.newMessageText[this.props.groupId]}
+                onChangeText={this.handleTextChange} />
+            <TouchableOpacity onPress={this.handlePressSend}>
+                <Text style={styles.sendButton}>Send</Text>
+            </TouchableOpacity>
+        </View>
+    )
 
     render() {
         // dataSource={this.props.dataSource}

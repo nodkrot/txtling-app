@@ -30,7 +30,6 @@ class TabsView extends Component {
 
         this.setTab = this.setTab.bind(this);
         this.isSelectedTab = this.isSelectedTab.bind(this);
-        this.setBadgeNumber = this.setBadgeNumber.bind(this);
         this.handPushNotification = this.handPushNotification.bind(this);
     }
 
@@ -60,13 +59,9 @@ class TabsView extends Component {
             }
         });
 
-        // App was off
-        // User received notification and just taps on the app
+        // App was completely off
+        // User received notification
         // User just taps on the app
-        this.setBadgeNumber();
-    }
-
-    setBadgeNumber() {
         PushNotificationIOS.getApplicationIconBadgeNumber((badgeNumber) => {
             this.props.setGlobalBadgeNumber(badgeNumber);
         });
