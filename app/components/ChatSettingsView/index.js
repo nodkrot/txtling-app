@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import Navigation from '../Navigation';
 import { getLanguages } from '../../redux/languages';
 import { updateSettings } from '../../redux/chat';
+import Tracker from '../../utilities/tracker';
 import styles, { activeColor } from './styles';
 
 class ChatSettingsView extends Component {
@@ -42,6 +43,8 @@ class ChatSettingsView extends Component {
             this.props.navigator.pop();
             this.props.onComplete(lang);
         });
+
+        Tracker.trackEvent('Languages', 'Select Language - Settings', { label: lang.human_readable, value: 0 });
     }
 
     renderRow = (rowData) => (

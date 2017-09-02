@@ -15,6 +15,7 @@ import { ROUTES } from '../../constants/AppConstants';
 import { getLanguages } from '../../redux/languages';
 import { registerLanguage } from '../../redux/user';
 import SearchListView from '../SearchListView';
+import Tracker from '../../utilities/tracker';
 import styles, { activeColor } from './styles';
 
 function searchFor(item, query) {
@@ -64,6 +65,8 @@ class LanguagesView extends Component {
                 }
             });
         });
+
+        Tracker.trackEvent('Languages', 'Select Language - Registration', { label: rowData.human_readable, value: 0 });
     }
 
     handleBackButton = () => {
