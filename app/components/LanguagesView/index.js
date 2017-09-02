@@ -1,6 +1,5 @@
-import styles, { activeColor } from './styles';
-
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
     Navigator,
     View,
@@ -10,12 +9,13 @@ import {
     TouchableHighlight,
     InteractionManager
 } from 'react-native';
-import Navigation from '../Navigation';
 import { connect } from 'react-redux';
+import Navigation from '../Navigation';
 import { ROUTES } from '../../constants/AppConstants';
 import { getLanguages } from '../../redux/languages';
-import { registerLanguage } from '../../redux/user.js';
+import { registerLanguage } from '../../redux/user';
 import SearchListView from '../SearchListView';
+import styles, { activeColor } from './styles';
 
 function searchFor(item, query) {
     const q = query.toLowerCase();
@@ -24,7 +24,6 @@ function searchFor(item, query) {
 }
 
 class LanguagesView extends Component {
-
     constructor(props) {
         super(props);
 

@@ -1,6 +1,5 @@
-import styles from './styles';
-
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
     TouchableHighlight,
     View,
@@ -8,6 +7,7 @@ import {
 } from 'react-native';
 // import { connect } from 'react-redux';
 import Camera from 'react-native-camera';
+import styles from './styles';
 // react-native-camera IS REMOVED DUE TO ISSUES WITH MIGRATION
 // https://github.com/lwansbrough/react-native-camera/issues/386
 

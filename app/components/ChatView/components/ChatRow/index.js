@@ -1,10 +1,5 @@
-import styles, {
-    soundIconColor,
-    bubbleRightPressColor,
-    bubbleLeftPressColor
-} from './styles';
-
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
     View,
     Text,
@@ -13,9 +8,13 @@ import {
     TouchableHighlight
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import styles, {
+    soundIconColor,
+    bubbleRightPressColor,
+    bubbleLeftPressColor
+} from './styles';
 
 export default class ChatRow extends Component {
-
     constructor(props) {
         super(props);
 

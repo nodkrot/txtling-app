@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { View, Text, Image, StatusBar } from 'react-native';
 import Swiper from 'react-native-swiper';
 import { ROUTES } from '../../constants/AppConstants';
