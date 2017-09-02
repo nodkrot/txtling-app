@@ -173,6 +173,11 @@ class ChatView extends Component {
 
         this.refs.chatTextInput.clearInput();
         this.props.clearNewMessage(this.props.groupId);
+
+        Tracker.trackEvent('Chat', 'Send Message', {
+            label: 'Message Length',
+            value: message.length
+        });
     }
 
     handleScroll = (event) => {

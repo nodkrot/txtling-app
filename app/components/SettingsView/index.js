@@ -7,6 +7,7 @@ import Navigation from '../Navigation';
 import { Row, RowButton } from '../Elements';
 import { logout } from '../../redux/user';
 import { ROUTES } from '../../constants/AppConstants';
+import Tracker from '../../utilities/tracker';
 import styles from './styles';
 
 class SettingsView extends Component {
@@ -27,6 +28,8 @@ class SettingsView extends Component {
                 gestures: null
             }
         });
+
+        Tracker.trackEvent('CTA', 'Logout');
     }
 
     render() {

@@ -89,7 +89,7 @@ class InviteView extends Component {
             return;
         }
 
-        Tracker.trackEvent('CTA', 'Invite to Txtling', { label: 'recipients', value: this.selectedContacts.length });
+        Tracker.trackEvent('CTA', 'Invite to Txtling', { label: 'Recipients', value: this.selectedContacts.length });
 
         Composer.composeMessageWithArgs({
             messageText: `Hey, let's try Txtling: ${INVITE_URL}`,
