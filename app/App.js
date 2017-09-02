@@ -15,7 +15,7 @@ class App extends Component {
     static displayName = 'App'
 
     static propTypes = {
-        isLoggedIn: PropTypes.func.isRequired,
+        isLoggedIn: PropTypes.func,
         navigator: PropTypes.object,
         ui: PropTypes.shape({
             isScreenLoading: PropTypes.bool
@@ -39,15 +39,11 @@ class App extends Component {
     }
 
     handleAppStateChange = (appState) => {
-        // TODO: handle logout state
         if (this.props.user.isUserLoggedIn) {
             const presenceRef = firebaseRef.child('presence').child(this.props.user._id);
             presenceRef.onDisconnect().remove();
 
             if (appState === 'active') {
-                // TODO: Call getChats() if there were new push notifications to update chats view with badges
-                // this.props.getChats();
-
                 presenceRef.set(true);
             } else {
                 presenceRef.set(false);
