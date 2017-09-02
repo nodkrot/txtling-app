@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
     LayoutAnimation,
     View,
@@ -58,7 +59,7 @@ const animations = {
     }
 };
 
-class ChatView extends React.Component {
+class ChatView extends Component {
     static displayName = 'ChatView'
 
     static propTypes = {

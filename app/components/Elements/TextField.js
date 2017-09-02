@@ -1,8 +1,9 @@
-import React, { PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { TextInput, View, InteractionManager } from 'react-native';
 import styles, { primaryColor, greyColor } from './styles';
 
-export default class extends React.Component {
+export default class extends Component {
     static displayName = 'TextField'
 
     static propTypes = {

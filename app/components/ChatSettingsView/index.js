@@ -1,14 +1,13 @@
-import styles, { activeColor } from './styles';
-
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { View, ListView, InteractionManager, TouchableHighlight, Image, Text } from 'react-native';
 import { connect } from 'react-redux';
 import Navigation from '../Navigation';
 import { getLanguages } from '../../redux/languages';
 import { updateSettings } from '../../redux/chat';
+import styles, { activeColor } from './styles';
 
 class ChatSettingsView extends Component {
-
     constructor(props) {
         super(props);
 
