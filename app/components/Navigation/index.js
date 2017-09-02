@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { TouchableOpacity } from 'react-native';
 import NavigationBar from 'react-native-navbar';
-import {
-    tintColor,
-    titleTintColor,
-    leftTintColor,
-    rightTintColor
-} from './styles';
+import Icon from 'react-native-vector-icons/Ionicons';
+import styles, { tintColor, titleTintColor } from './styles';
+
+const iconMap = {
+    Settings: 'ios-settings',
+    Search: 'ios-search',
+    Back: 'ios-arrow-back'
+};
 
 export default class Navigation extends Component {
     static displayName = 'Navigation'
@@ -26,31 +29,39 @@ export default class Navigation extends Component {
     }
 
     render() {
-        const props = {
+        let leftButton;
+        let rightButton;
+
+        if (this.props.leftButtonTitle) {
+            leftButton = (
+                <TouchableOpacity onPress={this.props.leftHandler}>
+                    <Icon name={iconMap[this.props.leftButtonTitle]} size={34} style={styles.icon} />
+                </TouchableOpacity>
+            );
+        }
+
+        if (this.props.rightButtonTitle) {
+            rightButton = (
+                <TouchableOpacity onPress={this.props.rightHandler}>
+                    <Icon name={iconMap[this.props.rightButtonTitle]} size={30} style={styles.icon} />
+                </TouchableOpacity>
+            );
+        }
+
+        const navProps = {
             tintColor,
             title: {
                 title: this.props.navTitle,
                 tintColor: titleTintColor
             },
-            leftButton: {
-                title: this.props.leftButtonTitle,
-                handler: this.props.leftHandler,
-                tintColor: leftTintColor
-            },
-            rightButton: {
-                title: this.props.rightButtonTitle,
-                handler: this.props.rightHandler,
-                tintColor: rightTintColor
-            },
             statusBar: {
                 style: 'light-content',
                 hidden: false
             },
-            ...this.props
+            leftButton,
+            rightButton
         };
 
-        return (
-            <NavigationBar {...props} />
-        );
+        return <NavigationBar {...navProps} />;
     }
 }
