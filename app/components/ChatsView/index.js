@@ -55,7 +55,7 @@ class ChatsView extends Component {
         const opponent = rowData.persons.filter((p) => p._id !== this.props.user._id)[0];
 
         if (!opponent) {
-            return false;
+            return null;
         }
 
         const initials = (
@@ -68,9 +68,7 @@ class ChatsView extends Component {
                 <Text style={styles.badgeText}>{rowData.badges}</Text>
             </View>
         );
-
         const flagImg = `http://txtling.herokuapp.com/img/flat-flags/${rowData.learn_lang_code}.png`;
-        // <Text style={styles.rowInfoContent}>{rowData.lastMessage}</Text>
 
         return (
             <TouchableHighlight onPress={() => this.handleRowPress(rowData, opponent)} underlayColor={activeColor}>

@@ -19,7 +19,13 @@ export default StyleSheet.create({
     searchField: {
         flex: 1
     },
-    closeIcon: {
+    closeButton: {
+        backgroundColor: 'transparent',
+        position: 'absolute',
+        right: 0,
+        top: 0
+    },
+    closeButtonIcon: {
         paddingLeft: 16,
         paddingRight: 16
     }

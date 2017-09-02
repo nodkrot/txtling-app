@@ -92,8 +92,8 @@ export default class SearchListView extends Component {
                 wrapperStyle={styles.searchField}
                 placeholder="Search"
                 onChangeText={this.search} />
-            <TouchableOpacity onPress={this.close}>
-                <Icon name="ios-close" size={44} style={styles.closeIcon} />
+            <TouchableOpacity style={styles.closeButton} onPress={this.close}>
+                <Icon name="ios-close" size={44} style={styles.closeButtonIcon} />
             </TouchableOpacity>
         </View>
     )

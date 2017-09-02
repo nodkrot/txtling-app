@@ -83,40 +83,6 @@ class InfoView extends Component {
     }
 }
 
-/*<View style={styles.info}>
-    <View style={styles.picture}>
-        <TouchableHighlight onPress={this.handleCameraPress} underlayColor="transparent">
-            <View style={styles.cameraButton}>
-                <Text style={styles.cameraButtonText}>add photo</Text>
-            </View>
-        </TouchableHighlight>
-    </View>
-    <View style={styles.name}>
-        <TextField
-            placeholder="First Name"
-            value={this.state.firstName}
-            autoCorrect={false}
-            autoFocus />
-        <TextField
-            placeholder="Last Name"
-            autoCorrect={false}
-            value={this.state.lastName} />
-    </View>
-</View>*/
-
-/* <Modal
-    animated={this.state.animated}
-    transparent={this.state.transparent}
-    visible={this.state.modalVisible}>
-    <View style={styles.main}>
-        <Navigation
-            navTitle="Choose Image"
-            leftButtonTitle="Cancel"
-            leftHandler={this.handleModalDismiss} />
-        <CameraRollView onImageSelect={this.handleImageSelect} />
-    </View>
-</Modal> */
-
 function mapStateToProps(state) {
     return {
         login: state.user,
