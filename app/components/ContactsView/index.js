@@ -4,6 +4,7 @@ import {
     View,
     Text,
     Linking,
+    AppState,
     ListView,
     TouchableHighlight,
     InteractionManager
@@ -33,6 +34,7 @@ class ContactsView extends Component {
 
     static propTypes = {
         allowAccessContacts: PropTypes.bool.isRequired,
+        fetchStatus: PropTypes.string.isRequired,
         createChat: PropTypes.func.isRequired,
         createContacts: PropTypes.func.isRequired,
         dataSource: PropTypes.object.isRequired,
@@ -44,6 +46,13 @@ class ContactsView extends Component {
     componentWillMount() {
         InteractionManager.runAfterInteractions(() => {
             this.props.createContacts();
+        });
+
+        AppState.addEventListener('change', (newAppState) => {
+            // refetch contacts in case of failure
+            if (newAppState === 'active' && this.props.fetchStatus === 'failure') {
+                this.props.createContacts();
+            }
         });
     }
 
@@ -216,6 +225,7 @@ function mapStateToProps(state) {
     return {
         user: state.user,
         allowAccessContacts: state.contacts.allowAccessContacts,
+        fetchStatus: state.contacts.fetchStatus,
         dataSource: dataSource.cloneWithRowsAndSections(contactsDataBlob, contactsSectionIds)
     };
 }

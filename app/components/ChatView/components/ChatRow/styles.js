@@ -64,7 +64,8 @@ export default StyleSheet.create({
         paddingLeft: 6,
         paddingRight: 6,
         flexDirection: 'row',
-        justifyContent: 'flex-end'
+        justifyContent: 'flex-end',
+        alignItems: 'center'
     },
     soundIcon: {
         marginTop: 2,
@@ -76,9 +77,15 @@ export default StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center'
     },
-    timestamp: {
+    smallText: {
         fontSize: 10,
         color: Colors.darkerGrey
+    },
+    flagImage: {
+        paddingLeft: 4,
+        width: 20,
+        height: 12,
+        resizeMode: 'contain'
     }
 });
 

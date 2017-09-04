@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {
     View,
     Text,
+    Image,
     Animated,
     TouchableOpacity,
     TouchableHighlight
@@ -96,7 +97,8 @@ export default class ChatRow extends Component {
         const pressColor = this.props.isMe ? bubbleRightPressColor : bubbleLeftPressColor;
         const bubbleText = this.props.isMe ? styles.rightBubbleText : styles.leftBubbleText;
         const bubbleSubText = this.props.isMe ? styles.rightBubbleSubText : styles.leftBubbleSubText;
-
+        // const flagImg = `http://txtling.herokuapp.com/img/flat-flags/${this.props.data.language}.png`;
+        // <Image source={{ uri: flagImg }} style={styles.flagImage} />
         return (
             <View style={chatRowStyles}>
                 <View style={styles.bubbleWrapper}>
@@ -114,7 +116,7 @@ export default class ChatRow extends Component {
                     {!this.props.isMe && this.renderSoundIcon()}
                 </View>
                 <View style={styles.chatInfo}>
-                    <Text style={styles.timestamp}>{formattedTimestamp}</Text>
+                    <Text style={styles.smallText}>{formattedTimestamp}</Text>
                 </View>
             </View>
         );

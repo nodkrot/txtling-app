@@ -3,7 +3,7 @@ import { chain } from 'lodash';
 import { AsyncStorage } from 'react-native';
 import Contacts from 'react-native-contacts';
 import { BASE_URL } from '../constants/AppConstants';
-import { LOGOUT } from './user.js';
+import { LOGOUT } from './user';
 
 export const GET_CONTACTS = 'GET_CONTACTS';
 export const GET_PHONE_CONTACTS = 'GET_PHONE_CONTACTS';
@@ -11,13 +11,9 @@ export const CREATE_CONTACTS = 'CREATE_CONTACTS';
 export const TOGGLE_SELECT_ROW = 'TOGGLE_SELECT_ROW';
 export const RESET_PHONE_CONTACTS = 'RESET_PHONE_CONTACTS';
 
-export const toggleRow = (id) => {
-    return { type: TOGGLE_SELECT_ROW, payload: id };
-};
+export const toggleRow = (id) => ({ type: TOGGLE_SELECT_ROW, payload: id });
 
-export const resetPhoneContacts = () => {
-    return { type: RESET_PHONE_CONTACTS };
-};
+export const resetPhoneContacts = () => ({ type: RESET_PHONE_CONTACTS });
 
 export const getContacts = () => ({
     type: GET_CONTACTS,
@@ -49,12 +45,12 @@ export const getPhoneContacts = () => {
                     });
                 })
             });
-        } else {
-            // Cannot return `phoneContacts` since they are already parsed
-            // Data structure won't match
-            return Promise.resolve();
         }
-    }
+
+        // Cannot return `phoneContacts` since they are already parsed
+        // Data structure won't match
+        return Promise.resolve();
+    };
 };
 
 export const createContacts = () => {
@@ -78,7 +74,7 @@ export const createContacts = () => {
                     .then((res) => res.data)
                 }).catch((err) => console.log(err)); // eslint-disable-line
             });
-    }
+    };
 };
 
 // Move sorting to backend
@@ -86,10 +82,12 @@ function compareContacts(a, b) {
     const first = a.last_name.length ? a.last_name : a.first_name;
     const second = b.last_name.length ? b.last_name : b.first_name;
 
-    if (first < second)
+    if (first < second) {
         return -1;
-    if (first > second)
+    }
+    if (first > second) {
         return 1;
+    }
     return 0;
 }
 
@@ -156,7 +154,8 @@ const initialState = {
     contactsSectionIds: [],
     phoneContacts: [],
     phoneContactIds: {},
-    allowAccessContacts: true
+    allowAccessContacts: true,
+    fetchStatus: 'none'
 };
 
 export default function reducer(state = initialState, action) {
@@ -179,7 +178,14 @@ export default function reducer(state = initialState, action) {
             return {
                 ...state,
                 contactsDataBlob,
-                contactsSectionIds
+                contactsSectionIds,
+                fetchStatus: 'success'
+            };
+        case `${GET_CONTACTS}_REJECTED`:
+        case `${CREATE_CONTACTS}_REJECTED`:
+            return {
+                ...state,
+                fetchStatus: 'failure'
             };
         case TOGGLE_SELECT_ROW:
             state.phoneContactIds[action.payload].selected = !state.phoneContactIds[action.payload].selected;
