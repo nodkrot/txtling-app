@@ -28,6 +28,11 @@ import styles from './styles';
 
 const VOICE_LANG_CODES = ['ar-SA', 'cs-CZ', 'da-DK', 'de-DE', 'el-GR', 'en-AU', 'en-GB', 'en-IE', 'en-US', 'en-ZA', 'es-ES', 'es-MX', 'fi-FI', 'fr-CA', 'fr-FR', 'he-IL', 'hi-IN', 'hu-HU', 'id-ID', 'it-IT', 'ja-JP', 'ko-KR', 'nl-BE', 'nl-NL', 'no-NO', 'pl-PL', 'pt-BR', 'pt-PT', 'ro-RO', 'ru-RU', 'sk-SK', 'sv-SE', 'th-TH', 'tr-TR', 'zh-CN', 'zh-HK', 'zh-TW']
     .reduce((acc, code) => {
+        // Exceptions to match google codes
+        if (code === 'zh-TW' || code === 'zh-CN') {
+            acc[code] = code;
+        }
+
         acc[code.substring(0, 2)] = code;
         return acc;
     }, {});
@@ -241,9 +246,7 @@ class ChatView extends Component {
         if (rowData.type === 'info') {
             return (
                 <View style={styles.infoRow}>
-                    <Text style={styles.infoRowText}>
-                        {rowData.message}
-                    </Text>
+                    <Text style={styles.infoRowText}>{rowData.message}</Text>
                 </View>
             );
         }
@@ -271,7 +274,6 @@ class ChatView extends Component {
     )
 
     render() {
-        // dataSource={this.props.dataSource}
         return (
             <View style={styles.main}>
                 <Navigation
