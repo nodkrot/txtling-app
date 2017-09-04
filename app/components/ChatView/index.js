@@ -215,7 +215,8 @@ class ChatView extends Component {
                     this.receiveRef.push().setWithPriority({
                         type: 'info',
                         message: `${firstName} changed language of this chat to ${languageData.human_readable}`,
-                        timestamp: Firebase.ServerValue.TIMESTAMP
+                        timestamp: Firebase.ServerValue.TIMESTAMP,
+                        data: languageData // To support older versions of the app
                     }, 0 - Date.now());
 
                     this.learnLanguage = languageData.google_code;

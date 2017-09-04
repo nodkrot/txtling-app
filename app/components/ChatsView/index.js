@@ -10,7 +10,7 @@ import {
 import { connect } from 'react-redux';
 import Navigation from '../Navigation';
 import { Button } from '../Elements';
-import { ROUTES } from '../../constants/AppConstants';
+import { ROUTES, BASE_URL } from '../../constants/AppConstants';
 import { getInitials } from '../../utilities';
 import { getChats } from '../../redux/chat';
 import styles, { activeColor } from './styles';
@@ -28,7 +28,11 @@ class ChatsView extends Component {
     }
 
     componentWillMount() {
-        this.props.getChats();
+        // this check is here because chats may have been fetched
+        // in TabsView to update push notification badges
+        if (!this.props.didFetchChats) {
+            this.props.getChats();
+        }
     }
 
     handleRowPress = (rowData, opponent) => {
@@ -68,7 +72,7 @@ class ChatsView extends Component {
                 <Text style={styles.badgeText}>{rowData.badges}</Text>
             </View>
         );
-        const flagImg = `http://txtling.herokuapp.com/img/flat-flags/${rowData.learn_lang_code}.png`;
+        const flagImg = `${BASE_URL}img/flat-flags/${rowData.learn_lang_code}.png`;
 
         return (
             <TouchableHighlight onPress={() => this.handleRowPress(rowData, opponent)} underlayColor={activeColor}>
