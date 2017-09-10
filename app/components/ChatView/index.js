@@ -90,7 +90,7 @@ class ChatView extends Component {
 
     componentDidMount() {
         this.messages = [];
-        this.learnLanguage = '';
+        this.currentGroup = null;
         this.isReceivingMoreMessages = false;
         this.handleTextChange = debounce(this.handleTextChange, 100);
         this.rawMessagesRef = firebaseRef.child('raw_messages');
@@ -104,14 +104,13 @@ class ChatView extends Component {
             this.paginationRef.on('value', this.receiveMoreMessages);
             this.requestMoreMessages();
 
-            // Somehow make a check to only call when has badges
-            // May be set badges in the store on AppState and then get from there by groupId
-            // Note: this will fetch all chats
-            this.props.clearChatBadges(this.props.groupId).then(() => {
-                const currentGroup = this.props.chats.find((chat) => chat._id === this.props.groupId);
-                this.learnLanguage = currentGroup.learn_lang_code;
-            });
+            // Note: this will fetch all chats and update `currentGroup`
+            this.props.clearChatBadges(this.props.groupId);
         });
+    }
+
+    componentWillReceiveProps(nextProps) {
+        this.currentGroup = nextProps.chats.find((chat) => chat._id === this.props.groupId);
     }
 
     componentWillUnmount() {
@@ -172,7 +171,7 @@ class ChatView extends Component {
             group_id: this.props.groupId,
             first_name: this.props.user.first_name,
             last_name: this.props.user.last_name,
-            language: this.learnLanguage,
+            language: this.currentGroup.learn_lang_code,
             timestamp: Firebase.ServerValue.TIMESTAMP
         });
 
@@ -223,8 +222,6 @@ class ChatView extends Component {
                         timestamp: Firebase.ServerValue.TIMESTAMP,
                         data: languageData // To support older versions of the app
                     }, 0 - Date.now());
-
-                    this.learnLanguage = languageData.google_code;
                 }
             }
         });
@@ -284,10 +281,11 @@ class ChatView extends Component {
                     rightHandler={this.handleSettingsButton} />
                 <ListView
                     renderScrollComponent={(props) => (
-                        <InvertibleScrollView {...props} inverted keyboardShouldPersistTaps />
+                        <InvertibleScrollView {...props} inverted />
                     )}
                     onScroll={this.handleScroll}
                     removeClippedSubviews={false}
+                    keyboardShouldPersistTaps
                     scrollEventThrottle={this.state.scrollEventThrottle}
                     dataSource={this.state.messageDataSource}
                     renderRow={this.renderRow}
