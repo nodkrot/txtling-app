@@ -169,6 +169,7 @@ class ChatView extends Component {
             message,
             user_id: this.props.user._id,
             group_id: this.props.groupId,
+            group_type: this.currentGroup.type || 'normal',
             first_name: this.props.user.first_name,
             last_name: this.props.user.last_name,
             language: this.currentGroup.learn_lang_code,
