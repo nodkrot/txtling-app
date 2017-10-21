@@ -8,8 +8,11 @@ React Native application with Redux.
 https://facebook.github.io/react-native/docs/getting-started.html#requirements
 
 ```
+brew install yarn --without-node # assuming you use nvm
+brew install watchman
 npm install -g react-native-cli
-npm install
+
+yarn install
 react-native link
 ```
 

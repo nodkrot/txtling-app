@@ -309,6 +309,18 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		0C21575D1F9B9B0E00064519 /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				7A0015EDBF7B4621BFFEB23B /* libRCTContacts.a */,
+				CF56EB17070D4290BEE47838 /* libRNMessageComposer.a */,
+				25CA399976D14162A71FBD96 /* libSpeechSynthesizer.a */,
+				8ACC6007DB854D1C80E74F1A /* libRNVectorIcons.a */,
+				9FD440DA159543A0AC9B398F /* libRCTGoogleAnalyticsBridge.a */,
+			);
+			name = "Recovered References";
+			sourceTree = "<group>";
+		};
 		139105B71AF99BAD00B5F7CC /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -411,6 +423,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				618A758F70304A628318D17C /* Resources */,
 				9680F7339FDA46B1A298BC3B /* Frameworks */,
+				0C21575D1F9B9B0E00064519 /* Recovered References */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -872,7 +885,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = E9C4Z6SFP5;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
