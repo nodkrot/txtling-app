@@ -117,11 +117,14 @@ export const updateBadgesAndChats = () => {
 };
 
 function compareChats(a, b) {
-    if (a.badges < b.badges) {
-        return 1;
-    }
-    if (a.badges > b.badges) {
+    if (a.type === 'bot') {
         return -1;
+    } else if (b.type === 'bot') {
+        return 1;
+    } else if (a.badges > 0) {
+        return -1;
+    } else if (b.badges > 0) {
+        return 1;
     }
     return 0;
 }
@@ -157,7 +160,7 @@ export default function reducer(state = initialState, action) {
         case `${CREATE_CHAT}_FULFILLED`:
             return {
                 ...state,
-                allChats: [...action.payload, ...state.allChats]
+                allChats: [...action.payload, ...state.allChats].sort(compareChats)
             };
         case `${UPDATE_SETTINGS}_FULFILLED`:
             return {
