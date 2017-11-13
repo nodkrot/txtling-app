@@ -33,9 +33,15 @@ export default StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center'
     },
+    initialsBot: {
+        borderColor: Colors.primary
+    },
     initialsText: {
         color: Colors.darkerGrey,
         fontSize: 18
+    },
+    initialsBotText: {
+        color: Colors.primary
     },
     rowInfo: {
         flex: 1
@@ -59,11 +65,6 @@ export default StyleSheet.create({
     },
     badgeText: {
         color: Colors.white
-    },
-    noChats: {
-        textAlign: 'center',
-        fontSize: 18,
-        paddingTop: 40
     }
 });
 
