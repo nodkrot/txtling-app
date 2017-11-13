@@ -31,7 +31,7 @@ class TabsView extends Component {
         updateBadgesAndChats: PropTypes.func.isRequired
     }
 
-    state = { selectedTab: CONTACTS }
+    state = { selectedTab: CHATS }
 
     constructor() {
         super();

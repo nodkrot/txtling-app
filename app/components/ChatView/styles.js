@@ -39,5 +39,16 @@ export default StyleSheet.create({
         color: Colors.primary,
         paddingTop: 8,
         paddingBottom: 8
+    },
+    welcome: {
+        flex: 1,
+        justifyContent: 'flex-end',
+        paddingBottom: 44
+    },
+    welcomeText: {
+        fontSize: 16,
+        paddingLeft: 24,
+        paddingRight: 24,
+        paddingBottom: 12
     }
 });

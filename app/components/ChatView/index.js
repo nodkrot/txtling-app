@@ -88,14 +88,19 @@ class ChatView extends Component {
         })
     }
 
-    componentDidMount() {
+    constructor(props) {
+        super(props);
+
         this.messages = [];
-        this.currentGroup = null;
+        this.currentGroup = {};
         this.isReceivingMoreMessages = false;
         this.handleTextChange = debounce(this.handleTextChange, 100);
         this.rawMessagesRef = firebaseRef.child('raw_messages');
         this.receiveRef = firebaseRef.child('txtling_messages').child(this.props.groupId);
         this.paginationRef = new Firebase.util.Paginate(this.receiveRef, '$priority', { pageSize: 15 });
+    }
+
+    componentDidMount() {
         this.keyboardWillShowListener = Keyboard.addListener('keyboardWillShow', this.updateKeyboardSpace);
         this.keyboardWillHideListener = Keyboard.addListener('keyboardWillHide', this.resetKeyboardSpace);
 
@@ -176,7 +181,7 @@ class ChatView extends Component {
             timestamp: Firebase.ServerValue.TIMESTAMP
         });
 
-        this.refs.chatTextInput.clearInput();
+        this.chatTextInput.clearInput();
         this.props.clearNewMessage(this.props.groupId);
 
         Tracker.trackEvent('Chat', 'Send Message', {
@@ -260,7 +265,7 @@ class ChatView extends Component {
     renderFooterBar = () => (
         <View style={styles.footerBar}>
             <ExpandingTextField
-                ref="chatTextInput"
+                ref={(el) => { this.chatTextInput = el; }}
                 style={styles.chatTextInput}
                 placeholder="Start texting"
                 defaultValue={this.props.newMessageText[this.props.groupId]}
@@ -271,7 +276,32 @@ class ChatView extends Component {
         </View>
     )
 
+    renderMessages = () => (
+        <ListView
+            renderScrollComponent={(props) => (
+                <InvertibleScrollView {...props} inverted />
+            )}
+            onScroll={this.handleScroll}
+            removeClippedSubviews={false}
+            keyboardShouldPersistTaps
+            scrollEventThrottle={this.state.scrollEventThrottle}
+            dataSource={this.state.messageDataSource}
+            renderRow={this.renderRow}
+            renderFooter={() => (<View style={styles.chatThreadHeader} />)} />
+    );
+
     render() {
+        let body = this.renderMessages();
+
+        if (this.currentGroup.type === 'bot' && !this.messages.length) {
+            body = (
+                <View style={styles.welcome}>
+                    <Text style={styles.welcomeText}>{'Hi, I\'m Parrot!'}</Text>
+                    <Text style={styles.welcomeText}>{`I'm a chat bot that you can talk to and practice speaking ${this.currentGroup.learn_lang}. I know few helpful tips like tapping on the messsage will display translations. Try and ask me! I'll get better with time.`}</Text>
+                </View>
+            );
+        }
+
         return (
             <View style={styles.main}>
                 <Navigation
@@ -280,17 +310,7 @@ class ChatView extends Component {
                     leftHandler={this.handleBackButton}
                     rightButtonTitle="Settings"
                     rightHandler={this.handleSettingsButton} />
-                <ListView
-                    renderScrollComponent={(props) => (
-                        <InvertibleScrollView {...props} inverted />
-                    )}
-                    onScroll={this.handleScroll}
-                    removeClippedSubviews={false}
-                    keyboardShouldPersistTaps
-                    scrollEventThrottle={this.state.scrollEventThrottle}
-                    dataSource={this.state.messageDataSource}
-                    renderRow={this.renderRow}
-                    renderFooter={() => (<View style={styles.chatThreadHeader} />)} />
+                {body}
                 {this.renderFooterBar()}
                 <View style={{ height: this.state.keyboardSpace }} />
             </View>

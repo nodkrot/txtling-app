@@ -1,8 +1,9 @@
 const isProduction = process.env.NODE_ENV === 'production';
 
-// export const BASE_URL = 'http://api.txtling.com/';
+// TODO: needs to work through HTTPS
+// export const BASE_URL = 'https://api.txtling.com/';
 export const BASE_URL = isProduction
-    ? 'http://txtling.herokuapp.com/'
+    ? 'https://txtling.herokuapp.com/'
     : 'http://localhost:3000/';
 
 export const FIREBASE_DB = isProduction

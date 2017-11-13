@@ -72,7 +72,7 @@ class App extends Component {
 
         return (
             <View style={{ flex: 1 }}>
-                <Spinner visible={this.props.ui.isScreenLoading} />
+                <Spinner visible={this.props.ui.isScreenLoading} animation="fade" />
                 <Router initialRoute={this.getInitialRoute()} />
             </View>
         );

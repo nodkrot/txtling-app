@@ -140,11 +140,14 @@ class InviteView extends Component {
     }
 
     render() {
-        const cancelProps = {};
+        const leftNavButtonProps = {
+            leftButtonTitle: 'Skip',
+            leftHandler: this.props.onAfterInvite
+        };
 
         if (this.props.onCancel) {
-            cancelProps.leftButtonTitle = 'Back';
-            cancelProps.leftHandler = this.props.onCancel;
+            leftNavButtonProps.leftButtonTitle = 'Back';
+            leftNavButtonProps.leftHandler = this.props.onCancel;
         }
 
         const navigation = (
@@ -152,7 +155,7 @@ class InviteView extends Component {
                 navTitle={this.props.navTitle}
                 rightButtonTitle="Search"
                 rightHandler={() => this.refs.searchWrapper.open()}
-                {...cancelProps} />
+                {...leftNavButtonProps} />
         );
 
         if (!this.props.allowAccessContacts) {
@@ -194,7 +197,9 @@ class InviteView extends Component {
                                     {this.state.totalSelectedContact}
                                 </Text>
                             </View>
-                            <Text style={styles.inviteButtonText}>{'Invite to Txtling'}</Text>
+                            <Text style={styles.inviteButtonText}>
+                                {`Invite to Txtling (min ${this.props.minInvitees})`}
+                            </Text>
                         </View>
                     </TouchableHighlight>
                 </View>

@@ -33,19 +33,19 @@ export default class Navigation extends Component {
         let rightButton;
 
         if (this.props.leftButtonTitle) {
-            leftButton = (
+            leftButton = this.props.leftButtonTitle in iconMap ?
                 <TouchableOpacity onPress={this.props.leftHandler}>
                     <Icon name={iconMap[this.props.leftButtonTitle]} size={34} style={styles.icon} />
-                </TouchableOpacity>
-            );
+                </TouchableOpacity> :
+                { title: this.props.leftButtonTitle, handler: this.props.leftHandler, tintColor: titleTintColor };
         }
 
         if (this.props.rightButtonTitle) {
-            rightButton = (
+            rightButton = this.props.rightButtonTitle in iconMap ?
                 <TouchableOpacity onPress={this.props.rightHandler}>
-                    <Icon name={iconMap[this.props.rightButtonTitle]} size={30} style={styles.icon} />
-                </TouchableOpacity>
-            );
+                    <Icon name={iconMap[this.props.rightButtonTitle]} size={34} style={styles.icon} />
+                </TouchableOpacity> :
+                { title: this.props.rightButtonTitle, handler: this.props.rightHandler, tintColor: titleTintColor };
         }
 
         const navProps = {
