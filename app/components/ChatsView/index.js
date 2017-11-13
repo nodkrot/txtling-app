@@ -9,10 +9,10 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import Navigation from '../Navigation';
-import { Button } from '../Elements';
 import { ROUTES, BASE_URL } from '../../constants/AppConstants';
 import { getInitials } from '../../utilities';
 import { getChats } from '../../redux/chat';
+import Tracker from '../../utilities/tracker';
 import styles, { activeColor } from './styles';
 
 class ChatsView extends Component {
@@ -46,6 +46,8 @@ class ChatsView extends Component {
     }
 
     handleInvitePress = () => {
+        Tracker.trackEvent('CTA', 'Invite to Chat');
+
         this.props.navigator.push({
             id: ROUTES.inviteView,
             passProps: {
@@ -57,22 +59,33 @@ class ChatsView extends Component {
 
     renderRow = (rowData) => {
         const opponent = rowData.persons.filter((p) => p._id !== this.props.user._id)[0];
+        const flagImg = `${BASE_URL}img/flat-flags/${rowData.learn_lang_code}.png`;
 
         if (!opponent) {
             return null;
         }
 
-        const initials = (
+        let initials = (
             <View style={styles.initials}>
                 <Text style={styles.initialsText}>{getInitials(opponent.first_name, opponent.last_name)}</Text>
             </View>
         );
+
+        if (rowData.type === 'bot') {
+            initials = (
+                <View style={[styles.initials, styles.initialsBot]}>
+                    <Text style={[styles.initialsText, styles.initialsBotText]}>
+                        {getInitials(opponent.first_name, opponent.last_name)}
+                    </Text>
+                </View>
+            );
+        }
+
         const badgeNumber = (
             <View style={styles.badge}>
                 <Text style={styles.badgeText}>{rowData.badges}</Text>
             </View>
         );
-        const flagImg = `${BASE_URL}img/flat-flags/${rowData.learn_lang_code}.png`;
 
         return (
             <TouchableHighlight onPress={() => this.handleRowPress(rowData, opponent)} underlayColor={activeColor}>
@@ -96,22 +109,12 @@ class ChatsView extends Component {
     }
 
     render() {
-        if (this.props.didFetchChats && !this.props.chats.length) {
-            return (
-                <View style={styles.main}>
-                    <Navigation navTitle="Chats" />
-                    <Text style={styles.noChats}>No chats yet.</Text>
-                    <Button
-                        text="Invite Friends"
-                        style={{ margin: 16 }}
-                        onPress={this.handleInvitePress} />
-                </View>
-            );
-        }
-
         return (
             <View style={styles.main}>
-                <Navigation navTitle="Chats" />
+                <Navigation
+                    navTitle="Chats"
+                    rightButtonTitle="Invite"
+                    rightHandler={this.handleInvitePress} />
                 <ListView
                     contentInset={{ bottom: 49 }}
                     automaticallyAdjustContentInsets={false}

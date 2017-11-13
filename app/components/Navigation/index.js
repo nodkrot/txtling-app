@@ -8,7 +8,8 @@ import styles, { tintColor, titleTintColor } from './styles';
 const iconMap = {
     Settings: 'ios-settings',
     Search: 'ios-search',
-    Back: 'ios-arrow-back'
+    Back: 'ios-arrow-back',
+    Invite: 'ios-add'
 };
 
 export default class Navigation extends Component {
@@ -23,7 +24,7 @@ export default class Navigation extends Component {
     }
 
     static defaultProps = {
-        navTitle: 'Hello World',
+        navTitle: '',
         leftButtonTitle: '',
         rightButtonTitle: ''
     }
