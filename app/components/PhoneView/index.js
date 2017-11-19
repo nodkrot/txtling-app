@@ -87,7 +87,7 @@ class PhoneView extends Component {
         }).then(() => {
             this.setState({ isCodeFieldActive: true });
             this.toggleCodeField(56).then(() => {
-                this.refs.codeField.focus();
+                this.codeField.focus();
             });
         }).catch((err) => console.log(err));
     }
@@ -164,7 +164,6 @@ class PhoneView extends Component {
                             editable={false}
                             defaultValue="+1" />
                         <TextField
-                            ref="phoneField"
                             wrapperStyle={styles.textField}
                             placeholder="Your phone number"
                             keyboardType="phone-pad"
@@ -180,7 +179,7 @@ class PhoneView extends Component {
                             editable={false}
                             defaultValue="C-" />
                         <TextField
-                            ref="codeField"
+                            ref={(el) => { this.codeField = el; }}
                             wrapperStyle={styles.textField}
                             placeholder="Your code"
                             keyboardType="number-pad"

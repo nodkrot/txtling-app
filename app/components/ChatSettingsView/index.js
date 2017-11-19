@@ -70,6 +70,7 @@ class ChatSettingsView extends Component {
                     leftButtonTitle="Back"
                     leftHandler={this.handleBackButton} />
                 <ListView
+                    enableEmptySections
                     dataSource={this.props.dataSource}
                     renderRow={this.renderRow} />
             </View>

@@ -7,7 +7,6 @@ export const getLanguages = () => ({
     payload: fetch(`${BASE_URL}languages`)
         .then((response) => response.json())
         .then((res) => res.data)
-        .catch((err) => console.log(err)) // eslint-disable-line
 });
 
 const initialState = {

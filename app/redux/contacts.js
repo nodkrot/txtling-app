@@ -25,7 +25,6 @@ export const getContacts = () => ({
         }))
         .then((response) => response.json())
         .then((res) => res.data)
-        .catch((err) => console.log(err)) // eslint-disable-line
 });
 
 export const getPhoneContacts = () => {
@@ -72,7 +71,7 @@ export const createContacts = () => {
                     }))
                     .then((response) => response.json())
                     .then((res) => res.data)
-                }).catch((err) => console.log(err)); // eslint-disable-line
+                });
             });
     };
 };
@@ -171,8 +170,7 @@ export default function reducer(state = initialState, action) {
             };
         case `${GET_CONTACTS}_FULFILLED`:
         case `${CREATE_CONTACTS}_FULFILLED`:
-            // TODO: deprecate non registered users
-            const { registered, nonregistered } = action.payload;
+            const { registered } = action.payload;
             const { contactsDataBlob, contactsSectionIds } = createContactsDataBlob(registered, state.phoneContacts);
 
             return {

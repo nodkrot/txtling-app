@@ -31,7 +31,6 @@ export const getChats = () => ({
         }))
         .then((response) => response.json())
         .then((res) => res.data)
-        .catch((err) => console.log(err)) // eslint-disable-line
 });
 
 export const createChat = (payload) => ({
@@ -89,7 +88,6 @@ export const clearChatBadges = (groupId) => {
 
                     return res.data;
                 })
-                .catch((err) => console.log(err)) // eslint-disable-line
         });
     };
 };
@@ -111,7 +109,6 @@ export const updateBadgesAndChats = () => {
 
                     return res.data;
                 })
-                .catch((err) => console.log(err)) // eslint-disable-line
         });
     };
 };

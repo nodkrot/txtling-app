@@ -80,12 +80,6 @@ export default StyleSheet.create({
     smallText: {
         fontSize: 10,
         color: Colors.darkerGrey
-    },
-    flagImage: {
-        paddingLeft: 4,
-        width: 20,
-        height: 12,
-        resizeMode: 'contain'
     }
 });
 

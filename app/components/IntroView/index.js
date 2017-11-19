@@ -22,7 +22,7 @@ class IntroView extends Component {
     }
 
     handleNext = () => {
-        this.refs.swiper.scrollBy(1);
+        this.swiper.scrollBy(1);
     }
 
     handeGetStarted = () => {
@@ -41,7 +41,7 @@ class IntroView extends Component {
                 <Swiper
                     bounces
                     loop={false}
-                    ref="swiper"
+                    ref={(el) => { this.swiper = el; }}
                     paginationStyle={styles.pagination}
                     dot={this.renderDot()}
                     activeDot={this.renderActiveDot()}>

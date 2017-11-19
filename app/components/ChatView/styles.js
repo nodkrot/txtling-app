@@ -32,23 +32,40 @@ export default StyleSheet.create({
         paddingTop: 2,
         paddingBottom: 2
     },
+    actionLoader: {
+        marginRight: 28
+    },
+    actionWrapper: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingLeft: 4,
+        paddingRight: 4
+    },
     sendButton: {
-        width: 56,
         fontSize: 18,
         textAlign: 'center',
         color: Colors.primary,
-        paddingTop: 8,
-        paddingBottom: 8
+        paddingTop: 6,
+        paddingBottom: 6
+    },
+    flagImage: {
+        width: 32,
+        height: 18,
+        resizeMode: 'contain'
     },
     welcome: {
         flex: 1,
         justifyContent: 'flex-end',
-        paddingBottom: 44
-    },
-    welcomeText: {
-        fontSize: 16,
         paddingLeft: 24,
         paddingRight: 24,
+        paddingBottom: 44
+    },
+    welcomeHeading: {
+        fontSize: 20,
+        fontWeight: 'bold',
         paddingBottom: 12
+    },
+    welcomeText: {
+        fontSize: 16
     }
 });

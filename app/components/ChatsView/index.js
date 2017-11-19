@@ -15,6 +15,8 @@ import { getChats } from '../../redux/chat';
 import Tracker from '../../utilities/tracker';
 import styles, { activeColor } from './styles';
 
+const parrotLogo = require('../../images/logo.png');
+
 class ChatsView extends Component {
     static displayName = 'ChatsView'
 
@@ -61,25 +63,11 @@ class ChatsView extends Component {
         const opponent = rowData.persons.filter((p) => p._id !== this.props.user._id)[0];
         const flagImg = `${BASE_URL}img/flat-flags/${rowData.learn_lang_code}.png`;
 
-        if (!opponent) {
-            return null;
-        }
+        if (!opponent) return null;
 
-        let initials = (
-            <View style={styles.initials}>
-                <Text style={styles.initialsText}>{getInitials(opponent.first_name, opponent.last_name)}</Text>
-            </View>
-        );
-
-        if (rowData.type === 'bot') {
-            initials = (
-                <View style={[styles.initials, styles.initialsBot]}>
-                    <Text style={[styles.initialsText, styles.initialsBotText]}>
-                        {getInitials(opponent.first_name, opponent.last_name)}
-                    </Text>
-                </View>
-            );
-        }
+        const initials = rowData.type === 'bot'
+            ? <Image source={parrotLogo} style={styles.parrotLogo} />
+            : <Text style={styles.initialsText}>{getInitials(opponent.first_name, opponent.last_name)}</Text>;
 
         const badgeNumber = (
             <View style={styles.badge}>
@@ -90,7 +78,7 @@ class ChatsView extends Component {
         return (
             <TouchableHighlight onPress={() => this.handleRowPress(rowData, opponent)} underlayColor={activeColor}>
                 <View style={styles.row}>
-                    {initials}
+                    <View style={styles.initials}>{initials}</View>
                     <View style={styles.rowInfo}>
                         <Text style={styles.rowInfoTitle}>
                             {`${opponent.first_name} ${opponent.last_name}`}
@@ -116,6 +104,7 @@ class ChatsView extends Component {
                     rightButtonTitle="Invite"
                     rightHandler={this.handleInvitePress} />
                 <ListView
+                    enableEmptySections
                     contentInset={{ bottom: 49 }}
                     automaticallyAdjustContentInsets={false}
                     dataSource={this.props.dataSource}

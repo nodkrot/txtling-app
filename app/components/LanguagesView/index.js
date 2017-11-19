@@ -42,7 +42,7 @@ class LanguagesView extends Component {
     }
 
     handleRowPress = (rowData) => {
-        this.refs.searchWrapper.close();
+        this.searchWrapper.close();
 
         this.props.registerLanguage({
             language: rowData.google_code
@@ -54,7 +54,7 @@ class LanguagesView extends Component {
                     // minInvitees: 3,
                     // onCancel: () => this.props.navigator.pop(),
                     onAfterInvite: () => {
-                        this.props.navigator.push({
+                        this.props.navigator.replace({
                             id: ROUTES.tabsView,
                             sceneConfig: {
                                 ...Navigator.SceneConfigs.HorizontalSwipeJump,
@@ -96,13 +96,14 @@ class LanguagesView extends Component {
                     leftButtonTitle="Back"
                     leftHandler={this.handleBackButton}
                     rightButtonTitle="Search"
-                    rightHandler={() => this.refs.searchWrapper.open()} />
+                    rightHandler={() => this.searchWrapper.open()} />
                 <SearchListView
-                    ref="searchWrapper"
+                    ref={(el) => { this.searchWrapper = el; }}
                     dataSet={this.props.languages}
                     renderRow={this.renderRow}
                     searchRow={searchFor}>
                     <ListView
+                        enableEmptySections
                         dataSource={this.props.dataSource}
                         renderRow={this.renderRow} />
                 </SearchListView>
