@@ -20,8 +20,7 @@ const promise = promiseMiddleware();
 
 const middleware = isProduction ?
     [thunk, promise, asyncTracker] :
-    [thunk, promise, asyncTracker];
-    // [thunk, promise, asyncTracker, logger];
+    [thunk, promise, asyncTracker, logger];
 
 const createStoreWithMiddleware = applyMiddleware(...middleware)(createStore);
 const store = createStoreWithMiddleware(reducer);

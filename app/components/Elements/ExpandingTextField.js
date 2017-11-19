@@ -23,7 +23,7 @@ export default class ExpandingTextField extends Component {
     }
 
     clearInput = () => {
-        this.refs.textInput.setNativeProps({ text: '' });
+        this.textInput.setNativeProps({ text: '' });
         this.setState({ height: INPUT_LINE_HEIGHT });
     }
 
@@ -44,7 +44,7 @@ export default class ExpandingTextField extends Component {
         return (
             <TextInput
                 {...this.props}
-                ref="textInput"
+                ref={(el) => { this.textInput = el; }}
                 multiline
                 onChange={this.handleChange}
                 style={textInputStyles}

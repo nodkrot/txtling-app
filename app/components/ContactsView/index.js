@@ -57,7 +57,7 @@ class ContactsView extends Component {
     }
 
     handleRegisteredRowPress = (rowData) => {
-        // this.refs.searchWrapper.close();
+        // this.searchWrapper.close();
 
         if (!rowData.group_id) {
             this.props.createChat({
@@ -179,7 +179,7 @@ class ContactsView extends Component {
         const navProps = {
             navTitle: 'Contacts'
             // rightButtonTitle: 'Search',
-            // rightHandler: () => this.refs.searchWrapper.open()
+            // rightHandler: () => this.searchWrapper.open()
         };
 
         if (!this.props.allowAccessContacts) {

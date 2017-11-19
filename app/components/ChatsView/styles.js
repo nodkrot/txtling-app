@@ -33,15 +33,14 @@ export default StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center'
     },
-    initialsBot: {
-        borderColor: Colors.primary
-    },
     initialsText: {
         color: Colors.darkerGrey,
         fontSize: 18
     },
-    initialsBotText: {
-        color: Colors.primary
+    parrotLogo: {
+        width: 25,
+        height: 25,
+        resizeMode: 'contain'
     },
     rowInfo: {
         flex: 1

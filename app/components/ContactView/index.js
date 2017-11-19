@@ -34,7 +34,7 @@ class ContactView extends Component {
         }, (result) => {
             switch (result) {
                 case Composer.Sent:
-                    this.handleBackButton();
+                    console.log('the message has been sent');
                     break;
                 case Composer.Cancelled:
                     console.log('user cancelled sending the message');
@@ -49,6 +49,8 @@ class ContactView extends Component {
                     console.log('something unexpected happened');
                     break;
             }
+
+            this.handleBackButton();
         });
     }
 

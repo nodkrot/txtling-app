@@ -61,7 +61,7 @@ class InviteView extends Component {
 
     componentWillMount() {
         InteractionManager.runAfterInteractions(() => {
-            this.props.getPhoneContacts().catch((err) => console.log(err)); // eslint-disable-line
+            this.props.getPhoneContacts();
         });
     }
 
@@ -71,7 +71,7 @@ class InviteView extends Component {
 
     handleRowPress = (rowData) => {
         this.props.toggleRow(rowData.phone_id);
-        this.refs.searchWrapper.close();
+        this.searchWrapper.close();
 
         const index = this.selectedContacts.findIndex((contact) => contact.phone_id === rowData.phone_id);
 
@@ -97,10 +97,7 @@ class InviteView extends Component {
         }, (result) => {
             switch (result) {
                 case Composer.Sent:
-                    if (this.props.onAfterInvite) {
-                        this.props.onAfterInvite(result);
-                    }
-                    // console.log('the message has been sent');
+                    console.log('the message has been sent');
                     break;
                 case Composer.Cancelled:
                     console.log('user cancelled sending the message');
@@ -114,6 +111,10 @@ class InviteView extends Component {
                 default:
                     console.log('something unexpected happened');
                     break;
+            }
+
+            if (this.props.onAfterInvite) {
+                this.props.onAfterInvite(result);
             }
         });
     }
@@ -154,7 +155,7 @@ class InviteView extends Component {
             <Navigation
                 navTitle={this.props.navTitle}
                 rightButtonTitle="Search"
-                rightHandler={() => this.refs.searchWrapper.open()}
+                rightHandler={() => this.searchWrapper.open()}
                 {...leftNavButtonProps} />
         );
 
@@ -177,11 +178,12 @@ class InviteView extends Component {
             <View style={styles.main}>
                 {navigation}
                 <SearchListView
-                    ref="searchWrapper"
+                    ref={(el) => { this.searchWrapper = el; }}
                     dataSet={this.props.contacts}
                     renderRow={this.renderRow}
                     searchRow={searchFor}>
                     <ListView
+                        enableEmptySections
                         dataSource={this.props.dataSource}
                         renderRow={this.renderRow} />
                 </SearchListView>

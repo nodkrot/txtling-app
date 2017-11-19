@@ -4,12 +4,14 @@ import {
     LayoutAnimation,
     View,
     Text,
+    Image,
     ListView,
     Keyboard,
+    ActivityIndicator,
     TouchableOpacity,
     InteractionManager
 } from 'react-native';
-import { debounce } from 'lodash';
+import { debounce, get } from 'lodash';
 import { connect } from 'react-redux';
 import Speech from 'react-native-speech';
 import InvertibleScrollView from 'react-native-invertible-scroll-view';
@@ -18,7 +20,7 @@ import 'firebase-util';
 import firebaseRef from '../../firebase/database';
 import Tracker from '../../utilities/tracker';
 import { getScrollOffset } from '../../utilities';
-import { ROUTES } from '../../constants/AppConstants';
+import { ROUTES, BASE_URL } from '../../constants/AppConstants';
 import Navigation from '../Navigation';
 import { ExpandingTextField } from '../../components/Elements';
 import ChatRow from './components/ChatRow';
@@ -92,7 +94,7 @@ class ChatView extends Component {
         super(props);
 
         this.messages = [];
-        this.currentGroup = {};
+        this.currentGroup = null;
         this.isReceivingMoreMessages = false;
         this.handleTextChange = debounce(this.handleTextChange, 100);
         this.rawMessagesRef = firebaseRef.child('raw_messages');
@@ -104,11 +106,12 @@ class ChatView extends Component {
         this.keyboardWillShowListener = Keyboard.addListener('keyboardWillShow', this.updateKeyboardSpace);
         this.keyboardWillHideListener = Keyboard.addListener('keyboardWillHide', this.resetKeyboardSpace);
 
-        InteractionManager.runAfterInteractions(() => {
-            this.receiveRef.on('child_added', this.receiveMessage);
-            this.paginationRef.on('value', this.receiveMoreMessages);
-            this.requestMoreMessages();
+        // Start fetching messages from firebase
+        this.receiveRef.on('child_added', this.receiveMessage);
+        this.paginationRef.on('value', this.receiveMoreMessages);
+        this.requestMoreMessages();
 
+        InteractionManager.runAfterInteractions(() => {
             // Note: this will fetch all chats and update `currentGroup`
             this.props.clearChatBadges(this.props.groupId);
         });
@@ -262,19 +265,32 @@ class ChatView extends Component {
             onSoundPress={this.handleSoundPress} />);
     }
 
-    renderFooterBar = () => (
-        <View style={styles.footerBar}>
-            <ExpandingTextField
-                ref={(el) => { this.chatTextInput = el; }}
-                style={styles.chatTextInput}
-                placeholder="Start texting"
-                defaultValue={this.props.newMessageText[this.props.groupId]}
-                onChangeText={this.handleTextChange} />
-            <TouchableOpacity onPress={this.handlePressSend}>
-                <Text style={styles.sendButton}>Send</Text>
-            </TouchableOpacity>
-        </View>
-    )
+    renderFooterBar = () => {
+        let action = <ActivityIndicator style={styles.actionLoader} />;
+
+        if (this.currentGroup) {
+            const flagUri = `${BASE_URL}img/flat-flags/${this.currentGroup.learn_lang_code}.png`;
+
+            action = (
+                <TouchableOpacity onPress={this.handlePressSend} style={styles.actionWrapper}>
+                    <Text style={styles.sendButton}>Send</Text>
+                    {<Image source={{ uri: flagUri }} style={styles.flagImage} />}
+                </TouchableOpacity>
+            );
+        }
+
+        return (
+            <View style={styles.footerBar}>
+                <ExpandingTextField
+                    ref={(el) => { this.chatTextInput = el; }}
+                    style={styles.chatTextInput}
+                    placeholder="Start texting"
+                    defaultValue={this.props.newMessageText[this.props.groupId]}
+                    onChangeText={this.handleTextChange} />
+                {action}
+            </View>
+        );
+    }
 
     renderMessages = () => (
         <ListView
@@ -283,6 +299,7 @@ class ChatView extends Component {
             )}
             onScroll={this.handleScroll}
             removeClippedSubviews={false}
+            enableEmptySections
             keyboardShouldPersistTaps
             scrollEventThrottle={this.state.scrollEventThrottle}
             dataSource={this.state.messageDataSource}
@@ -293,11 +310,15 @@ class ChatView extends Component {
     render() {
         let body = this.renderMessages();
 
-        if (this.currentGroup.type === 'bot' && !this.messages.length) {
+        // Edge case: if group loads faster than messages then user
+        // will be presented with the parrot welcome message
+        if (get(this.currentGroup, 'type') === 'bot' && !this.messages.length) {
             body = (
                 <View style={styles.welcome}>
-                    <Text style={styles.welcomeText}>{'Hi, I\'m Parrot!'}</Text>
-                    <Text style={styles.welcomeText}>{`I'm a chat bot that you can talk to and practice speaking ${this.currentGroup.learn_lang}. I know few helpful tips like tapping on the messsage will display translations. Try and ask me! I'll get better with time.`}</Text>
+                    <Text style={styles.welcomeHeading}>{'Hi, I\'m Parrot!'}</Text>
+                    <Text style={styles.welcomeText}>
+                        {`I'm a chat bot that you can talk to and practice speaking ${this.currentGroup.learn_lang}. I know few helpful tips like tapping on the messsage will display translations. Try and ask me! I'll get better with time.`}
+                    </Text>
                 </View>
             );
         }
