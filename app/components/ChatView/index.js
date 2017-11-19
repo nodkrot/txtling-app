@@ -106,12 +106,11 @@ class ChatView extends Component {
         this.keyboardWillShowListener = Keyboard.addListener('keyboardWillShow', this.updateKeyboardSpace);
         this.keyboardWillHideListener = Keyboard.addListener('keyboardWillHide', this.resetKeyboardSpace);
 
-        // Start fetching messages from firebase
-        this.receiveRef.on('child_added', this.receiveMessage);
-        this.paginationRef.on('value', this.receiveMoreMessages);
-        this.requestMoreMessages();
-
         InteractionManager.runAfterInteractions(() => {
+            // Start fetching messages from firebase
+            this.receiveRef.on('child_added', this.receiveMessage);
+            this.paginationRef.on('value', this.receiveMoreMessages);
+            this.requestMoreMessages();
             // Note: this will fetch all chats and update `currentGroup`
             this.props.clearChatBadges(this.props.groupId);
         });
