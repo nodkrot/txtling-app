@@ -45,7 +45,7 @@ http://ticons.fokkezb.nl
 
 ## Push notifications setup
 
-- Get development and production certificates from Apple ([tutorial](https://www.raywenderlich.com/123862/push-notifications-tutorial))
+- Get development and production certificates from Apple ([tutorial](https://www.raywenderlich.com/123862/push-notifications-tutorial)) and ([tutorial](https://medium.com/@dmccoy/how-to-get-an-apple-push-notification-service-certificate-as-a-p12-e124c64093c0))
     - Get certificate signing request ([tutorial](http://stackoverflow.com/questions/12126496/how-to-obtain-certificate-signing-request))
     - Download development and production certificates
     - Add these certificates to Keychain
