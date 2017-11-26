@@ -3,12 +3,11 @@ import PropTypes from 'prop-types';
 import {
     Animated,
     Navigator,
-    PushNotificationIOS,
     View
 } from 'react-native';
 import { connect } from 'react-redux';
 import { formatPhone } from '../../utilities';
-import { registerDeviceToken, generateCode, confirmCode } from '../../redux/user';
+import { generateCode, confirmCode } from '../../redux/user';
 import { ROUTES } from '../../constants/AppConstants';
 import Navigation from '../Navigation';
 import { Button, TextField } from '../Elements';
@@ -22,7 +21,6 @@ class PhoneView extends Component {
         generateCode: PropTypes.func,
         login: PropTypes.object,
         navigator: PropTypes.object,
-        registerDeviceToken: PropTypes.func,
         isGetCodeLoading: PropTypes.bool,
         isConfirmCodeLoading: PropTypes.bool
     }
@@ -31,16 +29,7 @@ class PhoneView extends Component {
         phone: '',
         code: '',
         codeFieldHeight: new Animated.Value(0),
-        isCodeFieldActive: false,
-        isTokenReistered: false
-    }
-
-    componentWillMount() {
-        PushNotificationIOS.addEventListener('register', this.handlePushRegistration);
-    }
-
-    componentWillUnmount() {
-        PushNotificationIOS.removeEventListener('register', this.handlePushRegistration);
+        isCodeFieldActive: false
     }
 
     toggleCodeField(toValue, duration = 255) {
@@ -52,14 +41,6 @@ class PhoneView extends Component {
                 resolve();
             });
         });
-    }
-
-    handlePushRegistration = (token) => {
-        // This is a bug, event is triggered twice, will be fixed in future RN versions
-        if (!this.state.isTokenReistered) {
-            this.props.registerDeviceToken({ device_token: token });
-            this.setState({ isTokenReistered: true });
-        }
     }
 
     handlePhoneFocus = () => {
@@ -201,4 +182,4 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps, { registerDeviceToken, generateCode, confirmCode })(PhoneView);
+export default connect(mapStateToProps, { generateCode, confirmCode })(PhoneView);

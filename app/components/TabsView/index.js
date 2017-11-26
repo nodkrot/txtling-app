@@ -12,6 +12,7 @@ import { ROUTES } from '../../constants/AppConstants';
 import Tracker from '../../utilities/tracker';
 // import TabNavigator from 'react-native-tab-navigator';
 import { setGlobalBadgeNumber, updateBadgesAndChats } from '../../redux/chat';
+import { registerDeviceToken } from '../../redux/user';
 import ContactsView from '../ContactsView';
 import ChatsView from '../ChatsView';
 import SettingsView from '../SettingsView';
@@ -28,7 +29,8 @@ class TabsView extends Component {
         badgeNumber: PropTypes.number,
         navigator: PropTypes.object,
         setGlobalBadgeNumber: PropTypes.func.isRequired,
-        updateBadgesAndChats: PropTypes.func.isRequired
+        updateBadgesAndChats: PropTypes.func.isRequired,
+        registerDeviceToken: PropTypes.func.isRequired
     }
 
     state = { selectedTab: CHATS }
@@ -42,6 +44,10 @@ class TabsView extends Component {
     componentWillMount() {
         InteractionManager.runAfterInteractions(() => {
             PushNotificationIOS.requestPermissions();
+        });
+
+        PushNotificationIOS.addEventListener('register', (token) => {
+            this.props.registerDeviceToken({ device_token: token });
         });
 
         // https://stackoverflow.com/questions/34337117/detect-whether-react-native-ios-app-was-opened-via-push-notification
@@ -75,7 +81,7 @@ class TabsView extends Component {
 
         // App was completely off
         // User received notification
-        // User just taps on the app
+        // User just taps on the app (not notification toast)
         PushNotificationIOS.getApplicationIconBadgeNumber((badgeNumber) => {
             this.props.setGlobalBadgeNumber(badgeNumber);
         });
@@ -204,4 +210,8 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps, { setGlobalBadgeNumber, updateBadgesAndChats })(TabsView);
+export default connect(mapStateToProps, {
+    setGlobalBadgeNumber,
+    updateBadgesAndChats,
+    registerDeviceToken
+})(TabsView);

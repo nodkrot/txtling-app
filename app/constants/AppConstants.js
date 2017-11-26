@@ -4,7 +4,8 @@ const isProduction = process.env.NODE_ENV === 'production';
 // export const BASE_URL = 'https://api.txtling.com/';
 export const BASE_URL = isProduction
     ? 'https://txtling.herokuapp.com/'
-    : 'http://localhost:3000/';
+    // : 'http://localhost:3000/';
+    : 'http://192.168.1.174:3000/'; // Debug remotely from phone
 
 export const FIREBASE_DB = isProduction
     ? 'https://txtling.firebaseio.com/'
