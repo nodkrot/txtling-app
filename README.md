@@ -43,6 +43,15 @@ http://stackoverflow.com/questions/34027270/ios-launch-screen-in-react-native
 http://ticons.fokkezb.nl
 
 
+## Linked packages
+
+- react-native-speech
+- react-native-contacts
+- react-native-vector-icons
+- react-native-message-composer
+- react-native-google-analytics-bridge
+
+
 ## Push notifications setup
 
 - Get development and production certificates from Apple ([tutorial](https://www.raywenderlich.com/123862/push-notifications-tutorial)) and ([tutorial](https://medium.com/@dmccoy/how-to-get-an-apple-push-notification-service-certificate-as-a-p12-e124c64093c0))

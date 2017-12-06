@@ -4,9 +4,6 @@ import android.app.Application;
 import android.util.Log;
 
 import com.facebook.react.ReactApplication;
-import com.idehub.GoogleAnalyticsBridge.GoogleAnalyticsBridgePackage;
-import com.oblador.vectoricons.VectorIconsPackage;
-import com.rt2zz.reactnativecontacts.ReactNativeContacts;
 import com.lwansbrough.ReactCamera.ReactCamera;
 import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactNativeHost;
@@ -28,9 +25,6 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-            new GoogleAnalyticsBridgePackage(),
-            new VectorIconsPackage(),
-            new ReactNativeContacts(),
             new ReactCamera()
       );
     }
