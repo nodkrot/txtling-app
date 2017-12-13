@@ -67,5 +67,9 @@ export default StyleSheet.create({
     },
     welcomeText: {
         fontSize: 16
+    },
+    iphoneXSpace: {
+        paddingBottom: 40,
+        backgroundColor: Colors.white
     }
 });

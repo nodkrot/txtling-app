@@ -31,6 +31,10 @@ export default StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center'
     },
+    iphoneXSpace: {
+        height: 83,
+        paddingBottom: 24
+    },
     inviteButtonText: {
         fontWeight: 'bold',
         color: Colors.primary

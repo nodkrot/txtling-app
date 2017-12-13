@@ -7,6 +7,13 @@ export default StyleSheet.create({
         paddingTop: 6,
         paddingLeft: 12,
         paddingRight: 12
+    },
+    iphoneXNav: {
+        height: 64,
+        paddingTop: 14
+    },
+    iphoneXTitle: {
+        paddingTop: 15
     }
 });
 

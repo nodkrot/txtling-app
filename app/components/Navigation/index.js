@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { TouchableOpacity } from 'react-native';
 import NavigationBar from 'react-native-navbar';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { isIphoneX } from '../../utilities';
 import styles, { tintColor, titleTintColor } from './styles';
 
 const iconMap = {
@@ -53,14 +54,16 @@ export default class Navigation extends Component {
             tintColor,
             title: {
                 title: this.props.navTitle,
-                tintColor: titleTintColor
+                tintColor: titleTintColor,
+                style: isIphoneX() ? styles.iphoneXTitle : null
             },
             statusBar: {
                 style: 'light-content',
                 hidden: false
             },
             leftButton,
-            rightButton
+            rightButton,
+            style: isIphoneX() ? styles.iphoneXNav : null
         };
 
         return <NavigationBar {...navProps} />;

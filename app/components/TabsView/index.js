@@ -1,22 +1,25 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
-    TabBarIOS,
+    View,
+    Text,
     AppState,
     InteractionManager,
     PushNotificationIOS
 } from 'react-native';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/Ionicons';
+import TabNavigator from 'react-native-tab-navigator';
 import { ROUTES } from '../../constants/AppConstants';
+import { isIphoneX } from '../../utilities';
 import Tracker from '../../utilities/tracker';
-// import TabNavigator from 'react-native-tab-navigator';
 import { setGlobalBadgeNumber, updateBadgesAndChats } from '../../redux/chat';
 import { registerDeviceToken } from '../../redux/user';
 import ContactsView from '../ContactsView';
 import ChatsView from '../ChatsView';
 import SettingsView from '../SettingsView';
 import { Colors } from '../../styles';
+import styles from './styles';
 
 const CONTACTS = 'contacts-view';
 const CHATS = 'chats-view';
@@ -133,74 +136,54 @@ class TabsView extends Component {
         }
     }
 
+    maybeRenderBadge = () => {
+        if (this.props.badgeNumber > 0) {
+            return (
+                <View style={styles.badgeStyle}>
+                    <Text style={styles.badgeTextStyle}>{this.props.badgeNumber}</Text>
+                </View>);
+        }
+
+        return null;
+    }
+
     render() {
         return (
-            <TabBarIOS
-                selectedTab={this.state.selectedTab}
-                tintColor={Colors.primary}
-                barTintColor={Colors.lightGrey}>
-                <Icon.TabBarItemIOS
-                    iconName="ios-people-outline"
-                    selectedIconName="ios-people"
-                    title="Contacts"
-                    iconSize={32}
-                    accessibilityLabel="Contacts"
+            <TabNavigator tabBarStyle={[isIphoneX() ? styles.iphoneXTabBarSpace : null]}>
+                <TabNavigator.Item
                     selected={this.isSelectedTab(CONTACTS)}
+                    title="Contacts"
+                    titleStyle={styles.titleStyle}
+                    selectedTitleStyle={styles.selectedTitleStyle}
+                    renderIcon={() => <Icon name="ios-people-outline" size={30} color={Colors.darkerGrey} />}
+                    renderSelectedIcon={() => <Icon name="ios-people" size={30} color={Colors.primary} />}
                     onPress={() => this.setTab(CONTACTS)}>
                     {this.renderContent(CONTACTS)}
-                </Icon.TabBarItemIOS>
-                <Icon.TabBarItemIOS
-                    iconName="ios-chatbubbles-outline"
-                    selectedIconName="ios-chatbubbles"
-                    title="Chats"
-                    iconSize={32}
-                    badge={this.props.badgeNumber > 0 ? this.props.badgeNumber : undefined}
-                    accessibilityLabel="Chats"
+                </TabNavigator.Item>
+                <TabNavigator.Item
                     selected={this.isSelectedTab(CHATS)}
+                    title="Chats"
+                    titleStyle={styles.titleStyle}
+                    selectedTitleStyle={styles.selectedTitleStyle}
+                    renderIcon={() => <Icon name="ios-chatbubbles-outline" size={30} color={Colors.darkerGrey} />}
+                    renderSelectedIcon={() => <Icon name="ios-chatbubbles" size={30} color={Colors.primary} />}
+                    badgeText={1}
+                    renderBadge={this.maybeRenderBadge}
                     onPress={() => this.setTab(CHATS)}>
                     {this.renderContent(CHATS)}
-                </Icon.TabBarItemIOS>
-                <Icon.TabBarItemIOS
-                    iconName="ios-settings-outline"
-                    selectedIconName="ios-settings"
-                    title="Settings"
-                    iconSize={32}
-                    accessibilityLabel="Settings"
+                </TabNavigator.Item>
+                <TabNavigator.Item
                     selected={this.isSelectedTab(SETTINGS)}
+                    title="Settings"
+                    titleStyle={styles.titleStyle}
+                    selectedTitleStyle={styles.selectedTitleStyle}
+                    renderIcon={() => <Icon name="ios-settings-outline" size={30} color={Colors.darkerGrey} />}
+                    renderSelectedIcon={() => <Icon name="ios-settings" size={30} color={Colors.primary} />}
                     onPress={() => this.setTab(SETTINGS)}>
                     {this.renderContent(SETTINGS)}
-                </Icon.TabBarItemIOS>
-            </TabBarIOS>
+                </TabNavigator.Item>
+            </TabNavigator>
         );
-
-        // return (
-        //     <TabNavigator>
-        //         <TabNavigator.Item
-        //             selected={this.isSelectedTab(CONTACTS)}
-        //             title={CONTACTS}
-        //             renderIcon={() => <Icon name="ios-people-outline" size={32} color={Colors.darkerGrey} />}
-        //             renderSelectedIcon={() => <Icon name="ios-people" size={32} color={Colors.primary} />}
-        //             onPress={() => this.setTab(CONTACTS)}>
-        //             {this.renderContent(CONTACTS)}
-        //         </TabNavigator.Item>
-        //         <TabNavigator.Item
-        //             selected={this.isSelectedTab(CHATS)}
-        //             title={CHATS}
-        //             renderIcon={() => <Icon name="ios-chatbubbles-outline" size={32} color={Colors.darkerGrey} />}
-        //             renderSelectedIcon={() => <Icon name="ios-chatbubbles" size={32} color={Colors.primary} />}
-        //             onPress={() => this.setTab(CHATS)}>
-        //             {this.renderContent(CHATS)}
-        //         </TabNavigator.Item>
-        //         <TabNavigator.Item
-        //             selected={this.isSelectedTab(SETTINGS)}
-        //             title={SETTINGS}
-        //             renderIcon={() => <Icon name="ios-settings-outline" size={32} color={Colors.darkerGrey} />}
-        //             renderSelectedIcon={() => <Icon name="ios-settings" size={32} color={Colors.primary} />}
-        //             onPress={() => this.setTab(SETTINGS)}>
-        //             {this.renderContent(SETTINGS)}
-        //         </TabNavigator.Item>
-        //     </TabNavigator>
-        // );
     }
 }
 

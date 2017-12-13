@@ -16,6 +16,9 @@ export default StyleSheet.create({
     searchWrapper: {
         flexDirection: 'row'
     },
+    iphoneXSearchWrapper: {
+        paddingTop: 24
+    },
     searchField: {
         flex: 1
     },
@@ -23,7 +26,7 @@ export default StyleSheet.create({
         backgroundColor: 'transparent',
         position: 'absolute',
         right: 0,
-        top: 0
+        bottom: 0
     },
     closeButtonIcon: {
         paddingLeft: 16,

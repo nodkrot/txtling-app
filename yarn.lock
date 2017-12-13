@@ -4528,7 +4528,7 @@ react-native-swiper@^1.4.5:
   dependencies:
     prop-types "^15.5.10"
 
-react-native-tab-navigator@^0.3.3:
+react-native-tab-navigator@^0.3.4:
   version "0.3.4"
   resolved "https://registry.yarnpkg.com/react-native-tab-navigator/-/react-native-tab-navigator-0.3.4.tgz#54a18f1ad06a09d4a0de81ff00416bc1b760c960"
   dependencies:

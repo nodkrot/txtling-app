@@ -1,3 +1,5 @@
+import { Dimensions, Platform } from 'react-native';
+
 export function getScrollOffset(event) {
     const {
         contentSize,
@@ -24,9 +26,9 @@ export function formatPhone(number) {
             return acc + '-' + el;
         } else if (acc.length > 13) {
             return acc;
-        } else {
-            return acc + el;
         }
+
+        return acc + el;
     }, '');
 }
 
@@ -42,4 +44,10 @@ export function getInitials(firstName, lastName) {
     }
 
     return initials;
+}
+
+export function isIphoneX() {
+    const { height, width } = Dimensions.get('window');
+
+    return Platform.OS === 'ios' && (height === 812 || width === 812);
 }
