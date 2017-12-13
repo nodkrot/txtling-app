@@ -167,7 +167,6 @@ class TabsView extends Component {
                     selectedTitleStyle={styles.selectedTitleStyle}
                     renderIcon={() => <Icon name="ios-chatbubbles-outline" size={30} color={Colors.darkerGrey} />}
                     renderSelectedIcon={() => <Icon name="ios-chatbubbles" size={30} color={Colors.primary} />}
-                    badgeText={1}
                     renderBadge={this.maybeRenderBadge}
                     onPress={() => this.setTab(CHATS)}>
                     {this.renderContent(CHATS)}
