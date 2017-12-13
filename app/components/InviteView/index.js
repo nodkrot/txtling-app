@@ -16,6 +16,7 @@ import { Button } from '../Elements';
 import SearchListView from '../SearchListView';
 import { getPhoneContacts, toggleRow, resetPhoneContacts } from '../../redux/contacts';
 import { INVITE_URL } from '../../constants/AppConstants';
+import { isIphoneX } from '../../utilities';
 import Tracker from '../../utilities/tracker';
 import styles, { greyColor, darkGreyColor, greenColor } from './styles';
 
@@ -193,7 +194,7 @@ class InviteView extends Component {
                         style={{ backgroundColor: greyColor }}
                         activeOpacity={1}
                         underlayColor={darkGreyColor}>
-                        <View style={styles.inviteButton}>
+                        <View style={[styles.inviteButton, isIphoneX() ? styles.iphoneXSpace : null]}>
                             <View style={styles.buttonCounter}>
                                 <Text style={styles.buttonCounterText}>
                                     {this.state.totalSelectedContact}

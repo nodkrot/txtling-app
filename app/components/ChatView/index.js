@@ -19,7 +19,7 @@ import Firebase from 'firebase';
 import 'firebase-util';
 import firebaseRef from '../../firebase/database';
 import Tracker from '../../utilities/tracker';
-import { getScrollOffset } from '../../utilities';
+import { getScrollOffset, isIphoneX } from '../../utilities';
 import { ROUTES, BASE_URL } from '../../constants/AppConstants';
 import Navigation from '../Navigation';
 import { ExpandingTextField } from '../../components/Elements';
@@ -332,7 +332,10 @@ class ChatView extends Component {
                     rightHandler={this.handleSettingsButton} />
                 {body}
                 {this.renderFooterBar()}
-                <View style={{ height: this.state.keyboardSpace }} />
+                <View style={[
+                    { height: this.state.keyboardSpace },
+                    isIphoneX() ? styles.iphoneXSpace : null
+                ]} />
             </View>
         );
     }

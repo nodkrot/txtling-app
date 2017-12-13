@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import { debounce } from 'lodash';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { isIphoneX } from '../../utilities';
 import { TextField } from '../Elements';
 import styles from './styles';
 
@@ -86,7 +87,7 @@ export default class SearchListView extends Component {
     }
 
     renderHeader = () => (
-        <View style={styles.searchWrapper}>
+        <View style={[styles.searchWrapper, isIphoneX() ? styles.iphoneXSearchWrapper : null]}>
             <TextField
                 autoFocus
                 wrapperStyle={styles.searchField}
@@ -102,7 +103,6 @@ export default class SearchListView extends Component {
         return (
             <View style={styles.main}>
                 <Modal
-                    ref="searchModal"
                     animationType="slide"
                     visible={this.state.isModalVisible}>
                     <View style={styles.modal}>
