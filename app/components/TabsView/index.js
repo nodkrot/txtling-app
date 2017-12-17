@@ -24,6 +24,7 @@ import styles from './styles';
 const CONTACTS = 'contacts-view';
 const CHATS = 'chats-view';
 const SETTINGS = 'settings-view';
+const DEFAULT_TAB = CONTACTS;
 
 class TabsView extends Component {
     static displayName = 'TabsView'
@@ -36,12 +37,12 @@ class TabsView extends Component {
         registerDeviceToken: PropTypes.func.isRequired
     }
 
-    state = { selectedTab: CHATS }
+    state = { selectedTab: DEFAULT_TAB }
 
     constructor() {
         super();
 
-        Tracker.trackScreenView(CONTACTS);
+        Tracker.trackScreenView(DEFAULT_TAB);
     }
 
     componentWillMount() {
