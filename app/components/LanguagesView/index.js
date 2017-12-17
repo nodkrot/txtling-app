@@ -54,7 +54,7 @@ class LanguagesView extends Component {
                     // minInvitees: 3,
                     // onCancel: () => this.props.navigator.pop(),
                     onAfterInvite: () => {
-                        this.props.navigator.replace({
+                        this.props.navigator.push({
                             id: ROUTES.tabsView,
                             sceneConfig: {
                                 ...Navigator.SceneConfigs.HorizontalSwipeJump,

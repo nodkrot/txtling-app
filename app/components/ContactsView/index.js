@@ -17,7 +17,7 @@ import { createChat } from '../../redux/chat';
 import { Button, RowButton } from '../Elements';
 import Tracker from '../../utilities/tracker';
 import { ROUTES } from '../../constants/AppConstants';
-import { getInitials } from '../../utilities';
+import { getInitials, isIphoneX } from '../../utilities';
 import styles, { activeColor, primaryColor } from './styles';
 
 // import SearchListView from '../SearchListView';
@@ -201,7 +201,7 @@ class ContactsView extends Component {
             <View style={styles.main}>
                 <Navigation {...navProps} />
                 <ListView
-                    contentInset={{ bottom: 49 }}
+                    contentInset={isIphoneX() ? { bottom: 33 } : undefined}
                     automaticallyAdjustContentInsets={false}
                     removeClippedSubviews={false}
                     renderHeader={this.renderHeader}

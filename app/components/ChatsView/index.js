@@ -10,7 +10,7 @@ import {
 import { connect } from 'react-redux';
 import Navigation from '../Navigation';
 import { ROUTES, BASE_URL } from '../../constants/AppConstants';
-import { getInitials } from '../../utilities';
+import { getInitials, isIphoneX } from '../../utilities';
 import { getChats } from '../../redux/chat';
 import Tracker from '../../utilities/tracker';
 import styles, { activeColor } from './styles';
@@ -105,7 +105,7 @@ class ChatsView extends Component {
                     rightHandler={this.handleInvitePress} />
                 <ListView
                     enableEmptySections
-                    contentInset={{ bottom: 49 }}
+                    contentInset={isIphoneX() ? { bottom: 33 } : undefined}
                     automaticallyAdjustContentInsets={false}
                     dataSource={this.props.dataSource}
                     renderRow={this.renderRow} />
