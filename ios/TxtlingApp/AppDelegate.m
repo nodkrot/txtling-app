@@ -12,6 +12,7 @@
 #import "RCTBundleURLProvider.h"
 #import "RCTRootView.h"
 
+#import "AVFoundation/AVFoundation.h"
 #import "RCTPushNotificationManager.h"
 
 @implementation AppDelegate
@@ -33,6 +34,12 @@
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
+  
+  // Allows to play sounds in silent mode
+  NSError *error = nil;
+  [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:&error];
+  [[AVAudioSession sharedInstance] setActive:YES error:&error];
+  
   return YES;
 }
 
