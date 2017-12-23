@@ -39,9 +39,9 @@ export const createChat = (payload) => ({
         .then((value) => fetch(`${BASE_URL}chats`, {
             method: 'post',
             headers: {
-                'Accept': 'application/json',
+                Accept: 'application/json',
                 'Content-Type': 'application/json',
-                'Authorization': `JWT ${value}`
+                Authorization: `JWT ${value}`
             },
             body: JSON.stringify(payload)
         }))
@@ -55,9 +55,9 @@ export const updateSettings = (data) => ({
         .then((value) => fetch(`${BASE_URL}chats/settings`, {
             method: 'post',
             headers: {
-                'Accept': 'application/json',
+                Accept: 'application/json',
                 'Content-Type': 'application/json',
-                'Authorization': `JWT ${value}`
+                Authorization: `JWT ${value}`
             },
             body: JSON.stringify(data)
         }))
@@ -65,52 +65,48 @@ export const updateSettings = (data) => ({
         .then((res) => res.data)
 });
 
-export const clearChatBadges = (groupId) => {
-    return (dispatch) => {
-        return dispatch({
-            type: CLEAR_CHAT_BADGES,
-            payload: AsyncStorage.getItem('AUTH_TOKEN')
-                .then((value) => fetch(`${BASE_URL}chats/clear-badges`, {
-                    method: 'post',
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                        'Authorization': `JWT ${value}`
-                    },
-                    body: JSON.stringify({ group_id: groupId })
-                }))
-                .then((response) => response.json())
-                .then((res) => {
-                    const totalBadges = res.data.reduce((acc, group) => acc + group.badges, 0);
+export const clearChatBadges = (groupId) => (dispatch) => {
+    return dispatch({
+        type: CLEAR_CHAT_BADGES,
+        payload: AsyncStorage.getItem('AUTH_TOKEN')
+            .then((value) => fetch(`${BASE_URL}chats/clear-badges`, {
+                method: 'post',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                    Authorization: `JWT ${value}`
+                },
+                body: JSON.stringify({ group_id: groupId })
+            }))
+            .then((response) => response.json())
+            .then((res) => {
+                const totalBadges = res.data.reduce((acc, group) => acc + group.badges, 0);
 
-                    dispatch(setGlobalBadgeNumber(totalBadges));
-                    PushNotificationIOS.setApplicationIconBadgeNumber(totalBadges);
+                dispatch(setGlobalBadgeNumber(totalBadges));
+                PushNotificationIOS.setApplicationIconBadgeNumber(totalBadges);
 
-                    return res.data;
-                })
-        });
-    };
+                return res.data;
+            })
+    });
 };
 
-export const updateBadgesAndChats = () => {
-    return (dispatch) => {
-        return dispatch({
-            type: UPDATE_BADGES_AND_CHATS,
-            payload: AsyncStorage.getItem('AUTH_TOKEN')
-                .then((value) => fetch(`${BASE_URL}chats`, {
-                    headers: { Authorization: `JWT ${value}` }
-                }))
-                .then((response) => response.json())
-                .then((res) => {
-                    const totalBadges = res.data.reduce((acc, group) => acc + group.badges, 0);
+export const updateBadgesAndChats = () => (dispatch) => {
+    return dispatch({
+        type: UPDATE_BADGES_AND_CHATS,
+        payload: AsyncStorage.getItem('AUTH_TOKEN')
+            .then((value) => fetch(`${BASE_URL}chats`, {
+                headers: { Authorization: `JWT ${value}` }
+            }))
+            .then((response) => response.json())
+            .then((res) => {
+                const totalBadges = res.data.reduce((acc, group) => acc + group.badges, 0);
 
-                    dispatch(setGlobalBadgeNumber(totalBadges));
-                    PushNotificationIOS.setApplicationIconBadgeNumber(totalBadges);
+                dispatch(setGlobalBadgeNumber(totalBadges));
+                PushNotificationIOS.setApplicationIconBadgeNumber(totalBadges);
 
-                    return res.data;
-                })
-        });
-    };
+                return res.data;
+            })
+    });
 };
 
 function compareChats(a, b) {
