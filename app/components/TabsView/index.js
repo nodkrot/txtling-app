@@ -24,7 +24,6 @@ import styles from './styles';
 const CONTACTS = 'contacts-view';
 const CHATS = 'chats-view';
 const SETTINGS = 'settings-view';
-const DEFAULT_TAB = CONTACTS;
 
 class TabsView extends Component {
     static displayName = 'TabsView'
@@ -32,17 +31,22 @@ class TabsView extends Component {
     static propTypes = {
         badgeNumber: PropTypes.number,
         navigator: PropTypes.object,
+        initialTab: PropTypes.oneOf([CONTACTS, CHATS, SETTINGS]),
         setGlobalBadgeNumber: PropTypes.func.isRequired,
         updateBadgesAndChats: PropTypes.func.isRequired,
         registerDeviceToken: PropTypes.func.isRequired
     }
 
-    state = { selectedTab: DEFAULT_TAB }
+    static defaultProps = {
+        initialTab: CHATS
+    }
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
 
-        Tracker.trackScreenView(DEFAULT_TAB);
+        this.state = { selectedTab: this.props.initialTab };
+
+        Tracker.trackScreenView(this.props.initialTab);
     }
 
     componentWillMount() {

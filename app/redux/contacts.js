@@ -27,53 +27,49 @@ export const getContacts = () => ({
         .then((res) => res.data)
 });
 
-export const getPhoneContacts = () => {
-    return (dispatch, getState) => {
-        const { phoneContacts } = getState().contacts;
+export const getPhoneContacts = () => (dispatch, getState) => {
+    const { phoneContacts } = getState().contacts;
 
-        if (!phoneContacts.length) {
-            return dispatch({
-                type: GET_PHONE_CONTACTS,
-                payload: new Promise((resolve, reject) => {
-                    Contacts.getAll((err, addressBook) => {
-                        if (err && err.type === 'permissionDenied') {
-                            reject(err);
-                        } else {
-                            resolve(addressBook);
-                        }
-                    });
-                })
-            });
-        }
+    if (!phoneContacts.length) {
+        return dispatch({
+            type: GET_PHONE_CONTACTS,
+            payload: new Promise((resolve, reject) => {
+                Contacts.getAll((err, addressBook) => {
+                    if (err && err.type === 'permissionDenied') {
+                        reject(err);
+                    } else {
+                        resolve(addressBook);
+                    }
+                });
+            })
+        });
+    }
 
-        // Cannot return `phoneContacts` since they are already parsed
-        // Data structure won't match
-        return Promise.resolve();
-    };
+    // Cannot return `phoneContacts` since they are already parsed
+    // Data structure won't match
+    return Promise.resolve();
 };
 
-export const createContacts = () => {
-    return (dispatch, getState) => {
-        return dispatch(getPhoneContacts()).then(() => {
-            const { phoneContacts } = getState().contacts;
+export const createContacts = () => (dispatch, getState) => {
+    return dispatch(getPhoneContacts()).then(() => {
+        const { phoneContacts } = getState().contacts;
 
-            return dispatch({
-                type: CREATE_CONTACTS,
-                payload: AsyncStorage.getItem('AUTH_TOKEN')
-                    .then((value) => fetch(`${BASE_URL}contacts`, {
-                        method: 'post',
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json',
-                            'Authorization': `JWT ${value}`
-                        },
-                        body: JSON.stringify({ contacts: phoneContacts })
-                    }))
-                    .then((response) => response.json())
-                    .then((res) => res.data)
-                });
-            });
-    };
+        return dispatch({
+            type: CREATE_CONTACTS,
+            payload: AsyncStorage.getItem('AUTH_TOKEN')
+                .then((value) => fetch(`${BASE_URL}contacts`, {
+                    method: 'post',
+                    headers: {
+                        Accept: 'application/json',
+                        'Content-Type': 'application/json',
+                        Authorization: `JWT ${value}`
+                    },
+                    body: JSON.stringify({ contacts: phoneContacts })
+                }))
+                .then((response) => response.json())
+                .then((res) => res.data)
+        }).catch((err) => console.log(err));
+    });
 };
 
 // Move sorting to backend

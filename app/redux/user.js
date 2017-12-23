@@ -41,7 +41,7 @@ export const generateCode = (data) => ({
     payload: fetch(`${BASE_URL}phone/generate`, {
         method: 'post',
         headers: {
-            'Accept': 'application/json',
+            Accept: 'application/json',
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(data)
@@ -58,7 +58,7 @@ export const confirmCode = (username, password) => ({
     payload: fetch(`${BASE_URL}phone/confirm`, {
         method: 'post',
         headers: {
-            'Accept': 'application/json',
+            Accept: 'application/json',
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({ username, password })
@@ -85,9 +85,9 @@ export const registerDeviceToken = (data) => ({
         .then((value) => fetch(`${BASE_URL}phone/device-token`, {
             method: 'post',
             headers: {
-                'Accept': 'application/json',
+                Accept: 'application/json',
                 'Content-Type': 'application/json',
-                'Authorization': `JWT ${value}`
+                Authorization: `JWT ${value}`
             },
             body: JSON.stringify(data)
         }))
@@ -104,9 +104,9 @@ export const registerUser = (data) => ({
         .then((value) => fetch(`${BASE_URL}phone/register`, {
             method: 'post',
             headers: {
-                'Accept': 'application/json',
+                Accept: 'application/json',
                 'Content-Type': 'application/json',
-                'Authorization': `JWT ${value}`
+                Authorization: `JWT ${value}`
             },
             body: JSON.stringify(data)
         }))
@@ -123,9 +123,9 @@ export const registerLanguage = (data) => ({
         .then((value) => fetch(`${BASE_URL}phone/language`, {
             method: 'post',
             headers: {
-                'Accept': 'application/json',
+                Accept: 'application/json',
                 'Content-Type': 'application/json',
-                'Authorization': `JWT ${value}`
+                Authorization: `JWT ${value}`
             },
             body: JSON.stringify(data)
         }))
@@ -147,9 +147,9 @@ export const uploadImage = (image) => {
             .then((value) => fetch(`${BASE_URL}phone/image/upload`, {
                 method: 'post',
                 headers: {
-                    'Accept': 'application/json',
+                    Accept: 'application/json',
                     'Content-Type': 'application/json',
-                    'Authorization': `JWT ${value}`
+                    Authorization: `JWT ${value}`
                 },
                 body: formData
             }))

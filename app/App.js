@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { AppState, View } from 'react-native';
+import { AppState, NetInfo, View, Text } from 'react-native';
 import { connect } from 'react-redux';
 import Spinner from 'react-native-loading-spinner-overlay';
 import firebaseRef from './firebase/database';
@@ -25,14 +25,20 @@ class App extends Component {
         })
     }
 
+    state = {
+        offlineAlert: true
+    }
+
     componentWillMount() {
         this.props.isLoggedIn();
 
         AppState.addEventListener('change', this.handleAppStateChange);
+        NetInfo.addEventListener('connectionChange', this.handleNetInfoChange);
     }
 
     componentWillUnmount() {
         AppState.removeEventListener('change', this.handleAppStateChange);
+        NetInfo.removeEventListener('connectionChange', this.handleNetInfoChange);
     }
 
     handleAppStateChange = (appState) => {
@@ -45,6 +51,14 @@ class App extends Component {
             } else {
                 presenceRef.set(false);
             }
+        }
+    }
+
+    handleNetInfoChange = (connectionInfo) => {
+        if (connectionInfo === 'none') {
+            this.setState({ offlineAlert: true });
+        } else {
+            this.setState({ offlineAlert: false });
         }
     }
 
@@ -65,6 +79,11 @@ class App extends Component {
         }
     }
 
+    renderOfflineAlert = () => {
+        const style = { textAlign: 'center', paddingTop: 4, paddingBottom: 4 };
+        return <View><Text style={style}>Txtling is offline</Text></View>;
+    }
+
     render() {
         if (!this.props.user.isUserFetched) {
             return null;
@@ -74,6 +93,7 @@ class App extends Component {
             <View style={{ flex: 1 }}>
                 <Spinner visible={this.props.ui.isScreenLoading} animation="fade" />
                 <Router initialRoute={this.getInitialRoute()} />
+                {this.state.offlineAlert && this.renderOfflineAlert()}
             </View>
         );
     }

@@ -59,7 +59,8 @@ class LanguagesView extends Component {
                             sceneConfig: {
                                 ...Navigator.SceneConfigs.HorizontalSwipeJump,
                                 gestures: null
-                            }
+                            },
+                            passProps: { initialTab: 'contacts-view' }
                         });
                     }
                 }
