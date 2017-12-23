@@ -90,12 +90,18 @@ http://ticons.fokkezb.nl
     - Description for using native APIs
 
 
-## Deprecation list
+## Development notes
+
+Packages to deprecate:
 
 - `firebase-util`
+    - Upgrade `firebase`
 - `react-native-invertible-scroll-view`
+    - Upgrade `react-native`
 - `jest-react-native`
 
+
+Play sound in silent mode iOS [read here](https://stackoverflow.com/questions/10322040/how-to-play-a-sound-using-avaudioplayer-when-in-silent-mode-in-iphone/12868879#12868879)
 
 ## Debugging on a device with Chrome Developer Tools
 
