@@ -32,6 +32,7 @@
 		68C4DD63A1E74E5DBEAAE7BF /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F755B58F35B547B690EDA70F /* FontAwesome.ttf */; };
 		6D81FD19F92345B7BED0E2E8 /* libRNVectorIcons.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E5371D45F474613869DC0F7 /* libRNVectorIcons.a */; };
 		6F3918439A9447E7BB1EA2BC /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 53445ADEA4124B939B4CFF40 /* Zocial.ttf */; };
+		80E966FF77654314ABCD920B /* libReactNativeConfig.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EF0FA82814874C1DBBAA7B2C /* libReactNativeConfig.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		96551D17250F4FF885AD746F /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D950AE90832B4018BACDF2D6 /* CoreData.framework */; };
 		9D2066038EA244ADA6F1B9F0 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B029DA2EEA4400EA2753B94 /* libz.tbd */; };
@@ -85,6 +86,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 13B07F861A680F5B00A75B9A;
 			remoteInfo = TxtlingApp;
+		};
+		0C0C61AE204B62750027138D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D84EFB559EE84224B5C800F2 /* ReactNativeConfig.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = EB2648DF1C7BE17A00B8F155;
+			remoteInfo = ReactNativeConfig;
 		};
 		0CD0092C1FD7A91100240EAD /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -205,8 +213,10 @@
 		AA51529E5BF748CDB52D9AD4 /* RCTContacts.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTContacts.xcodeproj; path = "../node_modules/react-native-contacts/ios/RCTContacts.xcodeproj"; sourceTree = "<group>"; };
 		BCCA0E8EF6BD46CB8F451945 /* libRCTContacts.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTContacts.a; sourceTree = "<group>"; };
 		D5BA7D8B71BB42FF87715A9D /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
+		D84EFB559EE84224B5C800F2 /* ReactNativeConfig.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = ReactNativeConfig.xcodeproj; path = "../node_modules/react-native-config/ios/ReactNativeConfig.xcodeproj"; sourceTree = "<group>"; };
 		D950AE90832B4018BACDF2D6 /* CoreData.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		EE88CDEE6A0E4473B9760858 /* RCTGoogleAnalyticsBridge.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTGoogleAnalyticsBridge.xcodeproj; path = "../node_modules/react-native-google-analytics-bridge/ios/RCTGoogleAnalyticsBridge/RCTGoogleAnalyticsBridge.xcodeproj"; sourceTree = "<group>"; };
+		EF0FA82814874C1DBBAA7B2C /* libReactNativeConfig.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libReactNativeConfig.a; sourceTree = "<group>"; };
 		F5C3F37E1DB3C9F600A45C99 /* RCTPushNotification.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTPushNotification.xcodeproj; path = "../node_modules/react-native/Libraries/PushNotificationIOS/RCTPushNotification.xcodeproj"; sourceTree = "<group>"; };
 		F5C3F4391DB404DB00A45C99 /* TxtlingApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = TxtlingApp.entitlements; path = TxtlingApp/TxtlingApp.entitlements; sourceTree = "<group>"; };
 		F755B58F35B547B690EDA70F /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
@@ -246,6 +256,7 @@
 				5C9C684B4CE14D25BA1FFAB4 /* libRNMessageComposer.a in Frameworks */,
 				5DB69138E066459DB0BB1C73 /* libSpeechSynthesizer.a in Frameworks */,
 				6D81FD19F92345B7BED0E2E8 /* libRNVectorIcons.a in Frameworks */,
+				80E966FF77654314ABCD920B /* libReactNativeConfig.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -309,6 +320,14 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		0C0C61AB204B62750027138D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				0C0C61AF204B62750027138D /* libReactNativeConfig.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		0C21575D1F9B9B0E00064519 /* Recovered References */ = {
 			isa = PBXGroup;
 			children = (
@@ -317,6 +336,7 @@
 				2D3EFF18356B42A3881F0384 /* libRNMessageComposer.a */,
 				2AA90D420D114ED9BA53B191 /* libSpeechSynthesizer.a */,
 				5E5371D45F474613869DC0F7 /* libRNVectorIcons.a */,
+				EF0FA82814874C1DBBAA7B2C /* libReactNativeConfig.a */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -442,6 +462,7 @@
 				669C8C37B2224975A00F0ABD /* RNMessageComposer.xcodeproj */,
 				400634AD657A44EA9E02E29B /* SpeechSynthesizer.xcodeproj */,
 				F7C18862D8E34B1A991E2731 /* RNVectorIcons.xcodeproj */,
+				D84EFB559EE84224B5C800F2 /* ReactNativeConfig.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -625,6 +646,10 @@
 					ProjectRef = 146833FF1AC3E56700842450 /* React.xcodeproj */;
 				},
 				{
+					ProductGroup = 0C0C61AB204B62750027138D /* Products */;
+					ProjectRef = D84EFB559EE84224B5C800F2 /* ReactNativeConfig.xcodeproj */;
+				},
+				{
 					ProductGroup = 0CD009251FD7A91100240EAD /* Products */;
 					ProjectRef = 669C8C37B2224975A00F0ABD /* RNMessageComposer.xcodeproj */;
 				},
@@ -679,6 +704,13 @@
 			fileType = archive.ar;
 			path = libRCTVibration.a;
 			remoteRef = 00C302E31ABCB9EE00DB3ED1 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		0C0C61AF204B62750027138D /* libReactNativeConfig.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libReactNativeConfig.a;
+			remoteRef = 0C0C61AE204B62750027138D /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		0CD0092D1FD7A91100240EAD /* libRCTGoogleAnalyticsBridge.a */ = {
@@ -863,6 +895,7 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TxtlingApp.app/TxtlingApp";
@@ -879,6 +912,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -910,6 +944,7 @@
 					"$(SRCROOT)/../node_modules/react-native-message-composer/RNMessageComposer",
 					"$(SRCROOT)/../node_modules/react-native-speech",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
+					"$(SRCROOT)/../node_modules/react-native-config/ios/ReactNativeConfig",
 				);
 				INFOPLIST_FILE = TxtlingApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -945,6 +980,7 @@
 					"$(SRCROOT)/../node_modules/react-native-message-composer/RNMessageComposer",
 					"$(SRCROOT)/../node_modules/react-native-speech",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
+					"$(SRCROOT)/../node_modules/react-native-config/ios/ReactNativeConfig",
 				);
 				INFOPLIST_FILE = TxtlingApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -997,6 +1033,7 @@
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"$(SRCROOT)/../node_modules/react-native/React/**",
+					"$(SRCROOT)/../node_modules/react-native-config/ios/ReactNativeConfig",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
@@ -1037,6 +1074,7 @@
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"$(SRCROOT)/../node_modules/react-native/React/**",
+					"$(SRCROOT)/../node_modules/react-native-config/ios/ReactNativeConfig",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
