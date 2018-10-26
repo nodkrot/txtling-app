@@ -18,6 +18,7 @@ import SearchListView from '../SearchListView';
 import Tracker from '../../utilities/tracker';
 import styles, { activeColor } from './styles';
 
+// This will search by lower case language
 function searchFor(item, query) {
     const q = query.toLowerCase();
 
