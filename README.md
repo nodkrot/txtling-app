@@ -1,7 +1,6 @@
 # Txtling App
 
-React Native application with Redux.
-
+An immersive way to learn a language built with React Native and Redux.
 
 ## Getting Started
 
